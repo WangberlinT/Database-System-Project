@@ -27,7 +27,7 @@ public class DatabaseControler {
         try
         {
             connection = DriverManager.getConnection(url,username,password);
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
         }
         catch (Exception e)
         {
@@ -54,7 +54,7 @@ public class DatabaseControler {
         try
         {
             connection = DriverManager.getConnection(url,username,password);
-            Statement statement = connection.createStatement();
+            statement = connection.createStatement();
         }
         catch (Exception e)
         {
@@ -96,8 +96,7 @@ public class DatabaseControler {
 //
 //        try
 //        {
-//            Statement statement = dbc.connection.createStatement();
-//            ResultSet resultSet = statement.executeQuery("select * from club");
+//            ResultSet resultSet = dbc.statement.executeQuery("select * from club");
 //
 //            while(resultSet.next())
 //                System.out.println(resultSet.getString("Club_Name")
