@@ -6,16 +6,9 @@ import java.util.Scanner;
 
 public class AdminView {
 
-    private String ID;
-    private String password;
 
-    AdminView(String ID,String password)
-    {
-        this.ID = ID;
-        this.password = password;
-    }
 
-    public boolean accountCheck()
+    public boolean accountCheck(String ID,String Password)
     {
         //to do check Table admin,compare ID and Password
         return true;

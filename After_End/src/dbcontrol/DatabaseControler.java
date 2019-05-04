@@ -67,46 +67,46 @@ public class DatabaseControler {
 //Query method
 //--------------------------------------------------------------------------------
 
+    public ResultSet query(String sql)
+    {
+        try {
+            return this.statement.executeQuery(sql);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 //--------------------------------------------------------------------------------
 //Manipulate method
 //--------------------------------------------------------------------------------
 
-    public void insertClub(int club_id,String club_name,
-                           String club_type,String club_intro,int club_leader)
-    {
-        String sql_state = "insert into Club "
-                         + " (Club_ID,Club_Name,Club_Type,Club_Intro,Club_Leader)"
-                         + " Values "
-                         + " ("+ club_id + "," + "'" + club_name + "',"
-                         + "'" + club_type + "'," + "'" + club_intro + "',"
-                         + club_leader + ")";
 
-
-    }
 
 //--------------------------------------------------------------------------------
 //Tools method
 //--------------------------------------------------------------------------------
 
 
-//    public static void main(String[] args)
-//    {
-//        DatabaseControler dbc = new DatabaseControler();
-//
-//        try
-//        {
-//            ResultSet resultSet = dbc.statement.executeQuery("select * from club");
-//
-//            while(resultSet.next())
-//                System.out.println(resultSet.getString("Club_Name")
-//                + "," +resultSet.getString("Club_Type"));
-//
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//    }
+    public static void main(String[] args)
+    {
+        DatabaseControler dbc = new DatabaseControler();
+
+        try
+        {
+            ResultSet resultSet = dbc.statement.executeQuery("select * from club");
+
+            while(resultSet.next())
+                System.out.println(resultSet.getString("Club_Name")
+                + "," +resultSet.getString("Club_Type"));
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 }

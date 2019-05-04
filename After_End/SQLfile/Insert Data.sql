@@ -13,3 +13,5 @@ VALUES
 SELECT * FROM user;
 
 SELECT * FROM club;
+
+DELETE FROM club;

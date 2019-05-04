@@ -38,7 +38,7 @@ public class StartMenu {
         String password = in.next();
         if(!checkNum(ID))
         {
-            AdminView admin = new AdminView(ID,password);
+            AdminView admin = new AdminView();
             admin.displayMenu();
         }
     }
