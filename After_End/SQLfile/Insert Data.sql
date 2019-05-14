@@ -48,3 +48,5 @@ insert into apply_to_studert
 
 select * from activity;
 select * from apply_to_studert;
+select * from club;
+select * from user;

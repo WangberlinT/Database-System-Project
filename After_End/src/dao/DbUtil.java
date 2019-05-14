@@ -6,10 +6,10 @@ import java.sql.DriverManager;
 //数据库工具类(获取连接）
 public class DbUtil {
     private static DbUtil dbUtil = null;
-    private final String DBName = "";
-    private final String DBURL = "";
-    private final String User = "";
-    private final String Password = "";
+    private final String DBName = "mydb";
+    private final String DBURL = "jdbc:mysql://10.20.185.2:3306"+"?useSSL=false&serverTimezone=UTC";
+    private final String User = "wtq";
+    private final String Password = "123456";
 
     private Connection conn;
 
@@ -31,5 +31,10 @@ public class DbUtil {
         return conn;
     }
 
+    public static void main(String[] args)
+    {
+        DbUtil test = new DbUtil();
+        Connection connection = test.getConn();
 
+    }
 }
