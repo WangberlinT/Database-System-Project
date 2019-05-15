@@ -2,10 +2,12 @@ package bean;
 
 public class Admin {
     private int Id; //用户id
-    private int Password; //密码
-    private String UserName; //用户名
+    private String Password; //密码
 
-    public Admin(){}
+    public Admin(int ID,String Password){
+        this.Id = ID;
+        this.Password = Password;
+    }
 
     //getter and setter
     public int getId() {
@@ -16,19 +18,12 @@ public class Admin {
         Id = id;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return Password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         Password = password;
     }
 
-    public String getUserName() {
-        return UserName;
-    }
-
-    public void setUserName(String userName) {
-        UserName = userName;
-    }
 }

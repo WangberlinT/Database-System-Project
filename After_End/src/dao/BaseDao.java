@@ -14,6 +14,11 @@ public class BaseDao {
         connection = DbUtil.getInstance().getConn();
         return connection;
     }
+    //以指定的用户连接数据库
+    public Connection getCon(String user,String password) throws SQLException{
+        connection = DbUtil.getInstance(user, password).getConn();
+        return connection;
+    }
 
     //更新
     //传入多个或无参数

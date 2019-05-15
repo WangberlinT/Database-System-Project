@@ -1,6 +1,6 @@
-* **学生用户**
+* **用户表**
 
-  1. 用户ID(User_ID,INT)主键(首位为1)
+  1. User_ID(User_ID,INT)主键
   2. 密码(Password,VARCHAR
   3. 姓名(Name,VARCHAR
   4. 性别(Sex,VARCHAR)
@@ -10,7 +10,7 @@
   8. 地址(Address,VARCHAR
   9. 联系方式(Communicate VARCHAR)
 
-* **社团**
+* **社团表**
 
   1. 社团ID(Club_ID,INT)主键(首位为0)
   2. 名称(Club_Name,VARCHAR(45))
