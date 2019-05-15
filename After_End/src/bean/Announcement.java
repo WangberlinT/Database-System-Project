@@ -8,7 +8,7 @@ public class Announcement {
     private Date time; //发布时间
     private String title; //公告标题
     private Club club; //发布的社团
-    private Student publiser; //发布的学生
+    private User publiser; //发布的学生
 
     public Announcement(){}
 
@@ -53,11 +53,11 @@ public class Announcement {
         this.club = club;
     }
 
-    public Student getPubliser() {
+    public User getPubliser() {
         return publiser;
     }
 
-    public void setPubliser(Student publiser) {
+    public void setPubliser(User publiser) {
         this.publiser = publiser;
     }
 }

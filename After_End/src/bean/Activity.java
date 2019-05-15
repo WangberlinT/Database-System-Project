@@ -12,18 +12,20 @@ public class Activity {
     private int ApproverID; //审批人ID
     private int ResponseID; //负责人ID
     private int isPublic; //活动公开性
-    private Set<Student> stus = new HashSet<>(); //参加成员
-
-    public Set<Student> getStus() {
-        return stus;
-    }
-
-    public void setStus(Set<Student> stus) {
-        this.stus = stus;
-    }
+    private boolean state; //活动是否过期
+    private Set<User> stus = new HashSet<>(); //参加成员
 
     public Activity() {
     }
+
+    public Set<User> getStus() {
+        return stus;
+    }
+
+    public void setStus(Set<User> stus) {
+        this.stus = stus;
+    }
+
 
     //getter and setter
     public int getActivityID() {
@@ -80,5 +82,13 @@ public class Activity {
 
     public void setIsPublic(int isPublic) {
         this.isPublic = isPublic;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }

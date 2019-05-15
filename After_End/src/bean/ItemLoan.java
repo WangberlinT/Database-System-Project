@@ -5,7 +5,7 @@ import java.util.Date;
 public class ItemLoan {
     private int loanId; //借出记录ID
     private Item item; //被借出的资产
-    private Student student; //借出的学生
+    private User user; //借出的学生
     private Date start; //借出时间
     private Date end; //借出截止时间
     private Date returnDate; //归还时间
@@ -45,12 +45,12 @@ public class ItemLoan {
         this.item = item;
     }
 
-    public Student getStudent() {
-        return student;
+    public User getUser() {
+        return user;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getstart() {

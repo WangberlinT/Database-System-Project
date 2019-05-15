@@ -9,7 +9,7 @@ public class Club {
     private String ClubType; //社团类型
     private String ClubIntro; //社团简介
     private int LeaderID; //头头的ID
-    private Set<Student> stus = new HashSet<>(); //社团成员
+    private Set<User> stus = new HashSet<>(); //社团成员
     private Set<Activity> acts = new HashSet<>(); //社团活动
     private Set<Item> items = new HashSet<>(); //社团资产
 
@@ -17,7 +17,7 @@ public class Club {
     }
 
     //getter and setter
-    public Set<Student> getStus() {
+    public Set<User> getStus() {
         return stus;
     }
 
@@ -29,7 +29,7 @@ public class Club {
         this.items = items;
     }
 
-    public void setStus(Set<Student> stus) {
+    public void setStus(Set<User> stus) {
         this.stus = stus;
     }
 

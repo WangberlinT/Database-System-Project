@@ -2,7 +2,7 @@ package bean;
 
 import java.util.Date;
 
-public class Student {
+public class User {
     private int UserID; //用户ID
     private char[] Password; //密码
     private String Name; //姓名
@@ -13,7 +13,7 @@ public class Student {
     private String Address; //地址
     private String Communicate; //联系方式
 
-    public Student() {
+    public User() {
     }
 
     //getter and setter

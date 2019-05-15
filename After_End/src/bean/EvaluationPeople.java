@@ -2,7 +2,7 @@ package bean;
 
 public class EvaluationPeople {
     private Evaluation evaluation; //对应评价
-    private Student student; //被评价的学生
+    private User user; //被评价的学生
     private Club club; //来自社团
 
     public EvaluationPeople(){}
@@ -15,12 +15,12 @@ public class EvaluationPeople {
         this.evaluation = evaluation;
     }
 
-    public Student getStudent() {
-        return student;
+    public User getUser() {
+        return user;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Club getClub() {
