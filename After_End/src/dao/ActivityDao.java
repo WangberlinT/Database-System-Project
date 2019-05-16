@@ -12,7 +12,7 @@ import java.util.List;
 public class ActivityDao extends BaseDao {
 
     //查询用户参加的活动，返回List
-    List<Activity> show_act_byuid(int uid) {
+    List<Activity> Show_Act_By_uid(int uid) {
         List<Activity> list = new ArrayList<>();
         try {
             getCon();
