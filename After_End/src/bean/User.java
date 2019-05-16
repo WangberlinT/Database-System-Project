@@ -1,6 +1,7 @@
 package bean;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
     private int UserID; //用户ID
@@ -8,12 +9,12 @@ public class User {
     private String Name; //姓名
     private String Sex; //性别
     private Date BornDate; //出生日期
-    private String NickName; //昵称
     private String Major; //专业
     private String Address; //地址
     private int Communicate; //电话号码
     public final static String[] GENDER = {"男","女"};
-
+    private List<Club> clubList; //加入的社团
+    private List<Integer> authority;//权限
     public User() {
     }
 
@@ -63,14 +64,6 @@ public class User {
 
     public void setBornDate(Date bornDate) {
         BornDate = bornDate;
-    }
-
-    public String getNickName() {
-        return NickName;
-    }
-
-    public void setNickName(String nickName) {
-        NickName = nickName;
     }
 
     public String getMajor() {

@@ -9,7 +9,7 @@ public class Club {
     private String ClubType; //社团类型
     private String ClubIntro; //社团简介
     private int LeaderID; //头头的ID
-    private Set<User> users = new HashSet<>(); //社团成员
+    //    private Set<User> users = new HashSet<>(); //社团成员
     private Set<Activity> acts = new HashSet<>(); //社团活动
     private Set<Item> items = new HashSet<>(); //社团资产
 
@@ -17,9 +17,9 @@ public class Club {
     }
 
     //getter and setter
-    public Set<User> getUsers() {
-        return users;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
 
     public Set<Item> getItems() {
         return items;
@@ -29,9 +29,9 @@ public class Club {
         this.items = items;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     public Set<Activity> getActs() {
         return acts;
