@@ -1,5 +1,8 @@
 package view;
 
-public abstract class View {
-    public abstract void displayMenu();
+import java.util.Scanner;
+
+public class View {
+    public void displayMenu(){};
+    protected Scanner in = new Scanner(System.in);
 }

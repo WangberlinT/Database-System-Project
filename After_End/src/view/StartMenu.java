@@ -2,15 +2,15 @@ package view;
 
 import java.util.*;
 
-public class StartMenu {
-     protected Scanner in = new Scanner(System.in);
+public class StartMenu extends View{
      private int inputID;
      private String inputPassword;
      private boolean isAdmin=false;
      private View view;
+
     public static void main(String[] args) {
         StartMenu startMenu = new StartMenu();
-        startMenu.loginMenu();
+        startMenu.displayMenu();
 
     }
 
@@ -39,29 +39,43 @@ public class StartMenu {
 
     public void display()
     {
+        System.out.println("欢迎使用社团管理系统\n"
+            + "-----------------\n"
+            + "1.登陆\n"
+            + "2.登陆(管理员)\n"
+            + "3.注册\n"
+            + "4.退出\n");
+    }
+
+
+    public void displayMenu()
+    {
+        final int EXIT = 4;
+        int instruction = -1;
         while (true)
         {
-            System.out.println("欢迎使用社团管理系统\n"
-                    + "-----------------"
-                    + "1.登陆\n"
-                    + "2.登陆(管理员)\n"
-                    + "3.注册"
-                    + "4.退出");
-            String instruction = in.nextLine();
+            display();
+            String temp = in.nextLine();
 
-            if (instruction.equals("4"))
-                return;
+            if(temp.length() == 1)
+            {
+                if(Character.isDigit(temp.charAt(0)))
+                    instruction = Character.getNumericValue(temp.charAt(0));
+            }
+
+            if(instruction == EXIT)
+                break;
 
             switch (instruction) {
-                case "1":
-                    loginMenu();
+                case 1:
                     isAdmin = false;
-                    break;
-                case "2":
                     loginMenu();
-                    isAdmin = true;
                     break;
-                case "3":
+                case 2:
+                    isAdmin = true;
+                    loginMenu();
+                    break;
+                case 3:
                     //todo 注册
                     break;
                 default:

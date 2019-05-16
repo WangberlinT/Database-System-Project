@@ -6,12 +6,10 @@ import java.util.Scanner;
 
 public class AdminView extends View {
     Admin admin;
-    Scanner in;
 
     public AdminView(int ID,String password)
     {
         admin = new Admin(ID,password);
-        in = new Scanner(System.in);//这里可以继承自登陆页
     }
 
     public boolean accountCheck(String ID,String Password)
@@ -42,7 +40,7 @@ public class AdminView extends View {
 
         while(true)
         {
-            displayMenu();
+            display();
             System.out.print('>');
             String temp = in.nextLine();
             if(temp.length() == 1)
