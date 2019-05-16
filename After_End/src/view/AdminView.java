@@ -4,7 +4,7 @@ import bean.*;
 import java.util.Scanner;
 
 
-public class AdminView {
+public class AdminView extends View {
     Admin admin;
     Scanner in;
 
@@ -20,7 +20,7 @@ public class AdminView {
         return true;
     }
 
-    public void displayMenu()
+    public void display()
     {
         System.out.printf(
                          "Welcome Admin: %d\n"
@@ -35,7 +35,7 @@ public class AdminView {
 
     }
     //Admin 主菜单
-    public void mainMenuAction()
+    public void displayMenu()
     {
         final int EXIT = 5;
         int instruction = -1;
@@ -94,11 +94,11 @@ public class AdminView {
     }
 
 
-    public static void main(String[] args)
-    {
-        AdminView adminView = new AdminView(111,"8888");
-        adminView.mainMenuAction();
-    }
+//    public static void main(String[] args)
+//    {
+//        AdminView adminView = new AdminView(111,"8888");
+//        adminView.mainMenuAction();
+//    }
 
 
 

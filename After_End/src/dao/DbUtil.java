@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 //数据库工具类(获取连接）
 public class DbUtil {
     private final String DBName = "mydb";
-    private final String DBURL = "jdbc:mysql://10.20.197.208:3306"+"?useSSL=false&serverTimezone=UTC";
+    private final String DBURL = "jdbc:mysql://10.20.197.208:3306/"+DBName+"?useSSL=false&serverTimezone=UTC";
     private final String User = "wtq";
     private final String Password = "123456";
 

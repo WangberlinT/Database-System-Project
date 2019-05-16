@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
     private int UserID; //用户ID
-    private char[] Password; //密码
+    private String Password; //密码
     private String Name; //姓名
     private String Sex; //性别
     private Date BornDate; //出生日期
@@ -16,6 +16,13 @@ public class User {
     public User() {
     }
 
+    public User(int ID,String Password)
+    {
+        this.UserID = ID;
+        this.Password = Password;
+    }
+
+
     //getter and setter
     public int getUserID() {
         return UserID;
@@ -25,11 +32,11 @@ public class User {
         UserID = userID;
     }
 
-    public char[] getPassword() {
+    public String getPassword() {
         return Password;
     }
 
-    public void setPassword(char[] password) {
+    public void setPassword(String password) {
         Password = password;
     }
 
