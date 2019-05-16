@@ -44,10 +44,10 @@ public class DbUtil {
     }
 
     //test
-//    public static void main(String[] args)
-//    {
-//        DbUtil test = new DbUtil();
-//        Connection connection = test.getConn();
-//
-//    }
+    public static void main(String[] args)
+    {
+        DbUtil test = new DbUtil();
+        Connection connection = test.getConn();
+
+    }
 }

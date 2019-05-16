@@ -95,4 +95,15 @@ public class BaseDao {
             System.out.println("关闭失败！");
         }
     }
+
+    public static void main(String[] args) {
+        BaseDao a = new BaseDao();
+        try {
+            a.getCon("lyc","123456");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
