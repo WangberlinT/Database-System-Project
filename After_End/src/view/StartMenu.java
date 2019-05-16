@@ -55,8 +55,8 @@ public class StartMenu extends View{
         while (true)
         {
             display();
+            System.out.print('>');
             String temp = in.nextLine();
-
             if(temp.length() == 1)
             {
                 if(Character.isDigit(temp.charAt(0)))
@@ -79,7 +79,9 @@ public class StartMenu extends View{
                     //todo 注册
                     break;
                 default:
-                    System.out.println("invalid");
+                    System.out.println("-------------\n"
+                                      +"invalid input\n"
+                                      +"-------------\n");
             }
         }
     }

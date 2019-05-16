@@ -11,7 +11,8 @@ public class User {
     private String NickName; //昵称
     private String Major; //专业
     private String Address; //地址
-    private String Communicate; //联系方式
+    private int Communicate; //电话号码
+    public final static String[] GENDER = {"男","女"};
 
     public User() {
     }
@@ -88,11 +89,13 @@ public class User {
         Address = address;
     }
 
-    public String getCommunicate() {
+    public int getCommunicate() {
         return Communicate;
     }
 
-    public void setCommunicate(String communicate) {
+    public void setCommunicate(int communicate) {
         Communicate = communicate;
     }
+
+    public void update(){}//更新数据库信息
 }
