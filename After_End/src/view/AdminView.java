@@ -1,12 +1,16 @@
 package view;
-import dbcontrol.*;
+import bean.*;
 
 import java.util.Scanner;
 
 
 public class AdminView {
+    Admin admin;
 
+    public AdminView()
+    {
 
+    }
 
     public boolean accountCheck(String ID,String Password)
     {
@@ -16,6 +20,7 @@ public class AdminView {
 
     public String displayMenu()
     {
+
         Scanner in = new Scanner(System.in);
         System.out.println("1.Change Password\n"
                             + "2.Manage Club\n"
@@ -25,6 +30,8 @@ public class AdminView {
         String instruction = in.next();
         return instruction;
     }
+// todo change password
+//
 
 
 
