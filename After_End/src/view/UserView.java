@@ -75,10 +75,10 @@ public class UserView extends View{
             //display
             String name = "<1>姓名: " + user.getName();
             String gender = "<2>性别: " + user.getSex();
-            String born = "<3>生日: " + user.getBornDate();
+            String born = "<3>生日: " + user.getBorn();
             String Major = "<4>专业: " + user.getMajor();
             String Addess = "<5>地址: " + user.getAddress();
-            String Phone = "<6>电话号码: " + user.getCommunicate();
+            String Phone = "<6>电话号码: " + user.getPhone_Number();
 
 
 
@@ -168,7 +168,7 @@ public class UserView extends View{
                             +"invalid input\n"
                             +"-------------\n");
             }
-            user.update();//和数据库中信息保持一致
+//            user.update();//和数据库中信息保持一致
         }
     }
 
@@ -226,7 +226,7 @@ public class UserView extends View{
                         +"4.活动墙\n"
                         +"5.消息盒子\n"
                         +"6.退出登陆\n"
-                ,user.getUserID());
+                , user.getUser_ID());
         if(News!=0)
             System.out.printf("---你有%d条未读消息---\n",News);
 

@@ -4,34 +4,37 @@ import java.util.Date;
 import java.util.List;
 
 public class User {
-    private int UserID; //用户ID
+    private int User_ID; //用户ID
     private String Password; //密码
     private String Name; //姓名
     private String Sex; //性别
-    private Date BornDate; //出生日期
+    private Date Born; //出生日期
     private String Major; //专业
     private String Address; //地址
-    private int Communicate; //电话号码
-    public final static String[] GENDER = {"男","女"};
+    private String Phone_Number; //电话号码
+    private boolean Born_access;
+    private boolean Address_Access;
+    private boolean Phone_Access;
+    public final static String[] GENDER = {"男", "女"};
     private List<Club> clubList; //加入的社团
     private List<Integer> authority;//权限
+
     public User() {
     }
 
-    public User(int ID,String Password)
-    {
-        this.UserID = ID;
+    public User(int ID, String Password) {
+        this.User_ID = ID;
         this.Password = Password;
     }
 
 
     //getter and setter
-    public int getUserID() {
-        return UserID;
+    public int getUser_ID() {
+        return User_ID;
     }
 
-    public void setUserID(int userID) {
-        UserID = userID;
+    public void setUser_ID(int user_ID) {
+        User_ID = user_ID;
     }
 
     public String getPassword() {
@@ -58,12 +61,12 @@ public class User {
         Sex = sex;
     }
 
-    public Date getBornDate() {
-        return BornDate;
+    public Date getBorn() {
+        return Born;
     }
 
-    public void setBornDate(Date bornDate) {
-        BornDate = bornDate;
+    public void setBorn(Date born) {
+        Born = born;
     }
 
     public String getMajor() {
@@ -78,17 +81,40 @@ public class User {
         return Address;
     }
 
+    public boolean isBorn_access() {
+        return Born_access;
+    }
+
+    public void setBorn_access(boolean born_access) {
+        Born_access = born_access;
+    }
+
+    public boolean isAddress_Access() {
+        return Address_Access;
+    }
+
+    public void setAddress_Access(boolean address_Access) {
+        Address_Access = address_Access;
+    }
+
+    public boolean isPhone_Access() {
+        return Phone_Access;
+    }
+
+    public void setPhone_Access(boolean phone_Access) {
+        Phone_Access = phone_Access;
+    }
+
     public void setAddress(String address) {
         Address = address;
     }
 
-    public int getCommunicate() {
-        return Communicate;
+    public String getPhone_Number() {
+        return Phone_Number;
     }
 
-    public void setCommunicate(int communicate) {
-        Communicate = communicate;
+    public void setPhone_Number(String phone_Number) {
+        Phone_Number = phone_Number;
     }
 
-    public void update(){}//更新数据库信息
 }
