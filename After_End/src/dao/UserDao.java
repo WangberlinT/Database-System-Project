@@ -11,6 +11,7 @@ import java.util.List;
 //学生用户的增删改查
 public class UserDao {
 
+    //查询所有用户
     public List<User> queryAllUser() throws SQLException {
         QueryRunner queryRunner = new QueryRunner(DruidUtil.getDatasource());
         String sql = "select * from User";
@@ -18,6 +19,7 @@ public class UserDao {
 
     }
 
+    //通过uid查询用户
     public User queryUserByID(int uid) throws SQLException {
         QueryRunner qr = new QueryRunner(DruidUtil.getDatasource());
         String sql = "select * from User where User_ID=?";
@@ -25,6 +27,7 @@ public class UserDao {
     }
 
     public void updateUser(User user) throws SQLException {
+        //更新用户信息
         QueryRunner queryRunner = new QueryRunner(DruidUtil.getDatasource());
         String sql = "update User\n" +
                 "set Password=?,\n" +
