@@ -1,4 +1,0 @@
-git add . (缓存所有改变）
-git status (查看已保存改变)
-git commit -m "xxx" (提交改变并写备注)
-git push jpk (更新github)

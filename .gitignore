@@ -1,5 +1,5 @@
 # ignore class file and IDEA config
-/After_End/.idea
+*.idea
 *.classpath
 *.[class]
 *.iml
