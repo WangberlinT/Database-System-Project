@@ -12,9 +12,9 @@ public class UserView extends View{
     static final String INVISIBLE = "(隐藏)";
 
 
-    public UserView(int ID,String password)
+    public UserView(User user)
     {
-        user = new User(ID,password);
+        this.user = user;
         News = 0;
         hasNewActivities = false;
     }
@@ -82,10 +82,13 @@ public class UserView extends View{
 
 
 
-            formatter = new StringAlign(15,StringAlign.JUST_LEFT);
-            System.out.print(formatter.format(name)+formatter.format(Major)+"\n"
-                            +formatter.format(gender)+formatter.format(Addess)+"\n"
-                            +formatter.format(born)+formatter.format(Phone)+"\n"
+            formatter = new StringAlign(20,StringAlign.JUST_LEFT);
+            System.out.print(formatter.format(name)+"\n"
+                            +formatter.format(gender)+"\n"
+                            +formatter.format(born)+"\n"
+                            +formatter.format(Major)+"\n"
+                            +formatter.format(Addess)+"\n"
+                            +formatter.format(Phone)+"\n"
                             +formatter.format("1.修改信息")+formatter.format("2.隐私设置")+"\n"
                             +formatter.format("3.修改密码")+formatter.format("4.返回")+"\n");
 
