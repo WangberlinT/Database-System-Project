@@ -1,23 +1,67 @@
 package dao;
 
 import bean.Activity;
-
+import bean.User;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import java.sql.SQLException;
+import java.util.List;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 //社团活动的增删改查
 public class ActivityDao {
 
-    //查询用户参加的活动，返回List
-    List<Activity> Show_Act_By_uid(int uid) {
-        List<Activity> list = new ArrayList<>();
-            String sql = "select ac.*\n" +
-                    "    from Activity_User au\n" +
-                    "             join Activity ac on au.Activity_ID = ac.Activity_ID\n" +
-                    "    where au.User_ID = uid order by ac.Start_Time;";
-        return list;
+    //查看我参加的活动
+    public List<User> queryActivityByID(int uid) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
+                "from Activity a join Activity_User b\n" +
+                "on a.Activity_ID = b.Activity_ID\n" +
+                "where User_ID = ?\n" +
+                "ORDER BY Start_Time DESC;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class), uid);
     }
+
+
+    //查看最近3个月所有社团活动历史
+    public List<User> queryActivityForAllInMoth() throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "select *\n" +
+                "from Activity\n" +
+                "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and `range` = 1\n" +
+                "ORDER BY Start_Time DESC;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class));
+    }
+
+
+    //创建一个活动
+    public void insertActivity(Activity a) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "insert into Activity(Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State)\n" +
+                "values(?,?,?,?,?,?);";
+
+        Object[] param = {a.getActivity_Name(),a.getStart_Time(),a.getEnd_Time(),
+                a.getResponse_ID(),a.isRange(),a.isState()};
+        queryRunner.update(sql, param);
+    }
+
+
+    //查看某个社一年的活动
+    public List<User> queryActivityByClubID(int club_id) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
+                "from Activity a join Activity_Club b\n" +
+                "on a.Activity_ID = b.Activity_ID\n" +
+                "where Club_ID = ?\n" +
+                "  and date_sub(CURDATE(), INTERVAL 365 DAY) <= date(Start_Time)\n" +
+                "  and `range` = 1\n" +
+                "ORDER BY Start_Time DESC;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class), club_id);
+    }
+
+
 }
