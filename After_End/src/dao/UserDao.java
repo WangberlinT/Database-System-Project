@@ -6,6 +6,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 //学生用户的增删改查
@@ -26,8 +27,8 @@ public class UserDao {
         return qr.query(sql, new BeanHandler<>(User.class), uid);
     }
 
+    //更新用户信息
     public void updateUser(User user) throws SQLException {
-        //更新用户信息
         QueryRunner queryRunner = new QueryRunner(DruidUtil.getDatasource());
         String sql = "update User\n" +
                 "set Password=?,\n" +
@@ -47,15 +48,24 @@ public class UserDao {
         queryRunner.update(sql, param);
     }
 
+    //注册用户
+    public void insertUser(User user) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(DruidUtil.getDatasource());
+        String sql = "insert into User(user_id, password, name, sex, born, major, address, phone_number,\n" +
+                "                 Born_Access,Address_Access,Phone_Number_Access)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?);";
+        Object[] param = {user.getUser_ID(), user.getPassword(), user.getName(), user.getSex(), user.getBorn(),
+                user.getMajor(), user.getAddress(), user.getPhone_Number(), user.isBorn_access(),
+                user.isAddress_Access(), user.isPhone_Access()};
+        queryRunner.update(sql, param);
+    }
+
     //test
     public static void main(String[] args) throws SQLException {
         UserDao u1 = new UserDao();
-        User tmp = u1.queryUserByID(11410101);
-        tmp.setSex("女");
-        u1.updateUser(tmp);
         List<User> userList = u1.queryAllUser();
         for (User u : userList) {
-            System.out.println(u.getName() + "  " + u.getPhone_Number() + "  " + u.getBorn());
+            System.out.println(u.getUser_ID() + " " + u.getName() + "  " + u.getAddress() + "  " + u.getBorn());
         }
     }
 }

@@ -1,21 +1,21 @@
 package bean;
 
 public class Admin {
-    private int Id; //用户id
+    private int Admin_Id; //用户id
     private String Password; //密码
 
     public Admin(int ID,String Password){
-        this.Id = ID;
+        this.Admin_Id = ID;
         this.Password = Password;
     }
 
     //getter and setter
-    public int getId() {
-        return Id;
+    public int getAdmin_Id() {
+        return Admin_Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public void setAdmin_Id(int admin_Id) {
+        Admin_Id = admin_Id;
     }
 
     public String getPassword() {

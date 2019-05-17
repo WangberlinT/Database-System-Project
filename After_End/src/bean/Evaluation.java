@@ -3,44 +3,44 @@ package bean;
 import java.util.Date;
 
 public class Evaluation {
-    private int evaluationId; //评价ID
-    private String content; //内容
-    private Date time; //评价时间
-    private int level; //评价等级
+    private int Evaluation_ID; //评价ID
+    private String Content; //内容
+    private Date Time; //评价时间
+    private int Level; //评价等级
 
     public Evaluation() {
     }
 
     //getter and setter
-    public int getEvaluationId() {
-        return evaluationId;
+    public int getEvaluation_ID() {
+        return Evaluation_ID;
     }
 
-    public void setEvaluationId(int evaluationId) {
-        this.evaluationId = evaluationId;
+    public void setEvaluation_ID(int evaluation_ID) {
+        this.Evaluation_ID = evaluation_ID;
     }
 
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.Content = content;
     }
 
     public Date getTime() {
-        return time;
+        return Time;
     }
 
     public void setTime(Date time) {
-        this.time = time;
+        this.Time = time;
     }
 
     public int getLevel() {
-        return level;
+        return Level;
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        this.Level = level;
     }
 }

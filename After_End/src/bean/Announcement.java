@@ -3,61 +3,62 @@ package bean;
 import java.util.Date;
 
 public class Announcement {
-    private int announcementId; //公告ID
-    private String content; //公告内容
-    private Date time; //发布时间
-    private String title; //公告标题
-    private Club club; //发布的社团
-    private User publiser; //发布的学生
+    private int Announcement_ID; //公告ID
+    private String Content; //公告内容
+    private Date Time; //发布时间
+    private String Title; //公告标题
+    private int Club_ID; //发布的社团
+    private int Publisher; //发布的学生
 
-    public Announcement(){}
-
-    //getter and setter
-    public int getAnnouncementId() {
-        return announcementId;
+    public Announcement() {
     }
 
-    public void setAnnouncementId(int announcementId) {
-        this.announcementId = announcementId;
+    //getter and setter
+    public int getAnnouncement_ID() {
+        return Announcement_ID;
+    }
+
+    public void setAnnouncement_ID(int announcement_ID) {
+        this.Announcement_ID = announcement_ID;
     }
 
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.Content = content;
     }
 
     public Date getTime() {
-        return time;
+        return Time;
     }
 
     public void setTime(Date time) {
-        this.time = time;
+        this.Time = time;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
-    public Club getClub() {
-        return club;
+    public int getClub_ID() {
+        return Club_ID;
     }
 
-    public void setClub(Club club) {
-        this.club = club;
+    public void setClub_ID(int club_ID) {
+        Club_ID = club_ID;
     }
 
-    public User getPubliser() {
-        return publiser;
+    public int getPublisher() {
+        return Publisher;
     }
 
-    public void setPubliser(User publiser) {
-        this.publiser = publiser;
+    public void setPublisher(int publisher) {
+        Publisher = publisher;
     }
 }
