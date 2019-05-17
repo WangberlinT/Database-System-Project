@@ -83,7 +83,7 @@ public class StartMenu extends View{
                     loginMenu();
                     break;
                 case 3:
-                    //todo 注册
+                    signUp();
                     break;
                 default:
                     System.out.println("-------------\n"
@@ -91,6 +91,27 @@ public class StartMenu extends View{
                                       +"-------------\n");
             }
         }
+    }
+
+    public void signUp()
+    {
+        UserDao userDao = new UserDao();
+        System.out.println("输入注册学号: ");
+        int UID = Integer.parseInt(in.nextLine());
+        System.out.println("输入密码: ");
+        String password = in.nextLine();
+        System.out.println("输入姓名:");
+        String Name = in.nextLine();
+        System.out.println("输入性别:");
+        String gender = in.nextLine();
+        try {
+            userDao.insertUser(new User(UID, password, Name, gender));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println("注册成功!");
     }
 
     public boolean checkPassword()

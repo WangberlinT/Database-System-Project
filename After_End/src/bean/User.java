@@ -22,9 +22,11 @@ public class User {
     public User() {
     }
 
-    public User(int ID, String Password) {
+    public User(int ID, String Password,String Name,String Sex) {
         this.User_ID = ID;
         this.Password = Password;
+        this.Name = Name;
+        this.Sex = Sex;
     }
 
 
