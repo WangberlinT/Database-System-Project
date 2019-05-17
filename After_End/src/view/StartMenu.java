@@ -1,5 +1,8 @@
 package view;
 
+import bean.User;
+import dao.UserDao;
+
 import java.util.*;
 
 public class StartMenu extends View{
@@ -7,6 +10,7 @@ public class StartMenu extends View{
      private String inputPassword;
      private boolean isAdmin=false;
      private View view;
+     private User user;
 
     public static void main(String[] args) {
         StartMenu startMenu = new StartMenu();
@@ -21,17 +25,20 @@ public class StartMenu extends View{
         System.out.println("Password: ");
         inputPassword = in.nextLine();
 
-        if(!checkPassword())//密码不正确
+        if(checkPassword())//密码不正确
         {
-            System.out.println("密码错误！");
-            return;
+            System.out.println("登陆成功!");
         }
+        else
+            return;
+
+
 
         //登陆成功
         if(isAdmin)
             view = new AdminView(inputID,inputPassword);
         else
-            view = new UserView(inputID,inputPassword);
+            view = new UserView(user);
 
         view.displayMenu();
 
@@ -88,16 +95,52 @@ public class StartMenu extends View{
 
     public boolean checkPassword()
     {
-        boolean result = true;
+        System.out.println("登陆中...");
         if(isAdmin)
         {
             //todo Admin Password check
+            return adminPasswordCheck();
         }
         else
         {
             //todo User Password check
+            return userPasswordCheck();
         }
-        return result;
+    }
+
+    public boolean adminPasswordCheck()
+    {
+        //todo 管理员密码检查
+        return false;
+    }
+
+    public boolean userPasswordCheck()
+    {
+        UserDao userDao = new UserDao();
+        user = null;
+        try {
+            user = userDao.queryUserByID(inputID);
+            if(user == null)
+            {
+                System.out.println("用户名不存在");
+                return false;
+            }
+            else
+            {
+                if(user.getPassword().equals(inputPassword))
+                    return true;
+                else
+                {
+                    System.out.println("密码错误！");
+                    return false;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
