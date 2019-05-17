@@ -13,7 +13,7 @@ public class DruidConnection {
 
     private static Properties properties = null;
     private static DataSource dataSource = null;
-    private volatile static DruidConnection instatce = null;
+    private volatile static DruidConnection instance = null;
     private Connection connection = null;
 
     //私有构造函数,防止实例化对象
@@ -28,6 +28,7 @@ public class DruidConnection {
             //加载输入流
             properties.load(is);
             //获取数据源
+            
             dataSource = getDatasource();
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,13 +36,13 @@ public class DruidConnection {
     }
 
     public static DruidConnection getInstance() {
-        if (instatce == null) {
+        if (instance == null) {
             synchronized (DruidConnection.class) {
-                if (instatce == null)
-                    instatce = new DruidConnection();
+                if (instance == null)
+                    instance = new DruidConnection();
             }
         }
-        return instatce;
+        return instance;
     }
 
     public DataSource getDataSource() {
@@ -63,6 +64,7 @@ public class DruidConnection {
         DataSource source = null;
         try {
             source = DruidDataSourceFactory.createDataSource(properties);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

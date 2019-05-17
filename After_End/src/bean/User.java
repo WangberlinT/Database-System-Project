@@ -7,14 +7,14 @@ public class User {
     private int User_ID; //用户ID
     private String Password; //密码
     private String Name; //姓名
-    private String Sex; //性别
-    private Date Born; //出生日期
-    private String Major; //专业
-    private String Address; //地址
-    private String Phone_Number; //电话号码
-    private boolean Born_access;
-    private boolean Address_Access;
-    private boolean Phone_Access;
+    private String Sex = null; //性别
+    private Date Born = null; //出生日期
+    private String Major = null; //专业
+    private String Address = null; //地址
+    private String Phone_Number = null; //电话号码
+    private boolean Born_access = false;
+    private boolean Address_Access = false;
+    private boolean Phone_Access = false;
     public final static String[] GENDER = {"男", "女"};
     private List<Club> clubList; //加入的社团
     private List<Integer> authority;//权限
@@ -22,9 +22,11 @@ public class User {
     public User() {
     }
 
-    public User(int ID, String Password) {
+    public User(int ID, String Password,String Name,String Sex) {
         this.User_ID = ID;
         this.Password = Password;
+        this.Name = Name;
+        this.Sex = Sex;
     }
 
 

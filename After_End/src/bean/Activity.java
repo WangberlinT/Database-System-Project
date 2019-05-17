@@ -5,87 +5,69 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Activity {
-    private int ActivityID; //活动ID
-    private String ActivityName; //活动名称
-    private Date StartTime; //开始日期
-    private Date EndTime; //结束日期
-    private int ApproverID; //审批人ID
-    private int ResponseID; //负责人ID
-    private int isPublic; //活动公开性
+    private int Activity_ID; //活动ID
+    private String Activity_Name; //活动名称
+    private Date Start_Time; //开始日期
+    private Date End_Time; //结束日期
+    private int Response_ID; //负责人ID
+    private boolean Range; //活动公开性
     private boolean state; //活动是否过期
-    private Set<User> stus = new HashSet<>(); //参加成员
 
     public Activity() {
     }
 
-    public Set<User> getStus() {
-        return stus;
-    }
-
-    public void setStus(Set<User> stus) {
-        this.stus = stus;
-    }
-
-
     //getter and setter
-    public int getActivityID() {
-        return ActivityID;
+    public int getActivity_ID() {
+        return Activity_ID;
     }
 
-    public void setActivityID(int activityID) {
-        ActivityID = activityID;
+    public void setActivity_ID(int activity_ID) {
+        Activity_ID = activity_ID;
     }
 
-    public String getActivityName() {
-        return ActivityName;
+    public String getActivity_Name() {
+        return Activity_Name;
     }
 
-    public void setActivityName(String activityName) {
-        ActivityName = activityName;
+    public void setActivity_Name(String activity_Name) {
+        Activity_Name = activity_Name;
     }
 
-    public Date getStartTime() {
-        return StartTime;
+    public Date getStart_Time() {
+        return Start_Time;
     }
 
-    public void setStartTime(Date startTime) {
-        StartTime = startTime;
+    public void setStart_Time(Date start_Time) {
+        Start_Time = start_Time;
     }
 
-    public Date getEndTime() {
-        return EndTime;
+    public Date getEnd_Time() {
+        return End_Time;
     }
 
-    public void setEndTime(Date endTime) {
-        EndTime = endTime;
+    public void setEnd_Time(Date end_Time) {
+        End_Time = end_Time;
     }
 
-    public int getApproverID() {
-        return ApproverID;
+
+    public int getResponse_ID() {
+        return Response_ID;
     }
 
-    public void setApproverID(int approverID) {
-        ApproverID = approverID;
-    }
-
-    public int getResponseID() {
-        return ResponseID;
-    }
-
-    public void setResponseID(int responseID) {
-        ResponseID = responseID;
-    }
-
-    public int getIsPublic() {
-        return isPublic;
-    }
-
-    public void setIsPublic(int isPublic) {
-        this.isPublic = isPublic;
+    public void setResponse_ID(int response_ID) {
+        Response_ID = response_ID;
     }
 
     public boolean isState() {
         return state;
+    }
+
+    public boolean isRange() {
+        return Range;
+    }
+
+    public void setRange(boolean range) {
+        Range = range;
     }
 
     public void setState(boolean state) {

@@ -1,8 +1,6 @@
 package view;
 import bean.*;
 
-import java.util.Scanner;
-
 
 public class AdminView extends View {
     Admin admin;
@@ -28,7 +26,7 @@ public class AdminView extends View {
                          +"3.管理用户\n"
                          +"4.管理活动\n"
                          +"5.退出登陆\n"
-                         ,admin.getId());
+                , admin.getAdmin_Id());
 
 
     }
@@ -83,7 +81,7 @@ public class AdminView extends View {
             System.out.printf("---更改用户: %d 的密码---\n"
                     +"确保以下操作为本人操作\n"
                     +"1.继续修改\n"
-                    +"2.退回上一栏\n",admin.getId());
+                    + "2.退回上一栏\n", admin.getAdmin_Id());
 
 
 
