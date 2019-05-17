@@ -2,6 +2,7 @@ package view;
 
 import bean.User;
 import dao.UserDao;
+import util.CustomerException;
 
 import java.util.*;
 
@@ -20,10 +21,17 @@ public class StartMenu extends View{
 
     public void loginMenu()
     {
-        System.out.println("UserID: ");
-        inputID = Integer.parseInt(in.nextLine());
-        System.out.println("Password: ");
-        inputPassword = in.nextLine();
+        try {
+            System.out.println("UserID: ");
+            inputID = Integer.parseInt(in.nextLine());
+            System.out.println("Password: ");
+            inputPassword = in.nextLine();
+        }
+        catch (Exception e)
+        {
+            System.out.println("输入无效！");
+            loginMenu();
+        }
 
         if(checkPassword())//密码不正确
         {
@@ -58,39 +66,38 @@ public class StartMenu extends View{
     public void displayMenu()
     {
         final int EXIT = 4;
-        int instruction = -1;
-        while (true)
-        {
+        int instruction;
+
             display();
             System.out.print('>');
-            String temp = in.nextLine();
-            if(temp.length() == 1)
+            try {
+                instruction = Integer.parseInt(in.nextLine());
+
+                if (instruction == EXIT)
+                    return;
+
+                switch (instruction) {
+                    case 1:
+                        isAdmin = false;
+                        loginMenu();
+                        break;
+                    case 2:
+                        isAdmin = true;
+                        loginMenu();
+                        break;
+                    case 3:
+                        signUp();
+                        break;
+                    default:
+                        throw new CustomerException("Wrong input");
+                }
+            }
+            catch (Exception e)
             {
-                if(Character.isDigit(temp.charAt(0)))
-                    instruction = Character.getNumericValue(temp.charAt(0));
+                System.out.println("输入无效！");
+                e.getMessage();
+                displayMenu();
             }
-
-            if(instruction == EXIT)
-                break;
-
-            switch (instruction) {
-                case 1:
-                    isAdmin = false;
-                    loginMenu();
-                    break;
-                case 2:
-                    isAdmin = true;
-                    loginMenu();
-                    break;
-                case 3:
-                    signUp();
-                    break;
-                default:
-                    System.out.println("-------------\n"
-                                      +"invalid input\n"
-                                      +"-------------\n");
-            }
-        }
     }
 
     public void signUp()

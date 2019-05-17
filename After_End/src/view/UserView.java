@@ -1,5 +1,6 @@
 package view;
 import bean.*;
+import util.CustomerException;
 import util.StringAlign;
 
 import java.util.Date;
@@ -21,24 +22,19 @@ public class UserView extends View{
 
     public void displayMenu()
     {
-        int instruction = -1;
+        int instruction;
         final int EXIT = 6;
-        while(true)
-        {
+
             display();
             System.out.print('>');
-            String temp = in.nextLine();
-            if(temp.length() == 1)
-            {
-                if(Character.isDigit(temp.charAt(0)))
-                    instruction = Character.getNumericValue(temp.charAt(0));
-            }
 
-            if(instruction == EXIT)
-                break;
+        try {
+            instruction = Integer.parseInt(in.nextLine());
 
-            switch (instruction)
-            {
+            if (instruction == EXIT)
+                return;
+
+            switch (instruction) {
                 case 1:
                     informationCheck();
                     break;
@@ -59,52 +55,48 @@ public class UserView extends View{
                     //todo 消息查看
                 default:
                     System.out.println("-------------\n"
-                                      +"invalid input\n"
-                                      +"-------------\n");
+                            + "invalid input\n"
+                            + "-------------\n");
             }
+        }
+        catch (Exception e)
+        {
+            System.out.println("无效输入！");
+            displayMenu();
         }
 
     }
 
     public void informationCheck()
     {
-        int instruction = -1;
+        int instruction;
         final int EXIT = 4;
-        while(true)
-        {
-            //display
-            String name = "<1>姓名: " + user.getName();
-            String gender = "<2>性别: " + user.getSex();
-            String born = "<3>生日: " + user.getBorn();
-            String Major = "<4>专业: " + user.getMajor();
-            String Addess = "<5>地址: " + user.getAddress();
-            String Phone = "<6>电话号码: " + user.getPhone_Number();
 
+        //display
+        String name = "<1>姓名: " + user.getName();
+        String gender = "<2>性别: " + user.getSex();
+        String born = "<3>生日: " + user.getBorn();
+        String Major = "<4>专业: " + user.getMajor();
+        String Addess = "<5>地址: " + user.getAddress();
+        String Phone = "<6>电话号码: " + user.getPhone_Number();
 
+        formatter = new StringAlign(20,StringAlign.JUST_LEFT);
+        System.out.print(formatter.format(name)+"\n"
+                +formatter.format(gender)+"\n"
+                +formatter.format(born)+"\n"
+                +formatter.format(Major)+"\n"
+                +formatter.format(Addess)+"\n"
+                +formatter.format(Phone)+"\n"
+                +formatter.format("1.修改信息")+formatter.format("2.隐私设置")+"\n"
+                +formatter.format("3.修改密码")+formatter.format("4.返回")+"\n");
 
-            formatter = new StringAlign(20,StringAlign.JUST_LEFT);
-            System.out.print(formatter.format(name)+"\n"
-                            +formatter.format(gender)+"\n"
-                            +formatter.format(born)+"\n"
-                            +formatter.format(Major)+"\n"
-                            +formatter.format(Addess)+"\n"
-                            +formatter.format(Phone)+"\n"
-                            +formatter.format("1.修改信息")+formatter.format("2.隐私设置")+"\n"
-                            +formatter.format("3.修改密码")+formatter.format("4.返回")+"\n");
+        try {
+            instruction = Integer.parseInt(in.nextLine());
 
+            if (instruction == EXIT)
+                return;
 
-
-            String temp = in.nextLine();
-            if(temp.length() == 1)
-            {
-                if(Character.isDigit(temp.charAt(0)))
-                    instruction = Character.getNumericValue(temp.charAt(0));
-            }
-            if(instruction == EXIT)
-                break;
-
-            switch (instruction)
-            {
+            switch (instruction) {
                 case 1:
                     //todo 个人信息修改
                     modifyInfomation();
@@ -116,10 +108,13 @@ public class UserView extends View{
                     //todo 密码修改
                     break;
                 default:
-                    System.out.println("-------------\n"
-                            +"invalid input\n"
-                            +"-------------\n");
+                    throw new CustomerException("Invalid input");
             }
+        }
+        catch (Exception e)
+        {
+            System.out.println("输入无效！");
+            informationCheck();
         }
     }
 
@@ -128,51 +123,48 @@ public class UserView extends View{
 
         int instruction = -1;
         final int EXIT = 0;
-        while(true)
-        {
             System.out.println("要修改哪一项信息?(输入0放弃修改)");
             System.out.print('>');
-            String temp = in.nextLine();
-            if(temp.length() == 1)
-            {
-                if(Character.isDigit(temp.charAt(0)))
-                    instruction = Character.getNumericValue(temp.charAt(0));
-            }
+            try {
+                instruction = Integer.parseInt(in.nextLine());
 
-            if(instruction == EXIT)
-                break;
+                if (instruction == EXIT)
+                    return;
 
-            switch (instruction)
-            {
-                case 1:
-                    System.out.println("输入新的姓名");
-                    String newName = in.nextLine();
-                    nameModify(newName);
-                    break;
-                case 2:
-                    System.out.println("输入新的性别");
-                    String newSex = in.nextLine();
-                    sexModify(newSex);
-                    break;
-                case 3:
-                    //todo 生日修改
-                    break;
-                case 4:
-                    //todo 专业修改
-                    break;
-                case 5:
-                    //todo 地址修改
-                    break;
-                case 6:
-                    //todo 电话号码修改
-                    break;
-                default:
-                    System.out.println("-------------\n"
-                            +"invalid input\n"
-                            +"-------------\n");
-            }
+                switch (instruction) {
+                    case 1:
+                        System.out.println("输入新的姓名");
+                        String newName = in.nextLine();
+                        nameModify(newName);
+                        break;
+                    case 2:
+                        System.out.println("输入新的性别");
+                        String newSex = in.nextLine();
+                        sexModify(newSex);
+                        break;
+                    case 3:
+                        //todo 生日修改
+                        break;
+                    case 4:
+                        //todo 专业修改
+                        break;
+                    case 5:
+                        //todo 地址修改
+                        break;
+                    case 6:
+                        //todo 电话号码修改
+                        break;
+                    default:
+                        throw new CustomerException("Invalid input");
+                }
 //            user.update();//和数据库中信息保持一致
-        }
+            }
+            catch (Exception e)
+            {
+                System.out.println("无效输入！");
+                modifyInfomation();
+            }
+
     }
 
     private void bornModify(Date newBorn)
