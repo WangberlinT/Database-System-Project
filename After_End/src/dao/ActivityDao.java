@@ -63,5 +63,12 @@ public class ActivityDao {
         return queryRunner.query(sql, new BeanListHandler<>(User.class), club_id);
     }
 
+    //删除一个活动
+    public void deleteActivity(int id) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "delete from Activity\n" +
+                "where Activity_ID = ?;";
+        queryRunner.update(sql,id);
+    }
 
 }
