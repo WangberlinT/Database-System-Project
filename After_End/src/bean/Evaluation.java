@@ -1,11 +1,11 @@
 package bean;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Evaluation {
     private int Evaluation_ID; //评价ID
     private String Content; //内容
-    private Date Time; //评价时间
+    private Timestamp Time; //评价时间
     private int Level; //评价等级
 
     public Evaluation() {
@@ -28,11 +28,11 @@ public class Evaluation {
         this.Content = content;
     }
 
-    public Date getTime() {
+    public Timestamp getTime() {
         return Time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(Timestamp time) {
         this.Time = time;
     }
 

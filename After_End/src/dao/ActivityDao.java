@@ -7,17 +7,13 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import java.sql.SQLException;
 import java.util.List;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-
 
 //社团活动的增删改查
 public class ActivityDao {
 
     //查看我参加的活动
     public List<User> queryActivityByID(int uid) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
                 "from Activity a join Activity_User b\n" +
                 "on a.Activity_ID = b.Activity_ID\n" +
@@ -29,7 +25,7 @@ public class ActivityDao {
 
     //查看最近3个月所有社团活动历史
     public List<User> queryActivityForAllInMoth() throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
                 "from Activity\n" +
                 "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and `range` = 1\n" +
@@ -40,7 +36,7 @@ public class ActivityDao {
 
     //创建一个活动
     public void insertActivity(Activity a) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "insert into Activity(Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State)\n" +
                 "values(?,?,?,?,?,?);";
 
@@ -52,7 +48,7 @@ public class ActivityDao {
 
     //查看某个社一年的活动
     public List<User> queryActivityByClubID(int club_id) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
                 "from Activity a join Activity_Club b\n" +
                 "on a.Activity_ID = b.Activity_ID\n" +
@@ -65,7 +61,7 @@ public class ActivityDao {
 
     //删除一个活动
     public void deleteActivity(int id) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from Activity\n" +
                 "where Activity_ID = ?;";
         queryRunner.update(sql,id);

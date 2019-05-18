@@ -27,7 +27,7 @@ public class UserDao {
 
     //通过名字查询用户
     public User queryUserByName(String Name) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User where Name=?";
         return queryRunner.query(sql, new BeanHandler<>(User.class), Name);
     }
