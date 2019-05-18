@@ -10,6 +10,13 @@ public class Club {
     public Club() {
     }
 
+    public Club(String Club_Name, String Club_Type, String Club_Intro,int Club_Leader ){
+        this.Club_Name=Club_Name;
+        this.Club_Type=Club_Type;
+        this.Club_Intro=Club_Intro;
+        this.Club_Leader=Club_Leader;
+    }
+
     //getter and setter
     public int getClub_ID() {
         return Club_ID;
