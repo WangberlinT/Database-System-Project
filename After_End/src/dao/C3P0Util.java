@@ -1,6 +1,7 @@
 package dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbutils.QueryRunner;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class C3P0Util {
-    private static ComboPooledDataSource cpds;
+    private static ComboPooledDataSource cpds = null;
 
     /*
      * 它为null表示没有事务
@@ -32,16 +33,21 @@ public class C3P0Util {
         return cpds;
     }
 
+    public static QueryRunner getQueryRunner() {
+        return new QueryRunner(cpds); //获取QueryRunner，传入DataSource
+    }
+
     public static Connection getConnection() {
+        Connection conn = null;
         try {
-            Connection con = tl.get();
-            if (con != null) return con;  // 如果有事务，返回当前事务的con
-            return cpds.getConnection(); //如果没有事务，通过连接池返回新的con
+            conn = tl.get();
+            if (conn != null) return conn;  // 如果有事务，返回当前事务的con
+            conn = cpds.getConnection(); //如果没有事务，通过连接池返回新的con
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("连接数据库失败");
-            return null;
         }
+        return conn;
     }
 
     //开启事务

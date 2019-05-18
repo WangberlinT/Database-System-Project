@@ -13,15 +13,14 @@ public class UserDao {
 
     //查询所有用户
     public List<User> queryAllUser() throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
         String sql = "select * from User";
         return queryRunner.query(sql, new BeanListHandler<>(User.class));
-
     }
 
     //通过uid查询用户
     public User queryUserByID(int uid) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User where User_ID=?";
         return queryRunner.query(sql, new BeanHandler<>(User.class), uid);
     }
@@ -35,7 +34,7 @@ public class UserDao {
 
     //更新用户信息
     public void updateUser(User user) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "update User\n" +
                 "set Password=?,\n" +
                 "    Name=?,\n" +
@@ -56,7 +55,7 @@ public class UserDao {
 
     //注册用户
     public void insertUser(User user) throws SQLException {
-        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "insert into User(user_id, password, name, sex, born, major, address, phone_number,\n" +
                 "                 Born_Access,Address_Access,Phone_Number_Access)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,?);";
