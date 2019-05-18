@@ -26,6 +26,13 @@ public class UserDao {
         return queryRunner.query(sql, new BeanHandler<>(User.class), uid);
     }
 
+    //通过名字查询用户
+    public User queryUserByName(String Name) throws SQLException {
+        QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
+        String sql = "select * from User where Name=?";
+        return queryRunner.query(sql, new BeanHandler<>(User.class), Name);
+    }
+
     //更新用户信息
     public void updateUser(User user) throws SQLException {
         QueryRunner queryRunner = new QueryRunner(C3P0Util.getDatasource());
@@ -59,12 +66,4 @@ public class UserDao {
         queryRunner.update(sql, param);
     }
 
-    //test
-    public static void main(String[] args) throws SQLException {
-        UserDao u1 = new UserDao();
-        List<User> userList = u1.queryAllUser();
-        for (User u : userList) {
-            System.out.println(u.getUser_ID() + " " + u.getName() + "  " + u.getAddress() + "  " + u.getBorn());
-        }
-    }
 }
