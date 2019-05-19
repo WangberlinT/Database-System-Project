@@ -24,7 +24,18 @@ public class FormatUtil {
 
     public String formatDate(Date date)
     {
-        return dateFormat.format(date);
+        String s = null;
+        try {
+            s = dateFormat.format(date);
+        }
+        catch (Exception e)
+        {
+            if(e instanceof NullPointerException)
+            {
+                s = null;
+            }
+        }
+        return s;
     }
 
 //    public static void main(String[] args) {

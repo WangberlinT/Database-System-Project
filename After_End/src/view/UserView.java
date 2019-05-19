@@ -13,8 +13,7 @@ public class UserView extends View{
     private UserDao userDao;
     private int News;
     private boolean hasNewActivities;
-    static final String VISIBLE = "(可见)";
-    static final String INVISIBLE = "(隐藏)";
+    static final String[] PRIVACY = {"(隐藏)","(可见)"};
 
 
     public UserView(User user)
@@ -101,14 +100,15 @@ public class UserView extends View{
 
                 switch (instruction) {
                     case 1:
-                        //todo 个人信息修改
                         modifyInfomation();
                         break;
                     case 2:
                         //todo 隐私设置
+                        modifyPrivacy();
                         break;
                     case 3:
                         //todo 密码修改
+                        modifyPassword();
                         break;
                     default:
                         throw new CustomerException("Invalid input");
@@ -120,14 +120,87 @@ public class UserView extends View{
         }
     }
 
-    public void modifyInfomation()
+    private void modifyPrivacy()
+    {
+        int instruction = -1;
+        int modify = -1;
+        final int EXIT = 0;
+        while (true)
+        {
+            System.out.print("要修改哪一项的可见性?(输入0返回上页)\n");
+            System.out.printf("<1>生日: %s\n" +
+                              "<2>地址: %s\n" +
+                              "<3>电话号码: %s\n>",
+                              user.isBorn_access(),
+                              user.isAddress_Access(),
+                              user.isPhone_Access());
+            try
+            {
+                instruction = Integer.parseInt(in.nextLine());
+
+                if(instruction == EXIT)
+                {
+                    System.out.println("正在同步...");
+                    userDao.updateUser(user);
+                    System.out.println("同步成功!");
+                    return;
+                }
+
+                System.out.printf("设置可见性为:\n<1> 可见\n<2> 隐藏\n>");
+                modify = Integer.parseInt(in.nextLine());
+                switch (instruction)
+                {
+                    case 1:
+                        if(modify == 1)
+                            user.setBorn_access(true);
+                        else
+                            user.setBorn_access(false);
+                        break;
+                    case 2:
+                        if(modify == 1)
+                            user.setAddress_Access(true);
+                        else
+                            user.setAddress_Access(false);
+                        break;
+                    case 3:
+                        if(modify == 1)
+                            user.setPhone_Access(true);
+                        else
+                            user.setPhone_Access(false);
+                        break;
+                    default:
+                        throw new CustomerException("Invalid input");
+                }
+
+            }
+            catch (Exception e)
+            {
+                if(e instanceof SQLException)
+                {
+                    System.out.println("数据库连接异常！修改失败");
+                    //todo 恢复数据
+                }
+                else
+                    System.out.println("无效输入！");
+            }
+        }
+
+    }
+
+
+
+    private void modifyPassword()
+    {
+
+    }
+
+    private void modifyInfomation()
     {
 
         int instruction = -1;
         final int EXIT = 0;
         while(true) {
-            System.out.println("要修改哪一项信息?(输入0放弃修改)");
-            System.out.print('>');
+            System.out.printf("要修改哪一项信息?(输入0返回上页)\n>");
             try {
                 instruction = Integer.parseInt(in.nextLine());
 
@@ -141,36 +214,32 @@ public class UserView extends View{
 
                 switch (instruction) {
                     case 1:
-                        System.out.println("输入新的姓名");
+                        System.out.printf("输入新的姓名\n>");
                         String newName = in.nextLine();
                         nameModify(newName);
                         break;
                     case 2:
-                        System.out.println("输入新的性别");
+                        System.out.printf("输入新的性别\n>");
                         String newSex = in.nextLine();
                         sexModify(newSex);
                         break;
                     case 3:
-                        //todo 生日修改
-                        System.out.println("输入新的生日格式:年-月-日\n例:1990-05-08");
+                        System.out.printf("输入新的生日格式:年-月-日\n例:1990-05-08\n>");
                         String newDate = in.nextLine();
                         bornModify(newDate);
                         break;
                     case 4:
-                        //todo 专业修改
-                        System.out.println("输入新的专业");
+                        System.out.printf("输入新的专业\n>");
                         String newMajor = in.nextLine();
                         majorModify(newMajor);
                         break;
                     case 5:
-                        //todo 地址修改
-                        System.out.println("输入新的地址");
+                        System.out.printf("输入新的地址\n>");
                         String address = in.nextLine();
                         addressModify(address);
                         break;
                     case 6:
-                        //todo 电话号码修改
-                        System.out.println("输入新的电话号码");
+                        System.out.printf("输入新的电话号码\n>");
                         String newPhone = in.nextLine();
                         phoneNumberModify(newPhone);
                         break;
@@ -178,12 +247,14 @@ public class UserView extends View{
                         throw new CustomerException("Invalid input");
                 }
             } catch (Exception e) {
-                System.out.println("无效输入！");
                 if(e instanceof SQLException)
                 {
                     System.out.println("数据库连接异常！修改失败");
                     //todo 恢复数据
                 }
+                else
+                    System.out.println("无效输入！");
+
             }
         }
 
