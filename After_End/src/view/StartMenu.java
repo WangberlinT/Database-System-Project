@@ -67,14 +67,14 @@ public class StartMenu extends View{
     {
         final int EXIT = 4;
         int instruction;
-
+        while(true) {
             display();
             System.out.print('>');
             try {
                 instruction = Integer.parseInt(in.nextLine());
 
                 if (instruction == EXIT)
-                    return;
+                    break;
 
                 switch (instruction) {
                     case 1:
@@ -91,13 +91,11 @@ public class StartMenu extends View{
                     default:
                         throw new CustomerException("Wrong input");
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("输入无效！");
                 e.getMessage();
-                displayMenu();
             }
+        }
     }
 
     public void signUp()
@@ -166,7 +164,7 @@ public class StartMenu extends View{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println("数据库连接失败,检查网络连接");
         }
         return false;
     }

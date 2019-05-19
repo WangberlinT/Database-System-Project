@@ -65,4 +65,21 @@ public class UserDao {
         queryRunner.update(sql, param);
     }
 
+//    public static void main(String[] args) {
+//        UserDao dao = new UserDao();
+//        try {
+//            List<User> u = dao.queryAllUser();
+//            for(User t:u)
+//            {
+//                System.out.println(t.getName());
+//            }
+//            User l = dao.queryUserByID(11711613);
+//            System.out.println(l.getName());
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

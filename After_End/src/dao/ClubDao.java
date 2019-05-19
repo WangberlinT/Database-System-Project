@@ -51,4 +51,16 @@ public class ClubDao {
         String sql = "select * from Club where Club_Name=?";
         return queryRunner.query(sql, new BeanHandler<>(Club.class), name);
     }
+
+    public static void main(String[] args) {
+        ClubDao dao = new ClubDao();
+        try
+        {
+            dao.queryAllClub();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
