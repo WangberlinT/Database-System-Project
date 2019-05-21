@@ -4,18 +4,40 @@ import bean.User;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
 import java.util.List;
 
 //学生用户的增删改查
 public class UserDao {
+    private int pageSize = 10; //每页20条数据
+    private long totalUser = getTotalUser();
+    private long totalPage = getTotalPage();
 
-    //查询所有用户
-    public List<User> queryAllUser() throws SQLException {
+    //获取总用户数量
+    public long getTotalUser() {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "SELECT COUNT(*) from User";
+            return queryRunner.query(sql, new ScalarHandler<>());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //获取总页数
+    public long getTotalPage() {
+        return (totalUser - 1) / pageSize + 1;
+    }
+
+    //查询所有用户(每页10条)
+    public List<User> queryAllUser(int currentPage) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
-        String sql = "select * from User";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class));
+        String sql = "select * from User LIMIT ?,?";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class), start, pageSize);
     }
 
     //通过uid查询用户
@@ -64,22 +86,4 @@ public class UserDao {
                 user.isAddress_Access(), user.isPhone_Access()};
         queryRunner.update(sql, param);
     }
-
-//    public static void main(String[] args) {
-//        UserDao dao = new UserDao();
-//        try {
-//            List<User> u = dao.queryAllUser();
-//            for(User t:u)
-//            {
-//                System.out.println(t.getName());
-//            }
-//            User l = dao.queryUserByID(11711613);
-//            System.out.println(l.getName());
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//
-//    }
 }
