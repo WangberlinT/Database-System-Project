@@ -16,7 +16,7 @@ public class ClubDao {
     private long totalClub = getTotalClub();
     private long totalpage = getTotalPage();
 
-    //获取总用户数量
+    //获取总社团数量
     public long getTotalClub() {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -66,10 +66,26 @@ public class ClubDao {
         queryRunner.update(sql, param);
     }
 
-    //通过社团名字查询社团
-    public Club queryClub(String name) throws SQLException {
+    //通过社团名字查询社团（精确搜索）
+    public Club queryClubPrecise(String name) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from Club where Club_Name=?";
         return queryRunner.query(sql, new BeanHandler<>(Club.class), name);
+    }
+
+    //通过社团名字查询社团（模糊搜索包含该名字的）
+    public List<Club> queryClubFuzzy(String name) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String tmp = "%" + name + "%";
+        String sql = "select * from Club where Club_Name like ?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Club.class), tmp);
+    }
+
+    //通过社团类别查询社团
+    public List<Club> queryClubByType(String type, int currentPage) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select * from Club where Club_Type=?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Club.class), type, start, pageSize);
     }
 }

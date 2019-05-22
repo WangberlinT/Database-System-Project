@@ -3,8 +3,8 @@ package bean;
 public class Club {
     private int Club_ID; //社团ID
     private String Club_Name; //社团名
-    private String Club_Type; //社团类型
-    private String Club_Intro; //社团简介
+    private String Club_Type="综合"; //社团类型
+    private String Club_Intro=null; //社团简介
     private int Club_Leader; //头头的ID
 
     public Club() {

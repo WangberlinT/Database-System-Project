@@ -1,8 +1,6 @@
 package bean;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Activity {
     private int Activity_ID; //活动ID
