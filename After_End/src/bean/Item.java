@@ -3,11 +3,11 @@ package bean;
 import java.util.Set;
 
 public class Item {
-    private int itemId; //资产ID
-    private String itemName; //资产名
-    private int value; //资产价值
-    private int itemState; //资产是否被借出
-    private Set<Club> clubs; //从属的社团
+    private int itemId; //璧勪骇ID
+    private String itemName; //璧勪骇鍚�
+    private int value; //璧勪骇浠峰��
+    private int itemState; //璧勪骇鏄惁琚�熷嚭
+    private int clubs; //浠庡睘鐨勭ぞ鍥�
 
     public Item() {
     }
@@ -21,11 +21,11 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public Set<Club> getClubs() {
+    public int getClubs() {
         return clubs;
     }
 
-    public void setClubs(Set<Club> clubs) {
+    public void setClubs(int clubs) {
         this.clubs = clubs;
     }
 
