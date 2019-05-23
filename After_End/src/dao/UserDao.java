@@ -12,8 +12,6 @@ import java.util.List;
 //学生用户的增删改查
 public class UserDao {
     private int pageSize = 10; //每页10条数据
-    private long totalUser = getTotalUser();
-    private long totalPage = getTotalPage();
 
     //获取总用户数量
     public long getTotalUser() {
@@ -29,7 +27,7 @@ public class UserDao {
 
     //获取总页数
     public long getTotalPage() {
-        return (totalUser - 1) / pageSize + 1;
+        return (getTotalUser() - 1) / pageSize + 1;
     }
 
     //查询所有用户(每页10条)
@@ -66,9 +64,37 @@ public class UserDao {
         }
         return 0;
     }
+
     //获取上述查询的总页数
     public long getTotalUserPageByName(String Name) {
         return (getTotalUserByName(Name) - 1) / pageSize + 1;
+    }
+
+    //通过社团id查询用户
+    public List<User> queryUserByClub(int cid, int currentPage) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select u.* from User u join User_Club UC on u.User_ID = UC.User_ID " +
+                "where Club_ID=? limit ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class), cid, start, pageSize);
+    }
+
+    //获取上述查询的总条目
+    public long getTotalUserByClub(int cid) {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "select count(*) from User u join User_Club UC " +
+                    "on u.User_ID = UC.User_ID where Club_ID=?";
+            return queryRunner.query(sql, new ScalarHandler<>(), cid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //获取上述查询的总页数
+    public long getTotalUserPageByClub(int cid) {
+        return (getTotalUserByClub(cid) - 1) / pageSize + 1;
     }
 
     //更新用户信息
