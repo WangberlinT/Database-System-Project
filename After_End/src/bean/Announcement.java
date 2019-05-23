@@ -1,16 +1,32 @@
 package bean;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class Announcement {
     private int Announcement_ID; //公告ID
-    private String Content; //公告内容
-    private Date Time; //发布时间
-    private String Title; //公告标题
-    private int Club_ID; //发布的社团
-    private int Publisher; //发布的学生
+    private String Content; //公告简介
+    private Timestamp Time; //发布时间
+    private String Title; //公告标题
+    private int Club_ID; //社团id
+    private int Publisher; //发布人id
+    private String club;//社团名字
+    
+    public String getClub() {
+		return club;
+	}
 
-    public Announcement() {
+	public void setClub(String club) {
+		this.club = club;
+	}
+
+	public void setTime(Timestamp time) {
+		Time = time;
+	}
+	public Timestamp getTime() {
+		return Time;
+	}
+
+	public Announcement() {
     }
 
     //getter and setter
@@ -28,14 +44,6 @@ public class Announcement {
 
     public void setContent(String content) {
         this.Content = content;
-    }
-
-    public Date getTime() {
-        return Time;
-    }
-
-    public void setTime(Date time) {
-        this.Time = time;
     }
 
     public String getTitle() {
@@ -60,5 +68,8 @@ public class Announcement {
 
     public void setPublisher(int publisher) {
         Publisher = publisher;
+    }
+    public String toString() {
+    	return "From "+club+" "+Title+": "+Content+" ("+Time.toString()+")";
     }
 }
