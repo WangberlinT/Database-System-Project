@@ -12,7 +12,7 @@ import org.apache.commons.dbutils.*;
 import org.apache.commons.dbutils.handlers.*;
 
 //通知的增删改查
-class AnnouncementDao {
+public class AnnouncementDao {
 
     //添加公告，并发送通知（存储过程实现）
     public void addAnnouncement(int cid, int uid, String content, String title) throws SQLException {

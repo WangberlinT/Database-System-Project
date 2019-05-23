@@ -195,6 +195,4 @@ public class StartMenu extends View{
         }
         return false;
     }
-
-
 }
