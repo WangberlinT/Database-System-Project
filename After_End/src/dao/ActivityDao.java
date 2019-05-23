@@ -43,7 +43,7 @@ public class ActivityDao {
         return queryRunner.query(sql, new BeanListHandler<>(User.class), uid, start, pageSize);
     }
 
-    //查看最近3个月所有社团活动总数
+    //查看最近1个月所有社团活动总数
     public long totalActivityForAllInMoth() {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -57,13 +57,13 @@ public class ActivityDao {
         return 0;
     }
 
-    //查看最近3个月所有社团活动总页数
+    //查看最近1个月所有社团活动总页数
     public long totalActivityPageForAllInMoth() {
         return (totalActivityForAllInMoth() - 1) / pageSize + 1;
     }
 
 
-    //查看最近3个月所有社团活动历史
+    //查看最近1个月所有社团活动历史
     public List<Activity> queryActivityForAllInMoth(int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -107,6 +107,20 @@ public class ActivityDao {
         String sql = "delete from Activity\n" +
                 "where Activity_ID = ?;";
         queryRunner.update(sql, id);
+    }
+
+    //查看最近一周的活动数量
+    public long totalActivityForAllweek() {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "select count(*)\n" +
+                    "from Activity\n" +
+                    "where date_sub(CURDATE(), INTERVAL 7 DAY) <= date(Start_Time) and `range` = 1;";
+            return queryRunner.query(sql, new ScalarHandler<>());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
     //test
     /*

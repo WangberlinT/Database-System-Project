@@ -22,6 +22,7 @@ public class AnnouncementDao {
         queryRunner.execute(sql, param);
     }
 
+    /**删除公告与通知表的对应项 */
     public void deleteAnno(String title, int cid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from Notification where Announcement_ID = ?";
@@ -33,6 +34,7 @@ public class AnnouncementDao {
 
     }
 
+    /**删除公告与通知表的对应项 */
     public void deleteAnno(int aid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from Notification where Announcement_ID = ?";
@@ -42,6 +44,7 @@ public class AnnouncementDao {
         queryRunner.update(sql, param);
     }
 
+    /**通过标题找公告*/
     public Announcement searchbyTitle(String title, int cid) throws SQLException {
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher from Announcement natural join Club "
                 + "where Title=? and Club_ID=?;";
@@ -51,7 +54,7 @@ public class AnnouncementDao {
 
     }
 
-    /**
+    /**改变公告内容
      * String pre is the  name of announcement before change.
      * String choose is the part you want to change.
      * input title to change tile
@@ -76,7 +79,7 @@ public class AnnouncementDao {
         }
     }
 
-    /**
+    /**找到用户自己发的公告
      * publish from me
      */
     public List<Announcement> checkmyAnno(int uid) throws SQLException {
@@ -87,6 +90,7 @@ public class AnnouncementDao {
 
     }
 
+    /**查询最近一个月的所有公告*/
     public List<Announcement> checkAnnoMonth() throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher from Announcement natural join Club "
@@ -101,7 +105,7 @@ public class AnnouncementDao {
         return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), cid);
     }
 
-    /**
+    /**查询我的未读公告
      * announce to me
      *
      */
@@ -113,6 +117,7 @@ public class AnnouncementDao {
         return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), uid);
     }
 
+    /**查询一个用户未读公告数量*/
     public long noReadAnnoNum(int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Announcement natural join Notification "
@@ -120,6 +125,7 @@ public class AnnouncementDao {
         return queryRunner.query(sql, new ScalarHandler<>());
     }
 
+    /**标记公告已读*/
     public void markread(int aid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "update Notification set Read_Time=now() and State=1"
