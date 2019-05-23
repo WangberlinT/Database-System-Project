@@ -1,6 +1,8 @@
 package view;
 
+import bean.Admin;
 import bean.User;
+import dao.AdminDao;
 import dao.UserDao;
 import util.CustomerException;
 
@@ -12,6 +14,7 @@ public class StartMenu extends View{
      private boolean isAdmin=false;
      private View view;
      private User user;
+     private Admin admin;
 
     public static void main(String[] args) {
         StartMenu startMenu = new StartMenu();
@@ -137,6 +140,30 @@ public class StartMenu extends View{
     public boolean adminPasswordCheck()
     {
         //todo 管理员密码检查
+        AdminDao adminDao = new AdminDao();
+        admin = null;
+        try {
+            admin = adminDao.queryAdminByID(inputID);
+            if(admin == null)
+            {
+                System.out.println("管理员不存在");
+                return false;
+            }
+            else
+            {
+                if(admin.getPassword().equals(inputPassword))
+                    return true;
+                else
+                {
+                    System.out.println("密码错误！");
+                    return false;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("数据库连接失败,检查网络连接");
+        }
         return false;
     }
 

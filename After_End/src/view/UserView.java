@@ -14,8 +14,6 @@ public class UserView extends View{
     private UserDao userDao;
     private int News;
     private boolean hasNewActivities;
-    static final String[] PRIVACY = {"(隐藏)","(可见)"};
-
 
     public UserView(User user)
     {
@@ -137,9 +135,10 @@ public class UserView extends View{
                         "3.下一页\n" +
                         "4.搜索\n" +
                         "5.过滤器\n" +
-                        "6.返回\n>";
+                        "6.我的活动" +
+                        "7.返回\n>";
        int instruction = -1;
-       final int EXIT = 6;
+       final int EXIT = 7;
        while (true)
        {
            //todo 获取所有活动
@@ -169,6 +168,9 @@ public class UserView extends View{
                        break;
                    case 5:
                        //todo 过滤器
+                       break;
+                   case 6:
+                       //todo 我的活动
                        break;
                    default:
                        throw new CustomerException("输入超出范围");
@@ -457,11 +459,40 @@ public class UserView extends View{
 
     }
 
+    private void modifyPassword() {
+        int instruction = -1;
+        String inpassword;
+        final int EXIT = 2;
+        while (true) {
+            System.out.printf("---更改用户: %d 的密码---\n"
+                    + "确保以下操作为本人操作\n"
+                    + "1.继续修改\n"
+                    + "2.退回上一栏\n>", user.getUser_ID());
 
+            try {
+                instruction = Integer.parseInt(in.nextLine());
 
-    private void modifyPassword()
-    {
+                if (instruction == 1) {
+                    System.out.print("输入原密码\n>");
+                    inpassword = in.nextLine();
+                    if (inpassword.equals(user.getPassword())) {
+                        System.out.print("输入新密码\n>");
+                        inpassword = in.nextLine();
+                        user.setPassword(inpassword);
+                        System.out.println("正在同步...");
+                        userDao.updateUser(user);
+                        System.out.println("更改成功!");
+                    } else
+                        System.out.println("原密码错误!");
+                } else if (instruction == 2)
+                    break;
+                else
+                    throw new CustomerException("输入超出范围");
 
+            } catch (Exception e) {
+                //todo 异常处理
+            }
+        }
     }
 
     private void modifyInfomation()

@@ -1,9 +1,12 @@
 package view;
 import bean.*;
+import dao.AdminDao;
+import util.CustomerException;
 
 
 public class AdminView extends View {
     Admin admin;
+    AdminDao adminDao = new AdminDao();
 
     public AdminView(int ID,String password)
     {
@@ -19,7 +22,7 @@ public class AdminView extends View {
     public void display()
     {
         System.out.printf(
-                         "Welcome Admin: %d\n"
+                          "Welcome Admin: %d\n"
                          +"-----------------\n"
                          +"1.修改密码\n"
                          +"2.管理社团\n"
@@ -33,41 +36,39 @@ public class AdminView extends View {
     //Admin 主菜单
     public void displayMenu()
     {
+        int instruction;
         final int EXIT = 5;
-        int instruction = -1;
 
-        while(true)
-        {
+        while (true) {
             display();
             System.out.print('>');
-            String temp = in.nextLine();
-            if(temp.length() == 1)
-            {
-                if(Character.isDigit(temp.charAt(0)))
-                    instruction = Character.getNumericValue(temp.charAt(0));
-            }
 
-            if(instruction == EXIT)
-                break;
+            try {
+                instruction = Integer.parseInt(in.nextLine());
 
-            switch (instruction)
-            {
-                case 1:
-                    //todo 修改密码界面
+                if (instruction == EXIT)
                     break;
-                case 2:
-                    //todo 社团管理界面
-                    break;
-                case 3:
-                    //todo 管理用户界面
-                    break;
-                case 4:
-                    //todo 管理活动界面
-                    break;
-                default:
-                    System.out.println("-------------"
-                            +"invalid input\n"
-                            +"-------------\n");
+
+                switch (instruction) {
+                    case 1:
+                        changePasswordMenu();
+                        break;
+                    case 2:
+                        //todo 管理社团
+                        //1.当前社团数量
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+
+                    default:
+                        throw new CustomerException("Wrong input");
+                }
+            } catch (Exception e) {
+                System.out.println("无效输入！");
             }
         }
 
@@ -76,25 +77,49 @@ public class AdminView extends View {
     public void changePasswordMenu()
     {
         //输入原密码如果相同则可以修改
+        int instruction = -1;
+        String inpassword;
+        final int EXIT = 2;
         while(true)
         {
             System.out.printf("---更改用户: %d 的密码---\n"
-                    +"确保以下操作为本人操作\n"
-                    +"1.继续修改\n"
-                    + "2.退回上一栏\n", admin.getAdmin_Id());
+                             +"确保以下操作为本人操作\n"
+                             +"1.继续修改\n"
+                             +"2.退回上一栏\n>", admin.getAdmin_Id());
 
+            try {
+                instruction = Integer.parseInt(in.nextLine());
 
+                if(instruction == 1)
+                {
+                    System.out.print("输入原密码\n>");
+                    inpassword = in.nextLine();
+                    if(inpassword.equals(admin.getPassword()))
+                    {
+                        System.out.print("输入新密码\n>");
+                        inpassword = in.nextLine();
+                        admin.setPassword(inpassword);
+                        System.out.println("正在同步...");
+                        adminDao.updateAdmin(admin);
+                        System.out.println("更改成功!");
+                    }
+                    else
+                        System.out.println("原密码错误!");
+                }
+                else if(instruction == 2)
+                    break;
+                else
+                    throw new CustomerException("输入超出范围");
+
+            }
+            catch (Exception e)
+            {
+                //todo 异常处理
+            }
 
 
         }
     }
-
-
-//    public static void main(String[] args)
-//    {
-//        AdminView adminView = new AdminView(111,"8888");
-//        adminView.mainMenuAction();
-//    }
 
 
 
