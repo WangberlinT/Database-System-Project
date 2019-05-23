@@ -1,5 +1,6 @@
 package bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class User {
     private boolean Address_Access = false;
     private boolean Phone_Access = false;
     public final static String[] GENDER = {"男", "女"};
-    private List<Club> clubList; //加入的社团
+    private List<Club> clubList = new ArrayList<>(); //加入的社团
     private List<Integer> authority;//权限
 
     public User() {
@@ -118,5 +119,7 @@ public class User {
     public void setPhone_Number(String phone_Number) {
         Phone_Number = phone_Number;
     }
+
+    public List<Club> getClub(){return clubList;}
 
 }

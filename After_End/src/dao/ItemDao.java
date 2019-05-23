@@ -85,11 +85,11 @@ public class ItemDao {
 		
 	}
 	
-	public List<itemshow> checkclubAll(int cid) throws SQLException {
+	public List<showitem> checkclubAll(int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select count(Item_Value and Item_Name) num, Item_Name name,Item_Value value from Item natural join Item_Belong "
 				+ "where Club_ID=? group by Item_Name , Item_Value;";
-		return queryRunner.query(sql,new BeanListHandler<>(itemshow.class),cid);
+		return queryRunner.query(sql,new BeanListHandler<>(showitem.class),cid);
 	}
 
 	
