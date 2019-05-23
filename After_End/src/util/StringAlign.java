@@ -41,7 +41,7 @@ public class StringAlign {
     /**
      * 对齐一个字符串
      *
-     * @param obj
+     *
      *            待对齐的字符串
      */
     public String format(String s) {
@@ -129,25 +129,25 @@ public class StringAlign {
         }
     }
 
-    public static void main(String[] args) {
-        // 一行最多70个字符，居中显示。
-        StringAlign formatter = new StringAlign(20, StringAlign.JUST_CENTER);
-        // 比如显示页码
-        System.out.println(formatter.format("- i -"));
-        System.out.println(formatter.format(Integer.toString(444)));
-        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
-        // 左对齐
-        System.out.println();
-        formatter = new StringAlign(20, StringAlign.JUST_LEFT);
-        System.out.println(formatter.format("- i -"));
-        System.out.println(formatter.format(Integer.toString(444)));
-        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
-        // 右对齐
-        System.out.println();
-        formatter = new StringAlign(20, StringAlign.JUST_RIGHT);
-        System.out.println(formatter.format("- i -"));
-        System.out.println(formatter.format(Integer.toString(444)));
-        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
-    }
+//    public static void main(String[] args) {
+//        // 一行最多70个字符，居中显示。
+//        StringAlign formatter = new StringAlign(20, StringAlign.JUST_CENTER);
+//        // 比如显示页码
+//        System.out.println(formatter.format("- i -"));
+//        System.out.println(formatter.format(Integer.toString(444)));
+//        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
+//        // 左对齐
+//        System.out.println();
+//        formatter = new StringAlign(20, StringAlign.JUST_LEFT);
+//        System.out.println(formatter.format("- i -"));
+//        System.out.println(formatter.format(Integer.toString(444)));
+//        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
+//        // 右对齐
+//        System.out.println();
+//        formatter = new StringAlign(20, StringAlign.JUST_RIGHT);
+//        System.out.println(formatter.format("- i -"));
+//        System.out.println(formatter.format(Integer.toString(444)));
+//        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
+//    }
 }
 
