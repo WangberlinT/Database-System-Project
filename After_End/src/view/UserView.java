@@ -242,20 +242,21 @@ public class UserView extends View{
         int instruction = -1;//第一级instruction
         int instruction_2 = -1;//第二级instruction
         final int EXIT = 4;
+        int size = 0;
         while(true)
         {
             //todo 序号+展示所有加入的社团
-            //例如：<1>篮球社
-            List<Club> clubs = user.getClub();
-            int size = clubs.size();
+            //例如：<1>篮球社 List<Club> clubs = user.getClub();
+//
+//            int size = clubs.size();
             if(size == 0)
                 System.out.printf("-------------\n" +
                                    "没有加入任何社团\n" +
                                    "-------------\n");
-            for(int i = 1;i <= size;i ++)
-            {
-                System.out.printf("<%d>%s\n",i,clubs.get(i-1).getClub_Name());
-            }
+//            for(int i = 1;i <= size;i ++)
+//            {
+//                System.out.printf("<%d>%s\n",i,clubs.get(i-1).getClub_Name());
+//            }
             //设置中可以修改社团的排序方式(按时间排序还是按人数排序)
             System.out.printf("1.查看社团信息*\n" +
                               "2.创建社团*\n" +
@@ -281,7 +282,7 @@ public class UserView extends View{
                             throw new CustomerException("输入超出范围");
                         //正确输入
                         //todo 展示社团信息
-                        clubInfo(clubs.get(instruction_2));
+//                        clubInfo(clubs.get(instruction_2));
                         break;
                     case 2:
                         //todo 创建社团
