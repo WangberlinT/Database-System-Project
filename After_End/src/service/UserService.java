@@ -2,15 +2,18 @@ package service;
 
 import bean.User;
 import dao.UserDao;
-import util.FormatUtil;
 
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
-public class UserService {
+public class UserService extends BaseService{
     private static UserDao userDao = new UserDao();
-    private static FormatUtil fu = new FormatUtil();
     private User user;
+    private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
 
+    //修改个人信息：
     //换名字
     private void nameModify(String newName) {
         if (newName.length() <= 20)
@@ -54,15 +57,72 @@ public class UserService {
         System.out.println("电话号码修改成功!");
     }
 
+    //查询/搜索 用户
+
+    //默认查全部
+    public void searchUser(Scanner in) throws SQLException {
+        int page = 1;
+        long total = userDao.getTotalUser();
+        if (total != 0) {
+            System.out.printf("总共查询到%s位用户\n", total);
+        } else {
+            System.out.println("没有查询到结果");
+            return;
+        }
+        long totalPage = userDao.getTotalPage();
+        System.out.println(formatter.format(head));
+        while (page < totalPage) {
+            List<User> list = userDao.queryAllUser(page);
+            page = PrintPage(page, list, in);
+            if (page == 0) return;
+        }
+    }
+
+    //通过用户名
+    public void searchUser(String name, Scanner in) throws SQLException {
+        int page = 1;
+        long total = userDao.getTotalUserByName(name);
+        if (total != 0) {
+            System.out.printf("总共查询到%s位名为%s的用户", total, name);
+        } else {
+            System.out.println("没有查询到结果");
+            return;
+        }
+        long totalPage = userDao.getTotalUserPageByName(name);
+        System.out.println(formatter.format(head));
+        while (page < totalPage) {
+            List<User> list = userDao.queryUserByName(name, page);
+            page = PrintPage(page, list, in);
+            if (page == 0) return;
+        }
+    }
+
+    //通过id(重载)
+    public void serachUser(int uid) throws SQLException {
+        User u = userDao.queryUserByID(uid);
+        if (u != null) {
+            System.out.println(formatter.format(head));
+            System.out.println(formatter.format(u.toString()));
+        } else {
+            System.out.println("没有查询到结果");
+        }
+    }
+
+
+    //消息盒子：
     //检查新信息
-    public void checkNews() {
+    public long checkNews() {
+        int news = 0;
         //todo 检查数据库中有没有新的发给本对象的申请或者公告
-//        News = 3;//查询结果，这里仅做测试
+
+        return news;
     }
 
     //检查新活动
-    public void checkNewActivities() {
+    public boolean checkNewActivities() {
+        boolean has = false;
         //todo 检查数据库中是否有新活动
 //        hasNewActivities = true;//同checkNews
+        return has;
     }
 }

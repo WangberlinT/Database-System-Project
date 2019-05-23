@@ -20,13 +20,20 @@ public class User {
     public User() {
     }
 
-    public User(int ID, String Password,String Name,String Sex) {
+    public User(int ID, String Password, String Name, String Sex) {
         this.User_ID = ID;
         this.Password = Password;
         this.Name = Name;
         this.Sex = Sex;
     }
 
+    @Override
+    public String toString() {
+        String born = (Born_access && Born != null) ? Born.toString() : "<隐藏>";
+        String addr = (Address_Access && Address != null) ? Address : "<隐藏>";
+        String pho = (Phone_Access && Phone_Number != null) ? Phone_Number : "<隐藏>";
+        return User_ID + "  " + Name + "  " + Sex + "  " + Major + "  " + born + "  " + addr + "  " + pho;
+    }
 
     //getter and setter
     public int getUser_ID() {
