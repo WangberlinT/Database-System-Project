@@ -1,6 +1,7 @@
 package dao;
 
 import bean.User;
+import bean.Club;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -31,6 +32,14 @@ public class UserDao {
     public long getTotalPage() {
         return (totalUser - 1) / pageSize + 1;
     }
+
+    //查询一个社团里面的的人
+    public List<User> queryclubUser(Club club,int currentPage) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
+        String sql = "select * from User_Club where Club_ID=? LIMIT ?,?";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class),club.getClub_ID());
+    }
+
 
     //查询所有用户(每页10条)
     public List<User> queryAllUser(int currentPage) throws SQLException {

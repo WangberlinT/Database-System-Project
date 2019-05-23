@@ -44,25 +44,27 @@ public class ClubDao {
     //注册社团
     public void addClub(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "insert into Club(Club_ID, Club_Name, Club_Type, Club_Intro, Club_Leader)" +
-                "VALUES (?, ?, ?, ?, ?);";
-        Object[] param = {club.getClub_ID(), club.getClub_Name(), club.getClub_Type(), club.getClub_Intro(), club.getClub_Leader()};
+        String sql = "insert into Club(Club_ID, Club_Name, Club_Type, Club_Intro, Club_Leader,Club_State)" +
+                "VALUES (?, ?, ?, ?, ?,?);";
+        Object[] param = {club.getClub_ID(), club.getClub_Name(), club.getClub_Type(), club.getClub_Intro(), club.getClub_Leader(),club.getClub_State()};
         queryRunner.update(sql, param);
     }
 
-    //删除社团(有问题 没写完）
+    //删除社团(将社团变为闲置状态,同时删除社团里的人）
     public void deleteClub(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "delete from Club where Club_ID=?";
+        String sql = "update Club set Club_State=0 where Club_ID=?";
+        String sql1 = "delete from User_Club where Club_ID=?";
         Object[] param = {club.getClub_ID()};
         queryRunner.update(sql, param);
+        queryRunner.update(sql1, param);
     }
 
     //更新社团信息
     public void updateClub(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "update Club set Club_Name=?, Club_Type=?, Club_Intro=?, Club_Leader=?  where Club_ID=?";
-        Object[] param = {club.getClub_Name(), club.getClub_Type(), club.getClub_Intro(), club.getClub_Leader(), club.getClub_ID()};
+        String sql = "update Club set Club_Name=?, Club_Type=?, Club_Intro=?, Club_Leader=?,club_State=?  where Club_ID=?";
+        Object[] param = {club.getClub_Name(), club.getClub_Type(), club.getClub_Intro(), club.getClub_Leader(),club.getClub_State(),club.getClub_ID()};
         queryRunner.update(sql, param);
     }
 
