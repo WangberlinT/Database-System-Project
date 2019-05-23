@@ -41,7 +41,7 @@ public class StringAlign {
     /**
      * 对齐一个字符串
      *
-     * @param obj
+     *
      *            待对齐的字符串
      */
     public String format(String s) {
@@ -148,6 +148,6 @@ public class StringAlign {
 //        System.out.println(formatter.format("- i -"));
 //        System.out.println(formatter.format(Integer.toString(444)));
 //        System.out.println(formatter.format("kkkkkkkkkkkkkkkkkkkkkkkkkkkk"));
-    }
+//    }
 }
 
