@@ -44,14 +44,14 @@ public class EvaluationDao {
         return (totalEvaOfAct(aid) - 1) / pageSize + 1;
     }
 
-    //查询活动的全部评价
+    //查询活动的全部评价,时间降序
     public List<Evaluation_Activity> queryEvaluationOfAct(int aid, int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
                 "from Evaluation_Activity eq\n" +
                 "         join Evaluation E on eq.Evaluation_ID = E.Evaluation_ID\n" +
-                "where Activity_ID=? LIMIT ?,?;";
+                "where Activity_ID=? order by Time desc LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Evaluation_Activity.class), aid, start, pageSize);
     }
 
@@ -78,14 +78,14 @@ public class EvaluationDao {
         return (totalEvaOfMember(uid) - 1) / pageSize + 1;
     }
 
-    //查询用户的所有社团评价,按页数来
+    //查询用户的所有社团评价,按页数来,时间降序
     public List<Evaluation_Member> queryEvaluationOfMember(int uid, int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
                 "from Evaluation_Member em\n" +
                 "         join Evaluation E on em.Evaluation_ID = E.Evaluation_ID\n" +
-                "where em.Member_ID = ? LIMIT ?,?;";
+                "where em.Member_ID = ? order by Time LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Evaluation_Member.class), uid, start, pageSize);
     }
 

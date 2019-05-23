@@ -16,8 +16,6 @@ public class User {
     private boolean Address_Access = false;
     private boolean Phone_Access = false;
     public final static String[] GENDER = {"男", "女"};
-    private List<Club> clubList; //加入的社团
-    private List<Integer> authority;//权限
 
     public User() {
     }

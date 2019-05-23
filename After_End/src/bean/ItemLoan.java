@@ -1,71 +1,74 @@
 package bean;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ItemLoan {
-    private int loanId; //借出记录ID
-    private Item item; //被借出的资产
-    private User user; //借出的学生
-    private Date start; //借出时间
-    private Date end; //借出截止时间
-    private Date returnDate; //归还时间
+	private int Item_ID;
+	private String Item_Name;
+	private int Item_Value;
+	private int User_ID;
+	private String Name;
+	private Timestamp Start_Time;
+	private String Phone_Number;
 
-    public ItemLoan(){}
+    public int getItem_ID() {
+		return Item_ID;
+	}
 
-    //getter and setter
-    public Date getStart() {
-        return start;
-    }
+	public void setItem_ID(int item_ID) {
+		Item_ID = item_ID;
+	}
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
+	public String getItem_Name() {
+		return Item_Name;
+	}
 
-    public Date getReturnDate() {
-        return returnDate;
-    }
+	public void setItem_Name(String item_Name) {
+		Item_Name = item_Name;
+	}
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
+	public int getItem_Value() {
+		return Item_Value;
+	}
 
-    public int getLoanId() {
-        return loanId;
-    }
+	public void setItem_Value(int item_Value) {
+		Item_Value = item_Value;
+	}
 
-    public void setLoanId(int loanId) {
-        this.loanId = loanId;
-    }
+	public int getUser_ID() {
+		return User_ID;
+	}
 
-    public Item getItem() {
-        return item;
-    }
+	public void setUser_ID(int user_ID) {
+		User_ID = user_ID;
+	}
 
-    public void setItem(Item item) {
-        this.item = item;
-    }
+	public String getName() {
+		return Name;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setName(String name) {
+		Name = name;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public Timestamp getStart_Time() {
+		return Start_Time;
+	}
 
-    public Date getstart() {
-        return start;
-    }
+	public void setStart_Time(Timestamp start_Time) {
+		Start_Time = start_Time;
+	}
 
-    public void setstart(Date start) {
-        this.start = start;
-    }
+	public String getPhone_Number() {
+		return Phone_Number;
+	}
 
-    public Date getEnd() {
-        return end;
-    }
+	public void setPhone_Number(String phone_Number) {
+		Phone_Number = phone_Number;
+	}
 
-    public void setEnd(Date end) {
-        this.end = end;
-    }
+	public ItemLoan(){}
+
+
 }
