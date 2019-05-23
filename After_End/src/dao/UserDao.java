@@ -32,7 +32,7 @@ public class UserDao {
     }
 
     //查询一个社团里面的的人
-    public List<User> queryclubUser(Club club,int currentPage) throws SQLException {
+    public List<User> queryclubUser(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
         String sql = "select * from User_Club where Club_ID=? LIMIT ?,?";
         return queryRunner.query(sql, new BeanListHandler<>(User.class),club.getClub_ID());
