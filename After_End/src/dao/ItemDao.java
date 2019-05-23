@@ -13,22 +13,11 @@ import bean.User;
 
 
 
-class showitem{
-	int num;
-	int value;
-	String name;
-	showitem(int a,int b,String n){
-		num=a;value=b;name=n;
-	}
-	
-	public String toString() {
-		return name+" "+value+" "+num;
-	}
-}
-
 
 public class ItemDao {
 	
+	
+	/**向指定社团插入道具*/
 	public void insertItem(int cid,String name,int value) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="call addItem(?,?,?);";
@@ -37,13 +26,14 @@ public class ItemDao {
 				
 	}
 
+	/**用户借物品*/
 	public void borrowItem(int uid,int iid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="call borrowItem(?,?);";
 		Object[] param = {sql, uid,iid};
 		queryRunner.update(sql, param);
 	}
-	
+	/**用户解物品*/
 	public void borrowItem(int uid,String iid,int cid) throws SQLException {
 		List<Item> rs=checkItem(cid,iid);
 		if(rs.size()!=0) {
@@ -56,8 +46,9 @@ public class ItemDao {
 	
 
 	
-	/**which not loan*/
-	public List<Item> checkItem(int cid) throws SQLException {
+	/**查询一个社团未被借用的item
+	 * which not loan*/
+	public List<Item> checknoBorrowItem(int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		
 		String sql="select Item_ID itemId,Item_Name itemName,Item_Value value,Loan_State itemState,Club_ID clubs"
@@ -65,7 +56,8 @@ public class ItemDao {
 				+ "where Club_ID=?  and Loan_State=0;";
 			return queryRunner.query(sql, new BeanListHandler<>(Item.class),cid);
 	}
-	
+	/**查询一个社团未被借用的item
+	 * which not loan*/
 	public List<Item> checkItem(int cid ,String name) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		
@@ -75,6 +67,7 @@ public class ItemDao {
 			return queryRunner.query(sql, new BeanListHandler<>(Item.class),cid,name);
 	}
 	
+	/**查询一个社团被借用的item*/
 	public List<ItemLoan> checkItemBclub(int cid) throws SQLException{
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Item_ID,Item_Name,Item_Value,User_ID,Name,Start_Time,Phone_Number\n" + 
@@ -85,15 +78,16 @@ public class ItemDao {
 		
 	}
 	
-	public List<showitem> checkclubAll(int cid) throws SQLException {
+	/**简洁查看社团内所有物品（只显示数量）*/
+	public List<ItemShow> checkclubAll(int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select count(Item_Value and Item_Name) num, Item_Name name,Item_Value value from Item natural join Item_Belong "
 				+ "where Club_ID=? group by Item_Name , Item_Value;";
-		return queryRunner.query(sql,new BeanListHandler<>(showitem.class),cid);
+		return queryRunner.query(sql,new BeanListHandler<>(ItemShow.class),cid);
 	}
 
 	
-	/**check item i borrow */
+	/**查看用户借了什么*/
 	public List<Item> checkBorrow(int uid,String name) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Item_ID itemId,Item_Name itemName,Item_Value value,Loan_State itemState,Club_ID clubs"
@@ -102,7 +96,7 @@ public class ItemDao {
 		return queryRunner.query(sql, new BeanListHandler<>(Item.class),name,uid);
 		
 	}
-	
+	/**还道具*/
 	public void huanItem(int uid,String name) throws SQLException {
 		List<Item> rs=checkBorrow(uid,name);
 		if(rs.size()!=0) {
@@ -111,14 +105,14 @@ public class ItemDao {
 			System.out.println("you have no such thing to return");
 		}
 	}
-	
+	/**换道具*/
 	public void huanItem(int uid,int iid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="call returnItem(?,?);";		
 		Object[] param = {uid,iid};
 		queryRunner.update(sql, param);
 	}
-	
+	/**删除道具*/
 	public void deleteItem(int iid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql=	"delete from Item_Belong where Item_ID = ?;\n";
@@ -130,13 +124,5 @@ public class ItemDao {
 		queryRunner.update(sql, param);
 	}
 
-	public static void main(String[] args) throws SQLException
-    {
-    	  ItemDao itd=new ItemDao();
-          itd.insertItem(2, "newbee", 100000);
-       
-        System.out.println("over");
-
-    }
 	
 }
