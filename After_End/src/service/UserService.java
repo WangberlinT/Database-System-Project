@@ -70,21 +70,8 @@ public class UserService extends BaseService {
         System.out.println("电话号码修改成功!");
     }
 
-    //查询/搜索 用户
-
-    //默认查全部
-    public void searchUser(Scanner in) throws SQLException {
-        int page = 1;
-        long total = userDao.getTotalUser();
-        long totalPage = (total - 1) / pageSize + 1;
-        if (queryNotValid(total)) return;
-        while (page <= totalPage) {
-            List<User> list = userDao.queryAllUser(page, pageSize);
-            page = PrintPage(page, totalPage, head, list);
-            if (page == 0) return;
-        }
-    }
-    //管理员查询所有User
+    //--------------管理员查询User--------------------------------------------------
+    //查询所有
     public void searchUserAdmin(Scanner in) throws SQLException
     {
         String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
@@ -103,6 +90,54 @@ public class UserService extends BaseService {
                 stringList.add(info);
             }
             page = PrintPage(page, totalPage, title, stringList);
+            if (page == 0) return;
+        }
+    }
+    //以id查询
+    public void searchUserAdmin(int uid) throws SQLException {
+        String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
+        User temp = userDao.queryUserByID(uid);
+        if (temp != null) {
+            String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+            System.out.println(formatter.format(title));
+            System.out.println(formatter.format(info));
+        } else {
+            System.out.println("没有查询到结果");
+        }
+    }
+    //以姓名查询
+    public void searchUserAdmin(String name, Scanner in) throws SQLException {
+        int page = 1;
+        long total = userDao.getTotalUserByName(name);
+        long totalPage = (total - 1) / pageSize + 1;
+        if (queryNotValid(total)) return;
+        while (page <= totalPage) {
+            List<User> list = userDao.queryUserByName(name, page, pageSize);
+            List<String> stringList = new ArrayList<>();
+            for(int i = 0;i < list.size();i ++)
+            {
+                User temp = list.get(i);
+                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+                stringList.add(info);
+            }
+            page = PrintPage(page, totalPage, head, list);
+            if (page == 0) return;
+        }
+    }
+
+    //-----------------------------------------------------------------------------
+
+    //查询/搜索 用户
+
+    //默认查全部
+    public void searchUser(Scanner in) throws SQLException {
+        int page = 1;
+        long total = userDao.getTotalUser();
+        long totalPage = (total - 1) / pageSize + 1;
+        if (queryNotValid(total)) return;
+        while (page <= totalPage) {
+            List<User> list = userDao.queryAllUser(page, pageSize);
+            page = PrintPage(page, totalPage, head, list);
             if (page == 0) return;
         }
     }

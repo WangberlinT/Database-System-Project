@@ -131,7 +131,7 @@ public class StringAlign {
 
 //    public static void main(String[] args) {
 //        // 一行最多70个字符，居中显示。
-//        StringAlign formatter = new StringAlign(20, StringAlign.JUST_CENTER);
+//        StringAlign formatter = new StringAlign(70, StringAlign.JUST_CENTER);
 //        // 比如显示页码
 //        System.out.println(formatter.format("- i -"));
 //        System.out.println(formatter.format(Integer.toString(444)));

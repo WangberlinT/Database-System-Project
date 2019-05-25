@@ -21,7 +21,7 @@ public class AdminView extends View {
     public void displayMenu()
     {
         int instruction;
-        final int EXIT = 5;
+        final int EXIT = 6;
 
         while (true) {
             System.out.printf(
@@ -53,7 +53,10 @@ public class AdminView extends View {
                         aum.run();
                         break;
                     case 4:
-
+                        //todo 管理活动
+                        break;
+                    case 5:
+                        //todo 管理admin
                         break;
 
                     default:
