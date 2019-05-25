@@ -2,7 +2,6 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -12,49 +11,49 @@ import bean.Apply;
 
 public class ApplyDao {
 
-	//ÉêÇë½¨Éç
+	//ç”³è¯·å»ºç¤¾
 	public void inserClubBuild(String cname,String ctype,String reason,int uid,int tid) throws SQLException {
 		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('½¨ÉçÉêÇë',?,?,?);";
+				+ "VALUES ('å»ºç¤¾ç”³è¯·',?,?,?);";
 		String content=ctype+" "+cname+":"+reason;
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
 		queryRunner.update(sql, param);
 	}
-	//ÉêÇë¾Ù°ì»î¶¯
+	//ç”³è¯·ä¸¾åŠæ´»åŠ¨
 	public void insertActAdd(String content,int uid,int tid) throws SQLException {
 		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('»î¶¯ÉêÇë',?,?,?);";
+				+ "VALUES ('æ´»åŠ¨ç”³è¯·',?,?,?);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
 		queryRunner.update(sql, param);
 	}
-	//ÉêÇë¼ÓÈëÉçÍÅ
+	//ç”³è¯·åŠ å…¥ç¤¾å›¢
 	public void insertJoinClub(int uid,String content,int tid) throws SQLException {
 		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('ÈëÉçÉêÇë',?,?,?);";
+				+ "VALUES ('å…¥ç¤¾ç”³è¯·',?,?,?);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
 		queryRunner.update(sql, param);
 	}
-	//µÃµ½Éç³¤Ñ§ºÅ
+	//å¾—åˆ°ç¤¾é•¿å­¦å·
 	public long getszID(int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Club_Leader from Club where Club_ID=?;";
 				return queryRunner.query(sql, new ScalarHandler<>(),cid);
 	}
-	//ÉêÇëÈëÉç£¨ÉçÍÅidÖØĞ´£©
+	//ç”³è¯·å…¥ç¤¾ï¼ˆç¤¾å›¢idé‡å†™ï¼‰
 	public void insertJoinClub(int uid,int cid,String content) throws SQLException {
 		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('ÈëÉçÉêÇë',?,?,?);";
+				+ "VALUES ('å…¥ç¤¾ç”³è¯·',?,?,?);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,getszID(cid),content};
 		queryRunner.update(sql, param);
 	}
-	//±ê¼ÇÒÑ¶Á
+	//æ ‡è®°å·²è¯»
 	public void markread(int appid) throws SQLException {
 		String sql="update Apply_To_Studert set Apply_State=1 where Apply_ID=?;";
 		
@@ -62,31 +61,31 @@ public class ApplyDao {
 		Object[] param = {appid};
 		queryRunner.update(sql, param);
 	}
-	//²é¿´½¨ÉçÉêÇë
+	//æŸ¥çœ‹å»ºç¤¾ç”³è¯·
 	public List<Apply> getClubBuild(int tid) throws SQLException{
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_Type='½¨ÉçÉêÇë' and Apply_To =? and Apply_State=0;";
+				"where Apply_Type='å»ºç¤¾ç”³è¯·' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
-	//²é¿´»î¶¯ÉêÇë
+	//æŸ¥çœ‹æ´»åŠ¨ç”³è¯·
 	public List<Apply> getActadd(int tid) throws SQLException{
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_Type='»î¶¯ÉêÇë' and Apply_To =? and Apply_State=0;";
+				"where Apply_Type='æ´»åŠ¨ç”³è¯·' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
-	//²é¿´ÈëÉçÉêÇë
+	//æŸ¥çœ‹å…¥ç¤¾ç”³è¯·
 	public List<Apply> getJoinClub(int tid) throws SQLException{
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_Type='ÈëÉçÉêÇë' and Apply_To =? and Apply_State=0;";
+				"where Apply_Type='å…¥ç¤¾ç”³è¯·' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
-	//²é¿´ËùÓĞÉêÇë
+	//æŸ¥çœ‹æ‰€æœ‰ç”³è¯·
 	public List<Apply> getAllApply(int tid) throws SQLException{
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
@@ -94,11 +93,11 @@ public class ApplyDao {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
-	//²é¿´ÉêÇëÊıÁ¿
+	//æŸ¥çœ‹ç”³è¯·æ•°é‡
 	public long getApplyNum(int tid) throws SQLException{
 		String sql="select COUNT(*) \n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_Type='ÈëÉçÉêÇë' and Apply_To =? and Apply_State=0;";
+				"where Apply_Type='å…¥ç¤¾ç”³è¯·' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new ScalarHandler<>(),tid);
 	}

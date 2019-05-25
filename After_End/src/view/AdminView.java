@@ -1,38 +1,22 @@
 package view;
 import bean.*;
 import dao.AdminDao;
+import service.*;
 import util.CustomerException;
 
 
 public class AdminView extends View {
-    Admin admin;
-    AdminDao adminDao = new AdminDao();
+    private Admin admin;
+    private AdminDao adminDao;
+    private AdminUserManager aum;
 
     public AdminView(int ID,String password)
     {
         admin = new Admin(ID,password);
+        adminDao = new AdminDao();
+        aum = new AdminUserManager();
     }
 
-    public boolean accountCheck(String ID,String Password)
-    {
-        //to do check Table admin,compare ID and Password
-        return true;
-    }
-
-    public void display()
-    {
-        System.out.printf(
-                          "Welcome Admin: %d\n"
-                         +"-----------------\n"
-                         +"1.修改密码\n"
-                         +"2.管理社团\n"
-                         +"3.管理用户\n"
-                         +"4.管理活动\n"
-                         +"5.退出登陆\n"
-                , admin.getAdmin_Id());
-
-
-    }
     //Admin 主菜单
     public void displayMenu()
     {
@@ -40,8 +24,16 @@ public class AdminView extends View {
         final int EXIT = 5;
 
         while (true) {
-            display();
-            System.out.print('>');
+            System.out.printf(
+                            "Welcome Admin: %d\n"
+                            +"-----------------\n"
+                            +"1.修改密码\n"
+                            +"2.管理社团\n"
+                            +"3.管理用户\n"
+                            +"4.管理活动\n"
+                            +"5.管理员账号管理\n"
+                            +"6.退出登陆\n>"
+                    , admin.getAdmin_Id());
 
             try {
                 instruction = Integer.parseInt(in.nextLine());
@@ -58,7 +50,7 @@ public class AdminView extends View {
                         //1.当前社团数量
                         break;
                     case 3:
-
+                        aum.run();
                         break;
                     case 4:
 

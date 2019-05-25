@@ -4,6 +4,7 @@ import bean.User;
 import dao.UserDao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +13,12 @@ public class UserService extends BaseService {
     private static UserDao userDao = new UserDao();
     private User user;
     private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
+
+    //重载默认构造函数
+    public UserService(Scanner in)
+    {
+        this.in = in;
+    }
 
     //构造函数
     UserService(Scanner inO, User userO) {
@@ -74,6 +81,28 @@ public class UserService extends BaseService {
         while (page <= totalPage) {
             List<User> list = userDao.queryAllUser(page, pageSize);
             page = PrintPage(page, totalPage, head, list);
+            if (page == 0) return;
+        }
+    }
+    //管理员查询所有User
+    public void searchUserAdmin(Scanner in) throws SQLException
+    {
+        String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
+        int page = 1;
+        long total = userDao.getTotalUser();
+        long totalPage = (total - 1) / pageSize + 1;
+        if (queryNotValid(total)) return;
+        while (page <= totalPage) {
+            List<User> list = userDao.queryAllUser(page, pageSize);
+            //将User 所有信息显示出来,用String list存
+            List<String> stringList = new ArrayList<>();
+            for(int i = 0;i <list.size();i ++)
+            {
+                User temp = list.get(i);
+                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+                stringList.add(info);
+            }
+            page = PrintPage(page, totalPage, title, stringList);
             if (page == 0) return;
         }
     }
