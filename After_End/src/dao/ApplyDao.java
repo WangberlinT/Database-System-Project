@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
+
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -93,7 +94,7 @@ public class ApplyDao {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
-	//查看申请数量
+	//查看所有申请数量
 	public long getApplyNum(int tid) throws SQLException{
 		String sql="select COUNT(*) \n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 

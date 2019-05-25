@@ -17,7 +17,7 @@ public class ClubDao {
     private long totalpage = getTotalPage();
 
     //获取总社团数量
-    private long getTotalClub() {
+    public long getTotalClub() {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "SELECT COUNT(*) from Club";
@@ -29,7 +29,7 @@ public class ClubDao {
     }
 
     //总页数
-    private long getTotalPage() {
+    public long getTotalPage() {
         return (totalClub - 1) / pageSize + 1;
     }
 
@@ -76,13 +76,21 @@ public class ClubDao {
     }
 
     //通过社团名字查询社团（模糊搜索包含该名字的）
-    public List<Club> queryClubFuzzy(String name) throws SQLException {
+    public List<Club> queryClubFuzzy(String name, int currentPage) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String tmp = "%" + name + "%";
-        String sql = "select * from Club where Club_Name like ?;";
-        return queryRunner.query(sql, new BeanListHandler<>(Club.class), tmp);
+        int start = (currentPage - 1) * pageSize;
+        String sql = "select * from Club where Club_Name like ? LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Club.class), tmp,start, pageSize);
     }
 
+    public long queryClubFuzzyNum(String name) throws SQLException {
+    	 String tmp = "%" + name + "%";
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select * from Club where Club_Name like ?;";
+        return queryRunner.query(sql, new ScalarHandler<>(), tmp);
+    }
+    
     //通过社团类别查询社团
     public List<Club> queryClubByType(String type, int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
@@ -90,12 +98,26 @@ public class ClubDao {
         String sql = "select * from Club where Club_Type=?;";
         return queryRunner.query(sql, new BeanListHandler<>(Club.class), type, start, pageSize);
     }
+    
+    public long queryClubByTypeNum(String type) throws SQLException {
+       
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select COUNT(*) from Club where Club_Type=?;";
+        return queryRunner.query(sql, new ScalarHandler<>(), type);
+    }
+
 
     //加人到社团(手动输入职位）
     public void joinclub(String Work_Name,Club club, User user) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "insert into User_Club(User_ID, Club_ID, Work_Name) VALUES (?, ?, ?);";
         Object[] param ={user.getUser_ID(),club.getClub_ID(),Work_Name};
+        queryRunner.update(sql, param);
+    }
+    public void joinclub(String Work_Name,int cid, int uid) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "insert into User_Club(User_ID, Club_ID, Work_Name) VALUES (?, ?, ?);";
+        Object[] param ={uid,cid,Work_Name};
         queryRunner.update(sql, param);
     }
 
@@ -106,13 +128,26 @@ public class ClubDao {
         Object[] param ={user.getUser_ID(),club.getClub_ID()};
         queryRunner.update(sql, param);
     }
+    public void exitclub(int cid,int uid) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "delete from User_Club where User_ID=? and Club_ID=?";
+        Object[] param ={uid,cid};
+        queryRunner.update(sql, param);
+    }
 
     //找到一个人所属的社团
     public List<User_Club> queryone(User user) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select * from User_Club where User_ID=?";
+        String sql = "select Club_ID,Club_Name,Work_Name,User_ID from User_Club natural join Club where User_ID=?";
         return queryRunner.query(sql, new BeanListHandler<>(User_Club.class),user.getUser_ID());
     }
+    public List<User_Club> queryone(int uid) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select Club_ID,Club_Name,Work_Name,User_ID from User_Club natural join Club where User_ID=?";
+        return queryRunner.query(sql, new BeanListHandler<>(User_Club.class),uid);
+    }
+
+    
 
     //通过ID找社团
     public Club queryClubID(int ID) throws SQLException {
@@ -120,11 +155,19 @@ public class ClubDao {
         String sql = "select * from Club where Club_ID=?";
         return queryRunner.query(sql, new BeanHandler<>(Club.class), ID);
     }
-
-    //查询社团内的人员
-    public List<User> queryClubpeople(int ID) throws SQLException {
+    
+  //查询社团内的人员
+    public List<User> queryClubpeople(int ID,int page) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select * from User_Club where Club_ID=?;";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class),ID);
+        int start = (page - 1) * pageSize;
+        String sql = "select * from User_Club where Club_ID=? LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class),ID,start,pageSize);
     }
+
+    public long queryClubpeopleNum(int cid) throws SQLException {
+    	 QueryRunner queryRunner = C3P0Util.getQueryRunner();
+         String sql = "select COUNT(*) from User_Club where Club_ID=?;";
+         return queryRunner.query(sql, new ScalarHandler<>(),cid);
+    }
+    
 }

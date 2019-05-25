@@ -67,4 +67,8 @@ public class Club {
     public void setClub_State(int club_State) {
         Club_State = club_State;
     }
+    public String toString() {
+    	String state=Club_State==0?"【已闲置】":"";
+    	return state+Club_ID+"."+Club_Name+": "+Club_Intro;
+    }
 }

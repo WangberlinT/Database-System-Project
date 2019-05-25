@@ -70,5 +70,9 @@ public class ItemLoan {
 
 	public ItemLoan(){}
 
+	public String toString() {
+		return Name+"在"+Start_Time+"借走了价值"+Item_Value+"的"+Item_Name;
+		
+	}
 
 }
