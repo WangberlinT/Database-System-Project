@@ -11,17 +11,16 @@ import java.util.List;
 
 //评价的增删改查
 public class EvaluationDao {
-    private int pageSize = 10;  //每页10条数据
 
     //添加活动评价(根据活动id和)
-    public void addEvalutionOfAct(int uid, int aid, String cont, int level) throws SQLException {
+    public void addEvaluationOfAct(int uid, int aid, String cont, int level) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "call addEvaluate_act(?,?,?,?)"; //存储过程
         queryRunner.execute(sql, uid, aid, cont, level); //调用
     }
 
     //添加社团人员评价(根据用户id和社团名字)
-    public void addEvalutionOfMember(String mid, String clubName, String cont, int level) throws SQLException {
+    public void addEvaluationOfMember(String mid, String clubName, String cont, int level) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "call addEvaluate_mem(?,?,?,?)"; //存储过程
         queryRunner.execute(sql, mid, clubName, cont, level);
@@ -39,27 +38,20 @@ public class EvaluationDao {
         return 0;
     }
 
-    //获取活动评价总页数
-    public long totalPageOfAct(int aid) {
-        return (totalEvaOfAct(aid) - 1) / pageSize + 1;
-    }
-
     //查询活动的全部评价,时间降序
-    public List<Evaluation_Activity> queryEvaluationOfAct(int aid, int currentPage) throws SQLException {
+    public List<Evaluation_Activity> queryEvaluationOfAct(int aid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select *\n" +
+        String sql = "select E.*, eq.User_ID, U.Name, A.Activity_Name\n" +
                 "from Evaluation_Activity eq\n" +
                 "         join Evaluation E on eq.Evaluation_ID = E.Evaluation_ID\n" +
-                "where Activity_ID=? order by Time desc LIMIT ?,?;";
+                "         join Activity A on eq.Activity_ID = A.Activity_ID\n" +
+                "         join User U on eq.User_ID = U.User_ID\n" +
+                "where eq.Activity_ID = ?\n" +
+                "order by Time desc\n" +
+                "LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Evaluation_Activity.class), aid, start, pageSize);
     }
-
-    //重载查询,默认查询第一页 （感觉可有可无）
-    public List<Evaluation_Activity> queryEvaluationOfAct(int aid) throws SQLException {
-        return queryEvaluationOfAct(aid, 1);
-    }
-
 
     //查询用户的社团评价条数
     public long totalEvaOfMember(int uid) {
@@ -73,24 +65,18 @@ public class EvaluationDao {
         return 0;
     }
 
-    //获取活动评价总页数
-    public long totalPageOfMember(int uid) {
-        return (totalEvaOfMember(uid) - 1) / pageSize + 1;
-    }
-
     //查询用户的所有社团评价,按页数来,时间降序
-    public List<Evaluation_Member> queryEvaluationOfMember(int uid, int currentPage) throws SQLException {
+    public List<Evaluation_Member> queryEvaluationOfMember(int uid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select *\n" +
+        String sql = "select E.*,em.Member_ID,U.Name,C.Club_Name\n" +
                 "from Evaluation_Member em\n" +
                 "         join Evaluation E on em.Evaluation_ID = E.Evaluation_ID\n" +
-                "where em.Member_ID = ? order by Time LIMIT ?,?;";
+                "         join Club C on em.Club_ID = C.Club_ID\n" +
+                "         join User U on em.Member_ID = U.User_ID\n" +
+                "where em.Member_ID = ?\n" +
+                "order by Time\n" +
+                "LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Evaluation_Member.class), uid, start, pageSize);
-    }
-
-    //重载查询,默认查询第一页 （感觉可有可无）
-    public List<Evaluation_Member> queryEvaluationOfMember(int uid) throws SQLException {
-        return queryEvaluationOfMember(uid, 1);
     }
 }

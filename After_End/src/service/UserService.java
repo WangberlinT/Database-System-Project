@@ -8,10 +8,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserService extends BaseService{
+public class UserService extends BaseService {
     private static UserDao userDao = new UserDao();
     private User user;
     private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
+
+    //构造函数
+    UserService(Scanner inO, User userO) {
+        in = inO;
+        user = userO;
+    }
 
     //修改个人信息：
     //换名字
@@ -63,17 +69,11 @@ public class UserService extends BaseService{
     public void searchUser(Scanner in) throws SQLException {
         int page = 1;
         long total = userDao.getTotalUser();
-        if (total != 0) {
-            System.out.printf("总共查询到%s位用户\n", total);
-        } else {
-            System.out.println("没有查询到结果");
-            return;
-        }
-        long totalPage = userDao.getTotalPage();
-        System.out.println(formatter.format(head));
-        while (page < totalPage) {
-            List<User> list = userDao.queryAllUser(page);
-            page = PrintPage(page, list, in);
+        long totalPage = (total - 1) / pageSize + 1;
+        if (queryNotValid(total)) return;
+        while (page <= totalPage) {
+            List<User> list = userDao.queryAllUser(page, pageSize);
+            page = PrintPage(page, totalPage, head, list);
             if (page == 0) return;
         }
     }
@@ -82,17 +82,12 @@ public class UserService extends BaseService{
     public void searchUser(String name, Scanner in) throws SQLException {
         int page = 1;
         long total = userDao.getTotalUserByName(name);
-        if (total != 0) {
-            System.out.printf("总共查询到%s位名为%s的用户", total, name);
-        } else {
-            System.out.println("没有查询到结果");
-            return;
-        }
-        long totalPage = userDao.getTotalUserPageByName(name);
+        long totalPage = (total - 1) / pageSize + 1;
+        if (queryNotValid(total)) return;
         System.out.println(formatter.format(head));
-        while (page < totalPage) {
-            List<User> list = userDao.queryUserByName(name, page);
-            page = PrintPage(page, list, in);
+        while (page <= totalPage) {
+            List<User> list = userDao.queryUserByName(name, page, pageSize);
+            page = PrintPage(page, totalPage, head, list);
             if (page == 0) return;
         }
     }
@@ -107,7 +102,6 @@ public class UserService extends BaseService{
             System.out.println("没有查询到结果");
         }
     }
-
 
     //消息盒子：
     //检查新信息

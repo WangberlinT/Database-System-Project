@@ -7,12 +7,16 @@ import java.util.List;
 import java.util.Scanner;
 
 abstract class BaseService {
+    Scanner in;
     static FormatUtil fu = new FormatUtil();
-    StringAlign formatter = new StringAlign(80, StringAlign.JUST_LEFT);
+    static StringAlign formatter = new StringAlign(200, StringAlign.JUST_LEFT);
+    int pageSize = 10;  //每页10条数据
 
-
-    int PrintPage(int page, List<?> list, Scanner in) {
-        int No = (page - 1) * 10 + 1; //这个10是pageSize
+    //输出List<？> 一页的内容
+    int PrintPage(int page, long totalPage, String head, List<?> list) {
+        System.out.printf("当前页数/总页数: %s/%s\n", page, totalPage);
+        System.out.println(formatter.format(head));
+        int No = (page - 1) * pageSize + 1;
         for (Object u : list) {
             System.out.println(formatter.format(No + "  " + u.toString()));
             No++;
@@ -30,5 +34,16 @@ abstract class BaseService {
                 page = 0;
         }
         return page;
+    }
+
+    //判断查询是否有结果
+    boolean queryNotValid(long total) {
+        if (total == 0) {
+            System.out.println("没有查询到结果");
+            return true;
+        } else {
+            System.out.printf("总共查询到%s条结果\n", total);
+            return false;
+        }
     }
 }

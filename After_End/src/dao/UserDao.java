@@ -12,7 +12,6 @@ import java.util.List;
 
 //学生用户的增删改查
 public class UserDao {
-    private int pageSize = 10; //每页10条数据
 
     //获取总用户数量
     public long getTotalUser() {
@@ -26,11 +25,6 @@ public class UserDao {
         return 0;
     }
 
-    //获取总页数
-    public long getTotalPage() {
-        return (getTotalUser() - 1) / pageSize + 1;
-    }
-
     //查询一个社团里面的的人
     public List<User> queryclubUser(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
@@ -40,7 +34,7 @@ public class UserDao {
 
 
     //查询所有用户(每页10条)
-    public List<User> queryAllUser(int currentPage) throws SQLException {
+    public List<User> queryAllUser(int currentPage,int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User LIMIT ?,?";
@@ -55,7 +49,7 @@ public class UserDao {
     }
 
     //通过名字查询用户
-    public List<User> queryUserByName(String Name, int currentPage) throws SQLException {
+    public List<User> queryUserByName(String Name, int currentPage,int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User where Name=? LIMIT ?,?";
@@ -74,13 +68,8 @@ public class UserDao {
         return 0;
     }
 
-    //获取上述查询的总页数
-    public long getTotalUserPageByName(String Name) {
-        return (getTotalUserByName(Name) - 1) / pageSize + 1;
-    }
-
     //通过社团id查询用户
-    public List<User> queryUserByClub(int cid, int currentPage) throws SQLException {
+    public List<User> queryUserByClub(int cid, int currentPage,int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select u.* from User u join User_Club UC on u.User_ID = UC.User_ID " +
@@ -99,11 +88,6 @@ public class UserDao {
             e.printStackTrace();
         }
         return 0;
-    }
-
-    //获取上述查询的总页数
-    public long getTotalUserPageByClub(int cid) {
-        return (getTotalUserByClub(cid) - 1) / pageSize + 1;
     }
 
     //更新用户信息
