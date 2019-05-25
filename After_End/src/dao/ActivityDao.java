@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 //社团活动的增删改查
@@ -14,7 +15,7 @@ public class ActivityDao {
     private int pageSize = 10; //每页10条数据
 
     //查看我参加的活动总数
-    public int totalActivityByID(int uid) {
+    public long totalActivityByID(int uid) {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "select count(*) from Activity_User where User_ID=?";
@@ -26,7 +27,7 @@ public class ActivityDao {
     }
 
     //查看我参加的活动总页数
-    public int totalActivityPageByID(int uid) {
+    public long totalActivityPageByID(int uid) {
         return (totalActivityByID(uid) - 1) / pageSize + 1;
     }
 
@@ -42,8 +43,8 @@ public class ActivityDao {
         return queryRunner.query(sql, new BeanListHandler<>(User.class), uid, start, pageSize);
     }
 
-    //查看最近3个月所有社团活动总数
-    public int totalActivityForAllInMoth() {
+    //查看最近1个月所有社团活动总数
+    public long totalActivityForAllInMoth() {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "select count(*)\n" +
@@ -56,21 +57,23 @@ public class ActivityDao {
         return 0;
     }
 
-    //查看最近3个月所有社团活动总页数
-    public int totalActivityPageForAllInMoth() {
+    //查看最近1个月所有社团活动总页数
+    public long totalActivityPageForAllInMoth() {
         return (totalActivityForAllInMoth() - 1) / pageSize + 1;
     }
 
-    //查看最近3个月所有社团活动历史
-    public List<User> queryActivityForAllInMoth(int currentPage) throws SQLException {
+
+    //查看最近1个月所有社团活动历史
+    public List<Activity> queryActivityForAllInMoth(int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
                 "from Activity\n" +
                 "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and `range` = 1\n" +
-                "ORDER BY Start_Time DESC LIMIT?,?;";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class), start, pageSize);
+                "ORDER BY Start_Time DESC LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Activity.class), start, pageSize);
     }
+
 
     //创建一个活动
     public void insertActivity(Activity a) throws SQLException {
@@ -83,8 +86,9 @@ public class ActivityDao {
         queryRunner.update(sql, param);
     }
 
+
     //查看某个社一年的活动
-    public List<User> queryActivityByClubID(int club_id, int currentPage) throws SQLException {
+    public List<Activity> queryActivityByClubID(int club_id, int currentPage) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
@@ -94,7 +98,7 @@ public class ActivityDao {
                 "  and date_sub(CURDATE(), INTERVAL 365 DAY) <= date(Start_Time)\n" +
                 "  and `range` = 1\n" +
                 "ORDER BY Start_Time DESC LIMIT ?,?;";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class), club_id, start, pageSize);
+        return queryRunner.query(sql, new BeanListHandler<>(Activity.class), club_id, start, pageSize);
     }
 
     //删除一个活动
@@ -104,4 +108,35 @@ public class ActivityDao {
                 "where Activity_ID = ?;";
         queryRunner.update(sql, id);
     }
+
+    //查看最近一周的活动数量
+    public long totalActivityForAllweek() {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "select count(*)\n" +
+                    "from Activity\n" +
+                    "where date_sub(CURDATE(), INTERVAL 7 DAY) <= date(Start_Time) and `range` = 1;";
+            return queryRunner.query(sql, new ScalarHandler<>());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    //test
+    /*
+    public static void main(String[] args) {
+        ActivityDao test = new ActivityDao();
+        try {
+            List<Activity> a = new ArrayList<>();
+            a = test.queryActivityForAllInMoth(1);
+            System.out.println(test.totalActivityPageForAllInMoth());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+     */
 }

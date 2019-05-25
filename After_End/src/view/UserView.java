@@ -1,6 +1,7 @@
 package view;
 import bean.*;
 import dao.UserDao;
+import service.UserService;
 import util.CustomerException;
 import util.FormatUtil;
 import util.StringAlign;
@@ -14,8 +15,6 @@ public class UserView extends View{
     private UserDao userDao;
     private int News;
     private boolean hasNewActivities;
-    static final String[] PRIVACY = {"(隐藏)","(可见)"};
-
 
     public UserView(User user)
     {
@@ -70,7 +69,6 @@ public class UserView extends View{
                 System.out.println("无效输入！");
             }
         }
-
     }
 
     private void newsBrowse()
@@ -137,9 +135,10 @@ public class UserView extends View{
                         "3.下一页\n" +
                         "4.搜索\n" +
                         "5.过滤器\n" +
-                        "6.返回\n>";
+                        "6.我的活动" +
+                        "7.返回\n>";
        int instruction = -1;
-       final int EXIT = 6;
+       final int EXIT = 7;
        while (true)
        {
            //todo 获取所有活动
@@ -169,6 +168,9 @@ public class UserView extends View{
                        break;
                    case 5:
                        //todo 过滤器
+                       break;
+                   case 6:
+                       //todo 我的活动
                        break;
                    default:
                        throw new CustomerException("输入超出范围");
@@ -457,16 +459,42 @@ public class UserView extends View{
 
     }
 
+    private void modifyPassword() {
+        int instruction = -1;
+        String inpassword;
+        final int EXIT = 2;
+        while (true) {
+            System.out.printf("---更改用户: %d 的密码---\n"
+                    + "确保以下操作为本人操作\n"
+                    + "1.继续修改\n"
+                    + "2.退回上一栏\n>", user.getUser_ID());
+            try {
+                instruction = Integer.parseInt(in.nextLine());
 
-
-    private void modifyPassword()
-    {
-
+                if (instruction == 1) {
+                    System.out.print("输入原密码\n>");
+                    inpassword = in.nextLine();
+                    if (inpassword.equals(user.getPassword())) {
+                        System.out.print("输入新密码\n>");
+                        inpassword = in.nextLine();
+                        user.setPassword(inpassword);
+                        System.out.println("正在同步...");
+                        userDao.updateUser(user);
+                        System.out.println("更改成功!");
+                    } else
+                        System.out.println("原密码错误!");
+                } else if (instruction == 2)
+                    break;
+                else
+                    throw new CustomerException("输入超出范围");
+            } catch (Exception e) {
+                //todo 异常处理
+            }
+        }
     }
 
     private void modifyInfomation()
     {
-
         int instruction = -1;
         final int EXIT = 0;
         while(true) {
@@ -486,32 +514,32 @@ public class UserView extends View{
                     case 1:
                         System.out.printf("输入新的姓名\n>");
                         String newName = in.nextLine();
-                        nameModify(newName);
+//                        nameModify(newName);
                         break;
                     case 2:
                         System.out.printf("输入新的性别\n>");
                         String newSex = in.nextLine();
-                        sexModify(newSex);
+//                        sexModify(newSex);
                         break;
                     case 3:
                         System.out.printf("输入新的生日格式:年-月-日\n例:1990-05-08\n>");
                         String newDate = in.nextLine();
-                        bornModify(newDate);
+//                        bornModify(newDate);
                         break;
                     case 4:
                         System.out.printf("输入新的专业\n>");
                         String newMajor = in.nextLine();
-                        majorModify(newMajor);
+//                        majorModify(newMajor);
                         break;
                     case 5:
                         System.out.printf("输入新的地址\n>");
                         String address = in.nextLine();
-                        addressModify(address);
+//                        addressModify(address);
                         break;
                     case 6:
                         System.out.printf("输入新的电话号码\n>");
                         String newPhone = in.nextLine();
-                        phoneNumberModify(newPhone);
+//                        phoneNumberModify(newPhone);
                         break;
                     default:
                         throw new CustomerException("Invalid input");
@@ -530,57 +558,10 @@ public class UserView extends View{
 
     }
 
-    private void bornModify(String newBorn)
-    {
-        //todo 检查日期格式
-        Date date = fu.stringToDate(newBorn);
-        user.setBorn(date);
-        System.out.println("生日修改成功!");
-    }
-
-    private void majorModify(String newMajor)
-    {
-        //todo 检查输入合法
-        user.setMajor(newMajor);
-        System.out.println("专业修改成功!");
-    }
-
-    private void addressModify(String newAddress)
-    {
-        user.setAddress(newAddress);
-        System.out.println("地址修改成功!");
-    }
-
-    private void phoneNumberModify(String newPhone)
-    {
-        user.setPhone_Number(newPhone);
-        System.out.println("电话号码修改成功!");
-    }
-
-
-
-
-
-    private void nameModify(String newName)
-    {
-        if(newName.length()<=20)
-            user.setName(newName);
-        else
-            System.out.println("更改失败！输入字符串长度大于20！");
-    }
-
-    private void sexModify(String newSex)
-    {
-        if(newSex.equals(User.GENDER[0])||newSex.equals(User.GENDER[1]))
-            user.setSex(newSex);
-        else
-            System.out.println("无效的性别设置");
-    }
-
     public void display()
     {
-        checkNewActivities();
-        checkNews();
+//        checkNewActivities();
+//        checkNews();
 
         System.out.printf(
                 "Welcome User: %d\n"
@@ -598,17 +579,5 @@ public class UserView extends View{
         if(hasNewActivities)
             System.out.println("---活动墙有新活动---");
 
-    }
-
-    public void checkNews()
-    {
-        //todo 检查数据库中有没有新的发给本对象的申请或者公告
-        News = 3;//查询结果，这里仅做测试
-    }
-
-    public void checkNewActivities()
-    {
-        //todo 检查数据库中是否有新活动
-        hasNewActivities = true;//同checkNews
     }
 }

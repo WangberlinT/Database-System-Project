@@ -1,9 +1,12 @@
 package view;
 
+import bean.Admin;
 import bean.User;
+import dao.AdminDao;
 import dao.UserDao;
 import util.CustomerException;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class StartMenu extends View{
@@ -12,6 +15,7 @@ public class StartMenu extends View{
      private boolean isAdmin=false;
      private View view;
      private User user;
+     private Admin admin;
 
     public static void main(String[] args) {
         StartMenu startMenu = new StartMenu();
@@ -19,7 +23,7 @@ public class StartMenu extends View{
 
     }
 
-    public void loginMenu()
+    public void loginMenu()//完成
     {
         try {
             System.out.println("UserID: ");
@@ -98,7 +102,7 @@ public class StartMenu extends View{
         }
     }
 
-    public void signUp()
+    public void signUp()//异常处理
     {
         UserDao userDao = new UserDao();
         System.out.println("输入注册学号: ");
@@ -112,35 +116,56 @@ public class StartMenu extends View{
         try {
             userDao.insertUser(new User(UID, password, Name, gender));
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
-            e.printStackTrace();
+            System.out.println("注册失败,用户已存在");
         }
         System.out.println("注册成功!");
     }
 
-    public boolean checkPassword()
+    public boolean checkPassword()//完成
     {
         System.out.println("登陆中...");
         if(isAdmin)
         {
-            //todo Admin Password check
             return adminPasswordCheck();
         }
         else
         {
-            //todo User Password check
             return userPasswordCheck();
         }
     }
 
-    public boolean adminPasswordCheck()
+    public boolean adminPasswordCheck()//完成
     {
-        //todo 管理员密码检查
+        AdminDao adminDao = new AdminDao();
+        admin = null;
+        try {
+            admin = adminDao.queryAdminByID(inputID);
+            if(admin == null)
+            {
+                System.out.println("管理员不存在");
+                return false;
+            }
+            else
+            {
+                if(admin.getPassword().equals(inputPassword))
+                    return true;
+                else
+                {
+                    System.out.println("密码错误！");
+                    return false;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("数据库连接失败,检查网络连接");
+        }
         return false;
     }
 
-    public boolean userPasswordCheck()
+    public boolean userPasswordCheck()//完成
     {
         UserDao userDao = new UserDao();
         user = null;
@@ -168,6 +193,4 @@ public class StartMenu extends View{
         }
         return false;
     }
-
-
 }
