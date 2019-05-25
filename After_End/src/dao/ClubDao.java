@@ -107,10 +107,17 @@ public class ClubDao {
         queryRunner.update(sql, param);
     }
 
+    //找到一个人所属的社团
+    public List<User_Club> queryone(User user) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select * from User_Club where User_ID=?";
+        return queryRunner.query(sql, new BeanListHandler<>(User_Club.class),user.getUser_ID());
+    }
 
-    public static void main(String[] args) throws SQLException
-    {
-
-
+    //通过ID找社团
+    public Club queryClubID(String ID) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select * from Club where Club_ID=?";
+        return queryRunner.query(sql, new BeanHandler<>(Club.class), ID);
     }
 }
