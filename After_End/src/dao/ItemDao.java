@@ -5,6 +5,7 @@ import java.util.*;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import bean.*;
 import bean.ItemLoan;
@@ -32,14 +33,16 @@ public class ItemDao {
 		String sql="call borrowItem(?,?);";
 		Object[] param = {sql, uid,iid};
 		queryRunner.update(sql, param);
+		System.out.println("借用成功");
 	}
 	/**用户解物品*/
 	public void borrowItem(int uid,String iid,int cid) throws SQLException {
 		List<Item> rs=checkItem(cid,iid);
 		if(rs.size()!=0) {
 			borrowItem(uid,rs.get(0).getItemId());
+			
 		}else {
-			System.out.println("no item valid now");
+			System.out.println("现在没有所需物品，请下次再来");
 		}
 		
 	}
@@ -77,6 +80,24 @@ public class ItemDao {
 		
 		
 	}
+	
+	public List<ItemLoan> checkItemBclubPages(int cid,int page) throws SQLException{
+		QueryRunner queryRunner = C3P0Util.getQueryRunner();
+		int start = (page - 1) * 10;
+		String sql="select Item_ID,Item_Name,Item_Value,User_ID,Name,Start_Time,Phone_Number\n" + 
+				"					 from Item natural join Item_Belong natural join Item_Loan natural join User\n" + 
+				"					where Club_ID=? and Loan_State=1 LIMIT ?,?;";
+		return queryRunner.query(sql,new BeanListHandler<>(ItemLoan.class),cid,start,10);		
+	}
+	
+	public long checkItemBNum(int cid) throws SQLException {
+		QueryRunner queryRunner = C3P0Util.getQueryRunner();
+		String sql="select COUNT(*)" + 
+				"from Item natural join Item_Belong\n" + 
+				"where Club_ID=? and Loan_State=1;";
+		return queryRunner.query(sql,new ScalarHandler<>(),cid);
+	}
+	
 	
 	/**简洁查看社团内所有物品（只显示数量）*/
 	public List<ItemShow> checkclubAll(int cid) throws SQLException {
