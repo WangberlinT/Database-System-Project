@@ -61,5 +61,7 @@ public class Apply {
 	public void setApply_From(int apply_From) {
 		Apply_From = apply_From;
 	}
-	
+	public String toString() {
+		return Apply_ID+"： 来自"+name+"的"+Apply_Type+": "+Apply_Description+"\n";
+	}
 }

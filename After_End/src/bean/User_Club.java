@@ -4,6 +4,7 @@ public class User_Club {
     private int User_ID;
     private int Club_ID;
     private String Work_Name;
+    private String Club_Name;
 
     public User_Club() {
     }
@@ -30,5 +31,9 @@ public class User_Club {
 
     public void Work_Name(String work_Name) {
         Work_Name = work_Name;
+    }
+    
+    public String toString() {
+    	return "在"+Club_Name+"为"+Work_Name;
     }
 }
