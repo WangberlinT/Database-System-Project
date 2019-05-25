@@ -17,7 +17,7 @@ public class ClubDao {
     private long totalpage = getTotalPage();
 
     //获取总社团数量
-    public long getTotalClub() {
+    private long getTotalClub() {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "SELECT COUNT(*) from Club";
@@ -29,7 +29,7 @@ public class ClubDao {
     }
 
     //总页数
-    public long getTotalPage() {
+    private long getTotalPage() {
         return (totalClub - 1) / pageSize + 1;
     }
 
