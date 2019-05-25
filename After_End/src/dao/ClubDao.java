@@ -90,4 +90,27 @@ public class ClubDao {
         String sql = "select * from Club where Club_Type=?;";
         return queryRunner.query(sql, new BeanListHandler<>(Club.class), type, start, pageSize);
     }
+
+    //加人到社团(手动输入职位）
+    public void joinclub(String Work_Name,Club club, User user) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "insert into User_Club(User_ID, Club_ID, Work_Name) VALUES (?, ?, ?);";
+        Object[] param ={user.getUser_ID(),club.getClub_ID(),Work_Name};
+        queryRunner.update(sql, param);
+    }
+
+    //从社团删除人
+    public void exitclub(Club club, User user) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "delete from User_Club where User_ID=? and Club_ID=?";
+        Object[] param ={user.getUser_ID(),club.getClub_ID()};
+        queryRunner.update(sql, param);
+    }
+
+
+    public static void main(String[] args) throws SQLException
+    {
+
+
+    }
 }
