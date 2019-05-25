@@ -33,7 +33,6 @@ public class EvaluationService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
         String head = "评价ID  活动     评价人        评价内容       评价等级   评价时间";
-        System.out.println(formatter.format(head));
         while (page <= totalPage) {
             List<Evaluation_Activity> list = evaluationDao.queryEvaluationOfAct(aid, page, pageSize);
             page = PrintPage(page, totalPage, head, list);
@@ -47,7 +46,6 @@ public class EvaluationService extends BaseService {
         long total = evaluationDao.totalEvaOfMember(uid);
         long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
-        System.out.println(page);
         String head = "No 评价ID  用户ID     用户名     来自社团        评价内容       评价等级   评价时间";
         while (page <= totalPage) {
             List<Evaluation_Member> list = evaluationDao.queryEvaluationOfMember(uid, page, pageSize);

@@ -84,7 +84,6 @@ public class UserService extends BaseService {
         long total = userDao.getTotalUserByName(name);
         long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
-        System.out.println(formatter.format(head));
         while (page <= totalPage) {
             List<User> list = userDao.queryUserByName(name, page, pageSize);
             page = PrintPage(page, totalPage, head, list);
