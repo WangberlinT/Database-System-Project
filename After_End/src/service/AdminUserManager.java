@@ -1,7 +1,6 @@
 package service;
 
 import bean.User;
-import dao.UserDao;
 import util.CustomerException;
 import util.StringAlign;
 import view.View;

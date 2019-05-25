@@ -36,4 +36,16 @@ public class User_Club {
     public String toString() {
     	return "在"+Club_Name+"为"+Work_Name;
     }
+
+    public void setWork_Name(String work_Name) {
+        Work_Name = work_Name;
+    }
+
+    public String getClub_Name() {
+        return Club_Name;
+    }
+
+    public void setClub_Name(String club_Name) {
+        Club_Name = club_Name;
+    }
 }

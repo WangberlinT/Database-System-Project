@@ -12,9 +12,9 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 //社团信息的增删改查
 public class ClubDao {
-    private int pageSize = 10; //每页10条数据
-    private long totalClub = getTotalClub();
-    private long totalpage = getTotalPage();
+//    private int pageSize = 10; //每页10条数据
+//    private long totalClub = getTotalClub();
+//    private long totalpage = getTotalPage();
 
     //获取总社团数量
     public long getTotalClub() {
@@ -29,12 +29,12 @@ public class ClubDao {
     }
 
     //总页数
-    public long getTotalPage() {
-        return (totalClub - 1) / pageSize + 1;
-    }
+//    public long getTotalPage() {
+//        return (totalClub - 1) / pageSize + 1;
+//    }
 
     //查询所有社团
-    public List<Club> queryAllClub(int currentPage) throws SQLException {
+    public List<Club> queryAllClub(int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from Club LIMIT ?,?";
@@ -76,7 +76,7 @@ public class ClubDao {
     }
 
     //通过社团名字查询社团（模糊搜索包含该名字的）
-    public List<Club> queryClubFuzzy(String name, int currentPage) throws SQLException {
+    public List<Club> queryClubFuzzy(String name, int currentPage, int pageSize) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String tmp = "%" + name + "%";
         int start = (currentPage - 1) * pageSize;
@@ -92,7 +92,7 @@ public class ClubDao {
     }
     
     //通过社团类别查询社团
-    public List<Club> queryClubByType(String type, int currentPage) throws SQLException {
+    public List<Club> queryClubByType(String type, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from Club where Club_Type=?;";
@@ -147,8 +147,6 @@ public class ClubDao {
         return queryRunner.query(sql, new BeanListHandler<>(User_Club.class),uid);
     }
 
-    
-
     //通过ID找社团
     public Club queryClubID(int ID) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -157,7 +155,7 @@ public class ClubDao {
     }
     
   //查询社团内的人员
-    public List<User> queryClubpeople(int ID,int page) throws SQLException {
+  public List<User> queryClubpeople(int ID, int page, int pageSize) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         int start = (page - 1) * pageSize;
         String sql = "select * from User_Club where Club_ID=? LIMIT ?,?;";

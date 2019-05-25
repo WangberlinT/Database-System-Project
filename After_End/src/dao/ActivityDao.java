@@ -7,12 +7,10 @@ import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 //社团活动的增删改查
 public class ActivityDao {
-    private int pageSize = 10; //每页10条数据
 
     //查看我参加的活动总数
     public long totalActivityByID(int uid) {
@@ -27,12 +25,12 @@ public class ActivityDao {
     }
 
     //查看我参加的活动总页数
-    public long totalActivityPageByID(int uid) {
-        return (totalActivityByID(uid) - 1) / pageSize + 1;
-    }
+//    public long totalActivityPageByID(int uid) {
+//        return (totalActivityByID(uid) - 1) / pageSize + 1;
+//    }
 
     //查看我参加的活动
-    public List<User> queryActivityByID(int uid, int currentPage) throws SQLException {
+    public List<User> queryActivityByID(int uid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
@@ -58,13 +56,13 @@ public class ActivityDao {
     }
 
     //查看最近1个月所有社团活动总页数
-    public long totalActivityPageForAllInMoth() {
-        return (totalActivityForAllInMoth() - 1) / pageSize + 1;
-    }
+//    public long totalActivityPageForAllInMoth() {
+//        return (totalActivityForAllInMoth() - 1) / pageSize + 1;
+//    }
 
 
     //查看最近1个月所有社团活动历史
-    public List<Activity> queryActivityForAllInMoth(int currentPage) throws SQLException {
+    public List<Activity> queryActivityForAllInMoth(int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
@@ -88,7 +86,7 @@ public class ActivityDao {
 
 
     //查看某个社一年的活动
-    public List<Activity> queryActivityByClubID(int club_id, int currentPage) throws SQLException {
+    public List<Activity> queryActivityByClubID(int club_id, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
@@ -122,21 +120,4 @@ public class ActivityDao {
         }
         return 0;
     }
-    //test
-    /*
-    public static void main(String[] args) {
-        ActivityDao test = new ActivityDao();
-        try {
-            List<Activity> a = new ArrayList<>();
-            a = test.queryActivityForAllInMoth(1);
-            System.out.println(test.totalActivityPageForAllInMoth());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-
-     */
 }

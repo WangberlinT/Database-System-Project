@@ -1,7 +1,6 @@
 package service;
 
 import bean.User;
-import dao.UserDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,18 +9,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserService extends BaseService {
-    private static UserDao userDao = new UserDao();
     private User user;
     private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
 
     //重载默认构造函数
-    public UserService(Scanner in)
-    {
+    public UserService(Scanner in) {
         this.in = in;
     }
 
     //构造函数
-    UserService(Scanner inO, User userO) {
+    public UserService(Scanner inO, User userO) {
         in = inO;
         user = userO;
     }
@@ -70,10 +67,14 @@ public class UserService extends BaseService {
         System.out.println("电话号码修改成功!");
     }
 
+    //更新用户信息，基于上述修改
+    public void updateInfo() throws SQLException {
+        userDao.updateUser(user);
+    }
+
     //--------------管理员查询User--------------------------------------------------
     //查询所有
-    public void searchUserAdmin(Scanner in) throws SQLException
-    {
+    public void searchUserAdmin(Scanner in) throws SQLException {
         String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
         int page = 1;
         long total = userDao.getTotalUser();
@@ -83,41 +84,41 @@ public class UserService extends BaseService {
             List<User> list = userDao.queryAllUser(page, pageSize);
             //将User 所有信息显示出来,用String list存
             List<String> stringList = new ArrayList<>();
-            for(int i = 0;i <list.size();i ++)
-            {
+            for (int i = 0; i < list.size(); i++) {
                 User temp = list.get(i);
-                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
                 stringList.add(info);
             }
             page = PrintPage(page, totalPage, title, stringList);
             if (page == 0) return;
         }
     }
+
     //以id查询
     public void searchUserAdmin(int uid) throws SQLException {
         String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
         User temp = userDao.queryUserByID(uid);
         if (temp != null) {
-            String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+            String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
             System.out.println(formatter.format(title));
             System.out.println(formatter.format(info));
         } else {
             System.out.println("没有查询到结果");
         }
     }
+
     //以姓名查询
     public void searchUserAdmin(String name, Scanner in) throws SQLException {
-        int page = 1;
         long total = userDao.getTotalUserByName(name);
-        long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> list = userDao.queryUserByName(name, page, pageSize);
             List<String> stringList = new ArrayList<>();
-            for(int i = 0;i < list.size();i ++)
-            {
+            for (int i = 0; i < list.size(); i++) {
                 User temp = list.get(i);
-                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() +"  "+ temp.getAddress() + "  " + temp.getPhone_Number();
+                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
                 stringList.add(info);
             }
             page = PrintPage(page, totalPage, head, list);
@@ -131,10 +132,10 @@ public class UserService extends BaseService {
 
     //默认查全部
     public void searchUser(Scanner in) throws SQLException {
-        int page = 1;
         long total = userDao.getTotalUser();
-        long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> list = userDao.queryAllUser(page, pageSize);
             page = PrintPage(page, totalPage, head, list);
@@ -144,10 +145,10 @@ public class UserService extends BaseService {
 
     //通过用户名
     public void searchUser(String name, Scanner in) throws SQLException {
-        int page = 1;
         long total = userDao.getTotalUserByName(name);
-        long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> list = userDao.queryUserByName(name, page, pageSize);
             page = PrintPage(page, totalPage, head, list);
@@ -166,20 +167,15 @@ public class UserService extends BaseService {
         }
     }
 
-    //消息盒子：
-    //检查新信息
-    public long checkNews() {
-        int news = 0;
-        //todo 检查数据库中有没有新的发给本对象的申请或者公告
+    //------消息盒子--------\\
 
-        return news;
+    //检查数据库中有没有新的发给本对象的申请或者公告
+    public long checkNews(int uid) throws SQLException {
+        return announcementDao.unReadAnnouncement(uid);
     }
 
-    //检查新活动
-    public boolean checkNewActivities() {
-        boolean has = false;
-        //todo 检查数据库中是否有新活动
-//        hasNewActivities = true;//同checkNews
-        return has;
+    //检查数据库中7天内新活动数量
+    public long checkNewActivities() {
+        return activityDao.totalActivityForAllweek();
     }
 }

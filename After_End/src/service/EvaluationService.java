@@ -2,14 +2,12 @@ package service;
 
 import bean.Evaluation_Activity;
 import bean.Evaluation_Member;
-import dao.EvaluationDao;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 public class EvaluationService extends BaseService {
-    private static EvaluationDao evaluationDao = new EvaluationDao();
 
     //构造函数
     EvaluationService(Scanner inO) {
@@ -28,10 +26,10 @@ public class EvaluationService extends BaseService {
 
     //查询活动的全部评价,时间降序
     public void queryEvaluationOfAct(int aid) throws SQLException {
-        int page = 1;
         long total = evaluationDao.totalEvaOfAct(aid);
-        long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
         String head = "评价ID  活动     评价人        评价内容       评价等级   评价时间";
         while (page <= totalPage) {
             List<Evaluation_Activity> list = evaluationDao.queryEvaluationOfAct(aid, page, pageSize);
@@ -42,10 +40,10 @@ public class EvaluationService extends BaseService {
 
     //查询用户的所有社团评价,时间降序
     public void queryEvaluationOfMember(int uid) throws SQLException {
-        int page = 1;
         long total = evaluationDao.totalEvaOfMember(uid);
-        long totalPage = (total - 1) / pageSize + 1;
         if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
         String head = "No 评价ID  用户ID     用户名     来自社团        评价内容       评价等级   评价时间";
         while (page <= totalPage) {
             List<Evaluation_Member> list = evaluationDao.queryEvaluationOfMember(uid, page, pageSize);
