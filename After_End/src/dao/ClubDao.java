@@ -115,9 +115,16 @@ public class ClubDao {
     }
 
     //通过ID找社团
-    public Club queryClubID(String ID) throws SQLException {
+    public Club queryClubID(Int ID) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from Club where Club_ID=?";
         return queryRunner.query(sql, new BeanHandler<>(Club.class), ID);
+    }
+
+    //查询社团内的人员
+    public List<User> queryClubpeople(Int ID) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select * from User_Club where Club_ID=?;";
+        return queryRunner.query(sql, new BeanListHandler<>(User.class));
     }
 }
