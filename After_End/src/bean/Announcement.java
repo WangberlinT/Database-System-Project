@@ -10,32 +10,39 @@ public class Announcement {
     private int Club_ID; //社团id
     private int Publisher; //发布人id
     private String club;//社团名字
-    
-    public String getClub() {
-		return club;
-	}
 
-	public void setClub(String club) {
-		this.club = club;
-	}
-
-	public void setTime(Timestamp time) {
-		Time = time;
-	}
-	public Timestamp getTime() {
-		return Time;
-	}
-
-	public Announcement() {
+    public Announcement() {
     }
+
+    public String toString() {
+        return "From " + club + " " + Title + ": " + Content + " (" + Time.toString() + ")";
+    }
+
 
     //getter and setter
     public int getAnnouncement_ID() {
         return Announcement_ID;
     }
 
+
     public void setAnnouncement_ID(int announcement_ID) {
         this.Announcement_ID = announcement_ID;
+    }
+
+    public String getClub() {
+        return club;
+    }
+
+    public void setClub(String club) {
+        this.club = club;
+    }
+
+    public void setTime(Timestamp time) {
+        Time = time;
+    }
+
+    public Timestamp getTime() {
+        return Time;
     }
 
     public String getContent() {
@@ -69,7 +76,5 @@ public class Announcement {
     public void setPublisher(int publisher) {
         Publisher = publisher;
     }
-    public String toString() {
-    	return "From "+club+" "+Title+": "+Content+" ("+Time.toString()+")";
-    }
+
 }

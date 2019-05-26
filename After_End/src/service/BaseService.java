@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 abstract class BaseService {
     //Util
-    static Scanner in;
+    static Scanner in=new Scanner(System.in);
     static FormatUtil fu = new FormatUtil();
     static StringAlign formatter = new StringAlign(200, StringAlign.JUST_LEFT);
 

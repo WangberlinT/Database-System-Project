@@ -12,9 +12,6 @@ import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 //社团信息的增删改查
 public class ClubDao {
-//    private int pageSize = 10; //每页10条数据
-//    private long totalClub = getTotalClub();
-//    private long totalpage = getTotalPage();
 
     //获取总社团数量
     public long getTotalClub() {
@@ -27,11 +24,6 @@ public class ClubDao {
         }
         return 0;
     }
-
-    //总页数
-//    public long getTotalPage() {
-//        return (totalClub - 1) / pageSize + 1;
-//    }
 
     //查询所有社团
     public List<Club> queryAllClub(int currentPage, int pageSize) throws SQLException {
@@ -155,14 +147,14 @@ public class ClubDao {
     }
     
   //查询社团内的人员
-  public List<User> queryClubpeople(int ID, int page, int pageSize) throws SQLException {
+  public List<User> queryClubPeople(int ID, int page, int pageSize) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         int start = (page - 1) * pageSize;
         String sql = "select * from User_Club where Club_ID=? LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(User.class),ID,start,pageSize);
     }
 
-    public long queryClubpeopleNum(int cid) throws SQLException {
+    public long queryClubPeopleNum(int cid) throws SQLException {
     	 QueryRunner queryRunner = C3P0Util.getQueryRunner();
          String sql = "select COUNT(*) from User_Club where Club_ID=?;";
          return queryRunner.query(sql, new ScalarHandler<>(),cid);

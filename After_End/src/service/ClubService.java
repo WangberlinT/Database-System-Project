@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import bean.*;
-import dao.*;
 
 public class ClubService extends BaseService {
     private int cid;
@@ -34,7 +33,7 @@ public class ClubService extends BaseService {
     //详细信息
     public void showClubInfo() throws SQLException {
         Club clb = clubDao.queryClubID(cid);
-        long pnum = clubDao.queryClubpeopleNum(cid);
+        long pnum = clubDao.queryClubPeopleNum(cid);
         System.out.println(clb.toString() + " 共" + pnum + "人");
 
     }
@@ -80,11 +79,11 @@ public class ClubService extends BaseService {
     //社员部分
     //得到社员列表
     public void showMemberList() throws SQLException {
-        long total = clubDao.queryClubpeopleNum(cid);
+        long total = clubDao.queryClubPeopleNum(cid);
         int page = 1;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
-            List<User> ul = clubDao.queryClubpeople(cid, page, pageSize);
+            List<User> ul = clubDao.queryClubPeople(cid, page, pageSize);
             page = PrintPage(page, totalPage, clubHead, ul);
             if (page == 0) return;
         }

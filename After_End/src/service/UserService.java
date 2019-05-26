@@ -13,20 +13,13 @@ public class UserService extends BaseService {
     private User user;
     private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
 
-    //重载默认构造函数
-    public UserService(Scanner in) {
-        this.in = in;
-    }
-
     //构造函数
-    public UserService(Scanner inO, User userO) {
-        in = inO;
+    public UserService(User userO) {
         user = userO;
     }
 
     //设置user
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -139,7 +132,7 @@ public class UserService extends BaseService {
     //查询/搜索 用户
 
     //默认查全部
-    public void searchUser(Scanner in) throws SQLException {
+    public void searchUser() throws SQLException {
         long total = userDao.getTotalUser();
         if (queryNotValid(total)) return;
         int page = 1;
@@ -152,7 +145,7 @@ public class UserService extends BaseService {
     }
 
     //通过用户名
-    public void searchUser(String name, Scanner in) throws SQLException {
+    public void searchUser(String name) throws SQLException {
         long total = userDao.getTotalUserByName(name);
         if (queryNotValid(total)) return;
         int page = 1;
@@ -188,17 +181,15 @@ public class UserService extends BaseService {
     }
 
     //修改信息(管理员也可以使用)
-    public void modifyInfomation()
-    {
+    public void modifyInfomation() {
         int instruction = -1;
         final int EXIT = 0;
-        while(true) {
+        while (true) {
             System.out.printf("要修改哪一项信息?(输入0返回上页)\n>");
             try {
                 instruction = Integer.parseInt(in.nextLine());
 
-                if (instruction == EXIT)
-                {
+                if (instruction == EXIT) {
                     System.out.println("正在同步...");
                     userDao.updateUser(user);
                     System.out.println("同步成功!");
@@ -240,12 +231,10 @@ public class UserService extends BaseService {
                         throw new CustomerException("Invalid input");
                 }
             } catch (Exception e) {
-                if(e instanceof SQLException)
-                {
+                if (e instanceof SQLException) {
                     System.out.println("数据库连接异常！修改失败");
                     //todo 恢复数据
-                }
-                else
+                } else
                     System.out.println("无效输入！");
 
             }

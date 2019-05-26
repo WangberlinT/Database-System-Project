@@ -5,14 +5,8 @@ import bean.Evaluation_Member;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 
 public class EvaluationService extends BaseService {
-
-    //构造函数
-    EvaluationService(Scanner inO) {
-        in = inO;
-    }
 
     //添加活动的评价
     public void addEvaluationOfAct(int uid, int aid, String cont, int level) throws SQLException {

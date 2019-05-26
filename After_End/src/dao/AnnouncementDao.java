@@ -27,13 +27,9 @@ public class AnnouncementDao {
      */
     public void deleteAnno(String title, int cid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "delete from Notification where Announcement_ID = ?";
         Announcement ano = searchByTitle(title, cid);
-        Object[] param = {ano.getAnnouncement_ID()};
-        queryRunner.update(sql, param);
-        sql = "delete from Announcement where Announcement_ID=? ;";
-        queryRunner.update(sql, param);
-
+        String sql = "delete from Announcement where Announcement_ID=? ;";
+        queryRunner.update(sql, ano.getAnnouncement_ID());
     }
 
     /**
@@ -41,11 +37,8 @@ public class AnnouncementDao {
      */
     public void deleteAnno(int aid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "delete from Notification where Announcement_ID = ?";
-        Object[] param = {aid};
-        queryRunner.update(sql, param);
-        sql = "delete from Announcement where Announcement_ID=? ;";
-        queryRunner.update(sql, param);
+        String sql = "delete from Announcement where Announcement_ID=? ;";
+        queryRunner.update(sql, aid);
     }
 
     /**
@@ -54,10 +47,8 @@ public class AnnouncementDao {
     public Announcement searchByTitle(String title, int cid) throws SQLException {
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher from Announcement natural join Club "
                 + "where Title=? and Club_ID=?;";
-
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         return queryRunner.query(sql, new BeanHandler<>(Announcement.class), title, cid);
-
     }
 
     /**
@@ -89,46 +80,84 @@ public class AnnouncementDao {
      * 找到用户自己发的公告
      * publish from me
      */
-    public List<Announcement> checkMyAnno(int uid) throws SQLException {
+    public List<Announcement> checkMyAnno(int uid, int currentPage, int pageSize) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher from Announcement natural join Club "
-                + "where Publisher=? order by Time desc;";
-        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), uid);
+                + "where Publisher=? order by Time desc limit ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), uid, start, pageSize);
+    }
 
+    //找到用户自己发的公告总数
+    public long myTotalAnno(int uid) {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "SELECT COUNT(*) from Announcement natural join Club where Publisher=?";
+            return queryRunner.query(sql, new ScalarHandler<>(), uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
      * 查询最近一个月的所有公告
      */
-    public List<Announcement> checkAnnoMonth() throws SQLException {
+    public List<Announcement> checkAnnoMonth(int currentPage, int pageSize) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher from Announcement natural join Club "
-                + "where Time>=now()-000001000000 order by Time desc;";
-        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class));
+                + "where Time>=now()-000001000000 order by Time desc LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), start, pageSize);
     }
 
-    public List<Announcement> checkClubAnno(int cid) throws SQLException {
+    //查询最近一个月的所有公告总数
+    public long totalAnnoMonth() {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "SELECT COUNT(*) from Announcement natural join Club where where Time>=now()-000001000000";
+            return queryRunner.query(sql, new ScalarHandler<>());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //查询社团公告
+    public List<Announcement> checkAnnoClub(int cid, int currentPage, int pageSize) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Club_Name,Title,Content,Time from Announcement natural join Club "
                 + "where Club_ID=? order by Time desc;";
-        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), cid);
+        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), cid, start, pageSize);
+    }
+
+    //查询社团公告总数
+    public long totalAnnoByClub(int cid) {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "SELECT COUNT(*) from Announcement natural join Club where Club_ID=?";
+            return queryRunner.query(sql, new ScalarHandler<>(), cid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     /**
      * 查询我的未读公告
      * announce to me
      */
-    public List<Announcement> checkAnnoToMe(int uid) throws SQLException {
+    public List<Announcement> checkAnnoToMe(int uid, int currentPage, int pageSize) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Announcement_ID,Content,Time,Title,Club_ID,Club_Name club,Publisher "
                 + "from Announcement natural join Notification natural join Club "
-                + "where  User_ID=? and State=0 order by Time desc;";
-        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), uid);
+                + "where  User_ID=? and State=0 order by Time desc LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), uid, start, pageSize);
     }
 
-    /**
-     * 查询一个用户未读公告数量
-     */
+    //查询一个用户未读公告数量
     public long unReadAnnouncement(int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Announcement natural join Notification "
@@ -136,9 +165,7 @@ public class AnnouncementDao {
         return queryRunner.query(sql, new ScalarHandler<>());
     }
 
-    /**
-     * 标记公告已读
-     */
+    //标记公告已读
     public void markRead(int aid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "update Notification set Read_Time=now() and State=1"
