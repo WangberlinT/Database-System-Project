@@ -74,16 +74,23 @@ public class AnnouncementService extends BaseService {
         }
     }
 
-    //查询我的未读公告
-    public void checkAnnoToMe(int uid) throws SQLException {
-        long total = announcementDao.unReadAnnouncement(uid);
-        if (queryNotValid(total)) return;
-        int page = 1;
-        long totalPage = (total - 1) / pageSize + 1;
-        while (page <= totalPage) {
-            List<Announcement> list = announcementDao.checkAnnoToMe(uid, page, pageSize);
-            page = PrintPage(page, totalPage, head, list);
-            if (page == 0) return;
+    //查询我的未读公告并标记为已读
+    public void checkAnnoToMe(int uid) {
+        try {
+            long total = announcementDao.unReadAnnouncement(uid);
+            if (queryNotValid(total)) return;
+            int page = 1;
+            long totalPage = (total - 1) / pageSize + 1;
+            while (page <= totalPage) {
+                List<Announcement> list = announcementDao.checkAnnoToMe(uid, page, pageSize);
+                for (int i = 0; i < pageSize; i++) {
+                    announcementDao.markRead(list.get(i).getAnnouncement_ID(), uid);
+                }
+                page = PrintPage(page, totalPage, head, list);
+                if (page == 0) return;
+            }
+        } catch (SQLException e) {
+            System.out.println("查询我的未读公告失败！");
         }
     }
 }

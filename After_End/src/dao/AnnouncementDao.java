@@ -170,7 +170,6 @@ public class AnnouncementDao {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "update Notification set Read_Time=now() and State=1"
                 + " where User_ID=? and Announcement_ID=?;";
-        Object[] param = {uid, aid};
-        queryRunner.update(sql, param);
+        queryRunner.update(sql, uid, aid);
     }
 }

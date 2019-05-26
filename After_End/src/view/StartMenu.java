@@ -20,10 +20,9 @@ public class StartMenu extends View{
     public static void main(String[] args) {
         StartMenu startMenu = new StartMenu();
         startMenu.displayMenu();
-
     }
 
-    public void loginMenu()//完成
+    private void loginMenu()//完成
     {
         try {
             System.out.println("UserID: ");
@@ -43,9 +42,6 @@ public class StartMenu extends View{
         }
         else
             return;
-
-
-
         //登陆成功
         if(isAdmin)
             view = new AdminView(inputID,inputPassword);
@@ -53,10 +49,9 @@ public class StartMenu extends View{
             view = new UserView(user);
 
         view.displayMenu();
-
     }
 
-    public void display()
+    private void display()
     {
         System.out.println("欢迎使用社团管理系统\n"
             + "-----------------\n"
@@ -65,7 +60,6 @@ public class StartMenu extends View{
             + "3.注册\n"
             + "4.退出\n");
     }
-
 
     public void displayMenu()
     {
@@ -102,7 +96,7 @@ public class StartMenu extends View{
         }
     }
 
-    public void signUp()//异常处理
+    private void signUp()//异常处理
     {
         UserDao userDao = new UserDao();
         System.out.println("输入注册学号: ");
@@ -115,15 +109,15 @@ public class StartMenu extends View{
         String gender = in.nextLine();
         try {
             userDao.insertUser(new User(UID, password, Name, gender));
+            System.out.println("注册成功!");
         }
         catch (SQLException e)
         {
-            System.out.println("注册失败,用户已存在");
+            System.out.println("注册失败,用户已存在,返回登陆界面>>>\n");
         }
-        System.out.println("注册成功!");
     }
 
-    public boolean checkPassword()//完成
+    private boolean checkPassword()//完成
     {
         System.out.println("登陆中...");
         if(isAdmin)
@@ -136,7 +130,7 @@ public class StartMenu extends View{
         }
     }
 
-    public boolean adminPasswordCheck()//完成
+    private boolean adminPasswordCheck()//完成
     {
         AdminDao adminDao = new AdminDao();
         admin = null;
@@ -165,7 +159,7 @@ public class StartMenu extends View{
         return false;
     }
 
-    public boolean userPasswordCheck()//完成
+    private boolean userPasswordCheck()//完成
     {
         UserDao userDao = new UserDao();
         user = null;

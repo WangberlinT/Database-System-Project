@@ -14,7 +14,7 @@ public class AdminUserManager extends View {
 
     public AdminUserManager()
     {
-        userService = new UserService(in);
+        userService = new UserService();
     }
     //显示菜单栏
     private void showMenu()
@@ -50,7 +50,7 @@ public class AdminUserManager extends View {
                         break;
                     case 2:
                         //修改用户信息
-                        userinfoModify();
+                        userInfoModify();
                         break;
                     case 3:
                         //todo 添加新用户
@@ -66,7 +66,7 @@ public class AdminUserManager extends View {
         }
     }
     //修改用户信息
-    private void userinfoModify()
+    private void userInfoModify()
     {
         int instruction = -1;
         final int EXIT = 3;
@@ -83,19 +83,13 @@ public class AdminUserManager extends View {
             if(instruction == EXIT)
                 return;
             if(instruction == 1) {
-                String name = "<1>姓名: " + user.getName();
-                String gender = "<2>性别: " + user.getSex();
-                String born = "<3>生日: " + fu.formatDate(user.getBorn());
-                String Major = "<4>专业: " + user.getMajor();
-                String Address = "<5>地址: " + user.getAddress();
-                String Phone = "<6>电话号码: " + user.getPhone_Number();
-                System.out.print(name + "\n" + gender + "\n" + born + "\n" + Major + "\n" + Address + "\n" + Phone + "\n");
-                userService.modifyInfomation();
+
+                userService.modifyInformation();
             }
             else if (instruction == 2)
             {
                 userService.searchUserAdmin(id);
-                userService.modifyPassword();
+//                userService.modifyPassword();
             }
         }
         catch (Exception e)
@@ -128,7 +122,7 @@ public class AdminUserManager extends View {
                 {
                     case 1:
                         // 查看用户信息
-                        userService.searchUserAdmin(in);
+                        userService.searchUserAdmin();
                         break;
                     case 2:
                         //查找指定id用户
@@ -142,7 +136,7 @@ public class AdminUserManager extends View {
                         System.out.print("输入用户姓名\n" +
                                 ">");
                         String name = in.nextLine();
-                        userService.searchUserAdmin(name,in);
+                        userService.searchUserAdmin(name);
                         break;
                     default:
                         throw new CustomerException("输入超限");
