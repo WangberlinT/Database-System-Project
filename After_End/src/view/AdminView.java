@@ -9,12 +9,14 @@ public class AdminView extends View {
     private Admin admin;
     private AdminDao adminDao;
     private AdminUserManager aum;
+    private AdminManager am;
 
     public AdminView(int ID,String password)
     {
         admin = new Admin(ID,password);
         adminDao = new AdminDao();
         aum = new AdminUserManager();
+        am = new AdminManager(in);
     }
 
     //Admin 主菜单
@@ -58,7 +60,8 @@ public class AdminView extends View {
                         //todo 管理活动
                         break;
                     case 5:
-                        //todo 管理admin
+                        //管理admin
+                        am.run();
                         break;
 
                     default:

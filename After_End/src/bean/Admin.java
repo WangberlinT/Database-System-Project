@@ -11,6 +11,12 @@ public class Admin {
         this.Password = Password;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.Admin_ID + "  " + this.Password;
+    }
+
     //getter and setter
     public int getAdmin_Id() {
         return Admin_ID;

@@ -21,6 +21,7 @@ abstract class BaseService {
     static EvaluationDao evaluationDao = new EvaluationDao();
     static ItemDao itemDao = new ItemDao();
     static UserDao userDao = new UserDao();
+    static AdminDao adminDao = new AdminDao();
 
     //Constant
     int pageSize = 10;  //每页10条数据
