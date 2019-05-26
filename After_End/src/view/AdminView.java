@@ -43,13 +43,15 @@ public class AdminView extends View {
 
                 switch (instruction) {
                     case 1:
+                        //修改密码
                         changePasswordMenu();
                         break;
                     case 2:
                         //todo 管理社团
-                        //1.当前社团数量
+
                         break;
                     case 3:
+                        //管理用户
                         aum.run();
                         break;
                     case 4:

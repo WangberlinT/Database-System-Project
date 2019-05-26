@@ -1,6 +1,7 @@
 package service;
 
 import bean.User;
+import dao.UserDao;
 import util.CustomerException;
 import util.StringAlign;
 import view.View;
@@ -48,7 +49,8 @@ public class AdminUserManager extends View {
                         userinfoBrowser();
                         break;
                     case 2:
-                        //todo 修改用户信息
+                        //修改用户信息
+                        userinfoModify();
                         break;
                     case 3:
                         //todo 添加新用户
@@ -63,40 +65,44 @@ public class AdminUserManager extends View {
             }
         }
     }
-    //修改用户信息界面
-//    private void userinfoModify()
-//    {
-//        int instruction = -1;
-//        final int EXIT = 0;
-//        String content = "1.密码" +
-//                         "2.姓名" +
-//                         "3.性别" +
-//                         "4.出生日期" +
-//                         ""
-//        while(true)
-//        {
-//            System.out.print("---修改用户信息---\n" +
-//                             "输入要修改用户的ID(输入0返回)\n" +
-//                             ">");
-//            try {
-//                instruction = Integer.parseInt(in.nextLine());
-//
-//                if(instruction == EXIT)
-//                    break;
-//                int ID = Integer.parseInt(in.nextLine());
-//                userService.searchUserAdmin(ID);
-//
-//                UserDao userDao = new UserDao();
-//                User temp = userDao.queryUserByID(ID);
-//
-//                System.out.print("要修改哪一项信息\n");
-//            }
-//            catch (Exception e)
-//            {
-//
-//            }
-//        }
-//    }
+    //修改用户信息
+    private void userinfoModify()
+    {
+        int instruction = -1;
+        final int EXIT = 3;
+        System.out.print("输入要修改用户的id\n>");
+        try {
+            int id = Integer.parseInt(in.nextLine());
+            UserDao userDao = new UserDao();
+            User user = userDao.queryUserByID(id);
+            userService.setUser(user);
+            System.out.print("1.修改个人信息\n" +
+                             "2.修改密码\n" +
+                             "3.返回\n>");
+            instruction = Integer.parseInt(in.nextLine());
+            if(instruction == EXIT)
+                return;
+            if(instruction == 1) {
+                String name = "<1>姓名: " + user.getName();
+                String gender = "<2>性别: " + user.getSex();
+                String born = "<3>生日: " + fu.formatDate(user.getBorn());
+                String Major = "<4>专业: " + user.getMajor();
+                String Address = "<5>地址: " + user.getAddress();
+                String Phone = "<6>电话号码: " + user.getPhone_Number();
+                System.out.print(name + "\n" + gender + "\n" + born + "\n" + Major + "\n" + Address + "\n" + Phone + "\n");
+                userService.modifyInfomation();
+            }
+            else if (instruction == 2)
+            {
+                userService.searchUserAdmin(id);
+                userService.modifyPassword();
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("输入异常");
+        }
+    }
 
     //查看用户信息界面
     private void userinfoBrowser()
@@ -144,7 +150,7 @@ public class AdminUserManager extends View {
             }
             catch (Exception e)
             {
-
+                System.out.println("输入异常");
             }
         }
     }

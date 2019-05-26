@@ -13,6 +13,7 @@ import java.util.List;
 public class UserView extends View{
     private User user;
     private UserDao userDao;
+    private UserService userService;
     private int News;
     private boolean hasNewActivities;
 
@@ -20,6 +21,7 @@ public class UserView extends View{
     {
         this.user = user;
         this.userDao = new UserDao();
+        userService = new UserService(in,user);
         News = 0;
         hasNewActivities = false;
     }
@@ -373,14 +375,15 @@ public class UserView extends View{
 
                 switch (instruction) {
                     case 1:
-                        modifyInfomation();
+                        //信息修改
+                        userService.modifyInfomation();
                         break;
                     case 2:
                         modifyPrivacy();
                         break;
                     case 3:
-                        //todo 密码修改
-                        modifyPassword();
+                        //密码修改
+                        userService.modifyPassword();
                         break;
                     default:
                         throw new CustomerException("Invalid input");
@@ -459,104 +462,7 @@ public class UserView extends View{
 
     }
 
-    private void modifyPassword() {
-        int instruction = -1;
-        String inpassword;
-        final int EXIT = 2;
-        while (true) {
-            System.out.printf("---更改用户: %d 的密码---\n"
-                    + "确保以下操作为本人操作\n"
-                    + "1.继续修改\n"
-                    + "2.退回上一栏\n>", user.getUser_ID());
-            try {
-                instruction = Integer.parseInt(in.nextLine());
 
-                if (instruction == 1) {
-                    System.out.print("输入原密码\n>");
-                    inpassword = in.nextLine();
-                    if (inpassword.equals(user.getPassword())) {
-                        System.out.print("输入新密码\n>");
-                        inpassword = in.nextLine();
-                        user.setPassword(inpassword);
-                        System.out.println("正在同步...");
-                        userDao.updateUser(user);
-                        System.out.println("更改成功!");
-                    } else
-                        System.out.println("原密码错误!");
-                } else if (instruction == 2)
-                    break;
-                else
-                    throw new CustomerException("输入超出范围");
-            } catch (Exception e) {
-                //todo 异常处理
-            }
-        }
-    }
-
-    private void modifyInfomation()
-    {
-        int instruction = -1;
-        final int EXIT = 0;
-        while(true) {
-            System.out.printf("要修改哪一项信息?(输入0返回上页)\n>");
-            try {
-                instruction = Integer.parseInt(in.nextLine());
-
-                if (instruction == EXIT)
-                {
-                    System.out.println("正在同步...");
-                    userDao.updateUser(user);
-                    System.out.println("同步成功!");
-                    return;
-                }
-
-                switch (instruction) {
-                    case 1:
-                        System.out.printf("输入新的姓名\n>");
-                        String newName = in.nextLine();
-//                        nameModify(newName);
-                        break;
-                    case 2:
-                        System.out.printf("输入新的性别\n>");
-                        String newSex = in.nextLine();
-//                        sexModify(newSex);
-                        break;
-                    case 3:
-                        System.out.printf("输入新的生日格式:年-月-日\n例:1990-05-08\n>");
-                        String newDate = in.nextLine();
-//                        bornModify(newDate);
-                        break;
-                    case 4:
-                        System.out.printf("输入新的专业\n>");
-                        String newMajor = in.nextLine();
-//                        majorModify(newMajor);
-                        break;
-                    case 5:
-                        System.out.printf("输入新的地址\n>");
-                        String address = in.nextLine();
-//                        addressModify(address);
-                        break;
-                    case 6:
-                        System.out.printf("输入新的电话号码\n>");
-                        String newPhone = in.nextLine();
-//                        phoneNumberModify(newPhone);
-                        break;
-                    default:
-                        throw new CustomerException("Invalid input");
-                }
-            } catch (Exception e) {
-                if(e instanceof SQLException)
-                {
-                    System.out.println("数据库连接异常！修改失败");
-                    //todo 恢复数据
-                }
-                else
-                    System.out.println("无效输入！");
-
-            }
-        }
-
-    }
 
     public void display()
     {

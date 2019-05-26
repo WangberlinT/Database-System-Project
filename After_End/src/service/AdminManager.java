@@ -1,4 +1,9 @@
 package service;
 
-public class AdminManager {
+public class AdminManager extends BaseService {
+
+    private void showMenu()
+    {
+
+    }
 }
