@@ -11,11 +11,42 @@ import java.util.Scanner;
 
 public class UserService extends BaseService {
     private User user;
-    private String head = "No  用户ID     用户名     性别     专业     生日     住址     联系方式";
+    private String head;
+    private String admintitle;
 
     //构造函数
     public UserService(User userO) {
+        this();
         user = userO;
+    }
+
+    public UserService(){
+        formatter.setMaxChars(5);
+        head = formatter.format("No");
+        formatter.setMaxChars(12);
+        head += formatter.format("用户ID");
+        formatter.setMaxChars(20);
+        head += formatter.format("用户名");
+        formatter.setMaxChars(5);
+        head += formatter.format("性别");
+        formatter.setMaxChars(20);
+        head += formatter.format("专业")+
+                formatter.format("生日");
+        formatter.setMaxChars(30);
+        head += formatter.format("住址")+formatter.format("联系方式");
+        formatter.setMaxChars(5);
+        admintitle = formatter.format("No");
+        formatter.setMaxChars(12);
+        admintitle += formatter.format("用户ID");
+        formatter.setMaxChars(20);
+        admintitle += formatter.format("密码")+formatter.format("用户名");
+        formatter.setMaxChars(5);
+        admintitle += formatter.format("性别");
+        formatter.setMaxChars(20);
+        admintitle += formatter.format("专业")+
+                formatter.format("生日");
+        formatter.setMaxChars(30);
+        admintitle += formatter.format("住址")+formatter.format("联系方式");
     }
 
     //设置user
@@ -74,8 +105,23 @@ public class UserService extends BaseService {
 
     //--------------管理员查询User--------------------------------------------------
     //查询所有
-    public void searchUserAdmin(Scanner in) throws SQLException {
-        String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
+    private String userdisplaySet(User temp)
+    {
+        formatter.setMaxChars(12);
+        String info = formatter.format(Integer.toString(temp.getUser_ID()));
+        formatter.setMaxChars(20);
+        info+=formatter.format(temp.getPassword())+
+                formatter.format(temp.getName());
+        formatter.setMaxChars(5);
+        info+= formatter.format(temp.getSex());
+        formatter.setMaxChars(20);
+        info+= formatter.format(temp.getMajor()!=null?temp.getMajor():"null")+formatter.format(temp.getBorn()!=null?temp.getBorn().toString():"null");
+        formatter.setMaxChars(30);
+        info+=formatter.format(temp.getAddress()!=null?temp.getAddress():"null")+formatter.format(temp.getPhone_Number()!=null?temp.getPhone_Number():"null");
+        return info;
+    }
+
+    public void searchUserAdmin() throws SQLException {
         int page = 1;
         long total = userDao.getTotalUser();
         long totalPage = (total - 1) / pageSize + 1;
@@ -86,30 +132,27 @@ public class UserService extends BaseService {
             List<String> stringList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 User temp = list.get(i);
-                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
+                String info = userdisplaySet(temp);
                 stringList.add(info);
             }
-            page = PrintPage(page, totalPage, title, stringList);
+            page = PrintPage(page, totalPage, admintitle, stringList);
             if (page == 0) return;
         }
     }
 
     //以id查询
     public void searchUserAdmin(int uid) throws SQLException {
-        String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
         User temp = userDao.queryUserByID(uid);
         if (temp != null) {
-            String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
-            System.out.println(formatter.format(title));
-            System.out.println(formatter.format(info));
+            System.out.println(admintitle);
+            System.out.println(userdisplaySet(temp));
         } else {
             System.out.println("没有查询到结果");
         }
     }
 
     //以姓名查询
-    public void searchUserAdmin(String name, Scanner in) throws SQLException {
-        String title = "No  用户ID     密码     用户名     性别     专业     生日     住址     联系方式";
+    public void searchUserAdmin(String name) throws SQLException {
         long total = userDao.getTotalUserByName(name);
         if (queryNotValid(total)) return;
         int page = 1;
@@ -119,10 +162,10 @@ public class UserService extends BaseService {
             List<String> stringList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 User temp = list.get(i);
-                String info = temp.getUser_ID() + "  " + temp.getPassword() + "  " + temp.getName() + "  " + temp.getSex() + "  " + temp.getBorn() + "  " + temp.getMajor() + "  " + temp.getAddress() + "  " + temp.getPhone_Number();
+                String info = userdisplaySet(temp);
                 stringList.add(info);
             }
-            page = PrintPage(page, totalPage, title, stringList);
+            page = PrintPage(page, totalPage, admintitle, stringList);
             if (page == 0) return;
         }
     }
@@ -276,4 +319,13 @@ public class UserService extends BaseService {
             }
         }
     }
+//    //test
+//    public static void main(String[] args) {
+//        UserService userService = new UserService(null);
+//        try {
+//            userService.searchUser();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

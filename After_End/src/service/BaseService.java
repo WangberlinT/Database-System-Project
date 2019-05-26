@@ -9,9 +9,10 @@ import java.util.Scanner;
 
 abstract class BaseService {
     //Util
+    public static final int MAXCHAR = 20;
     static Scanner in=new Scanner(System.in);
     static FormatUtil fu = new FormatUtil();
-    static StringAlign formatter = new StringAlign(200, StringAlign.JUST_LEFT);
+    static StringAlign formatter = new StringAlign(MAXCHAR, StringAlign.JUST_LEFT);
 
     //DAO
     static ActivityDao activityDao = new ActivityDao();
@@ -27,11 +28,14 @@ abstract class BaseService {
     int pageSize = 10;  //每页10条数据
 
     //输出List<？> 一页的内容
-    int PrintPage(int page, long totalPage, String head, List<?> list) {
-        System.out.println(formatter.format(head));
+    int PrintPage(int page, long totalPage, String format_head, List<?> list) {
+        //format_head是已经格式化后的标题
+        System.out.println(format_head);
         int No = (page - 1) * pageSize + 1;
         for (Object u : list) {
-            System.out.println(formatter.format(No + "  " + u.toString()));
+            formatter.setMaxChars(5);
+            String content = formatter.format(Integer.toString(No))+u.toString();
+            System.out.println(content);
             No++;
         }
         System.out.printf("当前页数/总页数:  %s/%s\n", page, totalPage);

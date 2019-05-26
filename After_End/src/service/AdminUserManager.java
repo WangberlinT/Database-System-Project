@@ -14,12 +14,12 @@ public class AdminUserManager extends View {
 
     public AdminUserManager()
     {
-        userService = new UserService(in);
+        userService = new UserService();
     }
     //显示菜单栏
     private void showMenu()
     {
-        formatter = new StringAlign(10,StringAlign.JUST_CENTER);
+        formatter = new StringAlign(10,StringAlign.JUST_LEFT);
         System.out.println(formatter.format("---用户管理---"));
         System.out.print("1.查看用户信息\n" +
                          "2.修改用户信息\n" +
@@ -128,7 +128,7 @@ public class AdminUserManager extends View {
                 {
                     case 1:
                         // 查看用户信息
-                        userService.searchUserAdmin(in);
+                        userService.searchUserAdmin();
                         break;
                     case 2:
                         //查找指定id用户
@@ -142,7 +142,7 @@ public class AdminUserManager extends View {
                         System.out.print("输入用户姓名\n" +
                                 ">");
                         String name = in.nextLine();
-                        userService.searchUserAdmin(name,in);
+                        userService.searchUserAdmin(name);
                         break;
                     default:
                         throw new CustomerException("输入超限");
@@ -150,6 +150,7 @@ public class AdminUserManager extends View {
             }
             catch (Exception e)
             {
+                e.printStackTrace();
                 System.out.println("输入异常");
             }
         }

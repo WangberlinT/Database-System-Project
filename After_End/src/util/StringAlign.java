@@ -45,8 +45,11 @@ public class StringAlign {
      *            待对齐的字符串
      */
     public String format(String s) {
+        if(s == null)
+            s = "null";
         StringBuffer where = new StringBuffer();
         // 从待对齐的字符串中取出一段子字符串，子串的长度为行最大长度和s长度的较小值
+        final int NULLLENGTH = 4;
         int wantedLength = Math.min(s.length(), this.maxChars);
         String wanted = s.substring(0, wantedLength);
         // 根据对齐模式，将空格放在合适的位置
