@@ -1,5 +1,6 @@
 package service;
 
+import bean.User;
 import dao.*;
 import util.FormatUtil;
 import util.StringAlign;

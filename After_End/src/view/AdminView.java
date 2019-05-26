@@ -116,8 +116,6 @@ public class AdminView extends View {
             {
                 //todo 异常处理
             }
-
-
         }
     }
 

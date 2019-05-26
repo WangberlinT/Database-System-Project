@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 public class UserService extends BaseService {
     private User user;
@@ -214,8 +213,13 @@ public class UserService extends BaseService {
     //------消息盒子--------\\
 
     //检查数据库中有没有新的发给本对象的申请或者公告
-    public long checkNews(int uid) throws SQLException {
-        return announcementDao.unReadAnnouncement(uid);
+    public long checkNews(int uid) {
+        try {
+            return announcementDao.unReadAnnouncement(uid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     //检查数据库中7天内新活动数量
@@ -223,12 +227,14 @@ public class UserService extends BaseService {
         return activityDao.totalActivityForAllweek();
     }
 
+    //---------修改信息-----------
+
     //修改信息(管理员也可以使用)
-    public void modifyInfomation() {
+    public void modifyInformation() {
         int instruction = -1;
         final int EXIT = 0;
         while (true) {
-            System.out.printf("要修改哪一项信息?(输入0返回上页)\n>");
+            System.out.print("要修改哪一项信息?(输入0返回上页)\n>");
             try {
                 instruction = Integer.parseInt(in.nextLine());
 
@@ -241,32 +247,32 @@ public class UserService extends BaseService {
 
                 switch (instruction) {
                     case 1:
-                        System.out.printf("输入新的姓名\n>");
+                        System.out.print("输入新的姓名>");
                         String newName = in.nextLine();
                         nameModify(newName);
                         break;
                     case 2:
-                        System.out.printf("输入新的性别\n>");
+                        System.out.print("输入新的性别\n>");
                         String newSex = in.nextLine();
                         sexModify(newSex);
                         break;
                     case 3:
-                        System.out.printf("输入新的生日格式:年-月-日\n例:1990-05-08\n>");
+                        System.out.print("输入新的生日格式:年-月-日\n例:1990-05-08\n>");
                         String newDate = in.nextLine();
                         bornModify(newDate);
                         break;
                     case 4:
-                        System.out.printf("输入新的专业\n>");
+                        System.out.print("输入新的专业\n>");
                         String newMajor = in.nextLine();
                         majorModify(newMajor);
                         break;
                     case 5:
-                        System.out.printf("输入新的地址\n>");
+                        System.out.print("输入新的地址\n>");
                         String address = in.nextLine();
                         addressModify(address);
                         break;
                     case 6:
-                        System.out.printf("输入新的电话号码\n>");
+                        System.out.print("输入新的电话号码\n>");
                         String newPhone = in.nextLine();
                         phoneNumberModify(newPhone);
                         break;
