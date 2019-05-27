@@ -20,7 +20,7 @@ public class EvaluationDao {
     }
 
     //添加社团人员评价(根据用户id和社团名字)
-    public void addEvaluationOfMember(String mid, String clubName, String cont, int level) throws SQLException {
+    public void addEvaluationOfMember(int mid, String clubName, String cont, int level) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "call addEvaluate_mem(?,?,?,?)"; //存储过程
         queryRunner.execute(sql, mid, clubName, cont, level);
