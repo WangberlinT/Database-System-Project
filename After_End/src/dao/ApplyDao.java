@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.*;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import bean.Apply;
@@ -70,6 +70,14 @@ public class ApplyDao {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
+
+	public Apply getApply(int iid) throws SQLException{
+		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" +
+				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" +
+				"where Apply_ID=?;";
+		QueryRunner queryRunner = C3P0Util.getQueryRunner();
+		return queryRunner.query(sql, new BeanHandler<>(Apply.class),iid);
+	}
 	//查看活动申请
 	public List<Apply> getActadd(int tid) throws SQLException{
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
@@ -102,4 +110,6 @@ public class ApplyDao {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new ScalarHandler<>(),tid);
 	}
+
+
 }
