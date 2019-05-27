@@ -70,6 +70,7 @@ public class ActivityView extends View {
                         throw new CustomerException("Wrong input");
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("无效输入！");
             }
         }
@@ -121,6 +122,8 @@ public class ActivityView extends View {
     private void createactivity() throws SQLException {
         System.out.println("请输入活动名称");
         String name = in.nextLine();
+        System.out.println("请输入活动内容");
+        String contain = in.nextLine();
         System.out.println("请输入活动开始时间\n"+"年：");
         int year = in.nextInt();
         System.out.println("请输入活动开始时间\n"+"月：");
@@ -153,7 +156,7 @@ public class ActivityView extends View {
         }else{
             range = false;
         }
-        Activity a = new Activity(name,start,end,Response_ID,range,true);
+        Activity a = new Activity(name,contain,start,end,Response_ID,range,true);
         activityService.createActivity(a);
     }
 

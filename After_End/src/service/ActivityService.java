@@ -8,7 +8,7 @@ import bean.*;
 
 
 public class ActivityService extends BaseService {
-    private String ActivityHead = "活动ID     名称      开始时间        结束时间        负责人";
+    private String ActivityHead = "     活动ID     名称         开始时间                    结束时间                    负责人";
 
     //查看我参加的活动总数
     public void activityNumberTotal(int uid) throws SQLException {
@@ -35,7 +35,7 @@ public class ActivityService extends BaseService {
         if(a == null){
             System.out.println("无效的ID");
         }else{
-            System.out.println(a.toString());
+            a.Print();
         }
     }
 
