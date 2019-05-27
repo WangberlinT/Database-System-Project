@@ -172,4 +172,13 @@ public class AnnouncementDao {
                 + " where User_ID=? and Announcement_ID=?;";
         queryRunner.update(sql, uid, aid);
     }
+
+    //社团里的公告数量
+    public long numberofcluban(int uid) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select COUNT(*) from Announcement  "
+                + "where Club_ID=? ";
+        return queryRunner.query(sql, new ScalarHandler<>(),uid);
+    }
+
 }
