@@ -1,6 +1,5 @@
 package service;
 
-import bean.User;
 import dao.*;
 import util.FormatUtil;
 import util.StringAlign;
@@ -10,7 +9,7 @@ import java.util.Scanner;
 
 abstract class BaseService {
     //Util
-    public static final int MAXCHAR = 20;
+    static final int MAXCHAR = 20;
     static Scanner in=new Scanner(System.in);
     static FormatUtil fu = new FormatUtil();
     static StringAlign formatter = new StringAlign(MAXCHAR, StringAlign.JUST_LEFT);
@@ -52,6 +51,7 @@ abstract class BaseService {
             default:
                 page = 0;
         }
+        if(page==0) System.out.println("----查询结束----");
         return page;
     }
 
