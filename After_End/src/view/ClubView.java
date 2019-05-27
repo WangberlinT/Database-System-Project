@@ -33,16 +33,16 @@ public class ClubView extends View {
                 while (true) {
                     searchClub(name);
                     System.out.println("请选择一个社团id查看：\n输入-1退出");
-                    int clid = InputInt(in);
-                    if (clid == -1) {
+                    int cid = InputInt(in);
+                    if (cid == -1) {
                         break;
                     }
-                    cls.showClubInfo(clid);
+                    cls.showClubInfo(cid);
                     System.out.println("是否要加入社团？\n1.是\n2.否");
                     int pd = InputInt(in);
                     if (pd == 1) {
                         System.out.println("请输入入社理由");
-                        cls.applyTojoin(clid, in.nextLine());
+                        cls.applyToJoin(cid, in.nextLine());
                     }
                 }
             } else if (ins == 2) {
@@ -76,7 +76,6 @@ public class ClubView extends View {
                 int zs = InputInt(in);
                 if (zs == 1) {
                     cls.showMemberList();
-                    ;
                 } else if (zs == -1) {
                     break;
                 } else if (zs == 2) {
@@ -91,16 +90,15 @@ public class ClubView extends View {
                     if (zs == 5) {
                         humanManage();
                     } else if (zs == 6) {
-                        itemmanage();
+                        itemManage();
                     } else if (zs == 7) {
                         applyManage();
                     } else if (zs == 8) {
-                        addan(club);
+                        addAnnouncement(club);
                     }
                 }
             }
         }
-
     }
 
     public void createClub() throws SQLException {
@@ -111,14 +109,12 @@ public class ClubView extends View {
         String type = in.nextLine();
         System.out.println("简介：");
         String intro = in.nextLine();
-        cls.applyTobuildClub(name, type, intro);
+        cls.applyToBuildClub(name, type, intro);
     }
-
 
     public void searchClub(String name) throws SQLException {
         cls.showSearchClub(name);
     }
-
 
     //加入活动todo
     public void activityPart(int club) throws SQLException {
@@ -135,7 +131,7 @@ public class ClubView extends View {
     }
 
 
-    public void itemmanage() throws SQLException {
+    public void itemManage() throws SQLException {
         while (true) {
             System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.增加道具\n6.删除道具\n7.退出");
             int ins = InputInt(in);
@@ -153,24 +149,23 @@ public class ClubView extends View {
                 cls.borrowItem(usid, name);
             } else if (ins == 4) {
                 System.out.println("请输入归还者id：");
-                int usid = InputInt(in);
+                int uid = InputInt(in);
                 System.out.println("请输入归还物品名称：");
                 String iid = in.nextLine();
-                cls.returnItem(usid, iid);
-            }else if(ins==5){
+                cls.returnItem(uid, iid);
+            } else if (ins == 5) {
                 System.out.println("请输入物品名称：");
-                String iname=in.nextLine();
+                String itemName = in.nextLine();
                 System.out.println("请输入物品价格：");
-                int value=InputInt(in);
-                cls.addItem(value,iname);
-            }else if(ins==6){
+                int value = InputInt(in);
+                cls.addItem(value, itemName);
+            } else if (ins == 6) {
                 cls.checkItemClub();
                 System.out.println("请输入要删除的道具id,-1退出");
-                int iid=in.nextInt();
+                int iid = in.nextInt();
                 cls.removeItem(iid);
             }
         }
-
     }
 
     public void humanManage() throws SQLException {
@@ -187,7 +182,6 @@ public class ClubView extends View {
             } else if (ins == 2) {
                 cls.showMemberList();
                 System.out.println("选择要评价的社员id：");
-
                 int name = InputInt(in);
                 System.out.println("输入对该社员的评价：");
                 String content = in.nextLine();
@@ -273,7 +267,7 @@ public class ClubView extends View {
         }
     }
 
-    private void addan(int club) throws SQLException {
+    private void addAnnouncement(int club) throws SQLException {
         System.out.println("请输入想要发布的公告标题:");
         String bt = in.nextLine();
         System.out.println("请输入想要发布的公告内容:");

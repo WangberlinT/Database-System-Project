@@ -105,7 +105,6 @@ public class ClubDao {
     }
 
     public long queryClubByTypeNum(String type) throws SQLException {
-
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Club where Club_Type=?;";
         return queryRunner.query(sql, new ScalarHandler<>(), type);
@@ -113,14 +112,14 @@ public class ClubDao {
 
 
     //加人到社团(手动输入职位）
-    public void joinclub(String Work_Name, Club club, User user) throws SQLException {
+    public void joinClub(String Work_Name, Club club, User user) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "insert into User_Club(User_ID, Club_ID, Work_Name) VALUES (?, ?, ?);";
         Object[] param = {user.getUser_ID(), club.getClub_ID(), Work_Name};
         queryRunner.update(sql, param);
     }
 
-    public void joinclub(String Work_Name, int cid, int uid) throws SQLException {
+    public void joinClub(String Work_Name, int cid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "insert into User_Club(User_ID, Club_ID, Work_Name) VALUES (?, ?, ?);";
         Object[] param = {uid, cid, Work_Name};
@@ -128,14 +127,14 @@ public class ClubDao {
     }
 
     //从社团删除人
-    public void exitclub(Club club, User user) throws SQLException {
+    public void exitClub(Club club, User user) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from User_Club where User_ID=? and Club_ID=?";
         Object[] param = {user.getUser_ID(), club.getClub_ID()};
         queryRunner.update(sql, param);
     }
 
-    public void exitclub(int cid, int uid) throws SQLException {
+    public void exitClub(int cid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from User_Club where User_ID=? and Club_ID=?";
         Object[] param = {uid, cid};
@@ -143,15 +142,23 @@ public class ClubDao {
     }
 
     //找到一个人所属的社团
-    public List<User_Club> queryone(User user) throws SQLException {
+    public List<User_Club> queryOne(User user) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select Club_ID,Club_Name,Work_Name,User_ID from User_Club natural join Club where User_ID=?";
+        String sql = "select u.User_ID, u.Name, C.Club_ID, Club_Name, Work_Name\n" +
+                "from User u\n" +
+                "         join User_Club UC on u.User_ID = UC.User_ID\n" +
+                "         join Club C on UC.Club_ID = C.Club_ID\n" +
+                "where u.User_ID = ?;";
         return queryRunner.query(sql, new BeanListHandler<>(User_Club.class), user.getUser_ID());
     }
 
-    public List<User_Club> queryone(int uid) throws SQLException {
+    public List<User_Club> queryOne(int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select Club_ID,Club_Name,Work_Name,User_ID from User_Club natural join Club where User_ID=?";
+        String sql = "select u.User_ID, u.Name, C.Club_ID, Club_Name, Work_Name\n" +
+                "from User u\n" +
+                "         join User_Club UC on u.User_ID = UC.User_ID\n" +
+                "         join Club C on UC.Club_ID = C.Club_ID\n" +
+                "where u.User_ID = ?;";
         return queryRunner.query(sql, new BeanListHandler<>(User_Club.class), uid);
     }
 

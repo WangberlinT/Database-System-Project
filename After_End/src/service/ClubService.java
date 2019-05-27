@@ -38,7 +38,7 @@ public class ClubService extends BaseService {
     //游客
     //展示所属社团
     public void showMyClub() throws SQLException {
-        List<User_Club> uc = clubDao.queryone(uid);
+        List<User_Club> uc = clubDao.queryOne(uid);
         if (uc.size() == 0) {
             System.out.println("你还没有加入任何社团，请加入后再来" + uc.size());
         } else {
@@ -57,13 +57,13 @@ public class ClubService extends BaseService {
     }
 
     //加入社团的申请
-    public void applyTojoin(int cid, String content) throws SQLException {
+    public void applyToJoin(int cid, String content) throws SQLException {
         applyDao.insertJoinClub(uid, cid, content);
         System.out.println("申请已发送，请耐心等耐");
     }
 
     //建社
-    public void applyTobuildClub(String cname, String ctype, String cintro) throws SQLException {
+    public void applyToBuildClub(String cname, String ctype, String cintro) throws SQLException {
 
         clubDao.addClub(cname, ctype, cintro, uid);
 
@@ -171,7 +171,7 @@ public class ClubService extends BaseService {
 
     //加人入社
     public void addMember(int uid, String work) throws SQLException {
-        clubDao.joinclub(work, cid, uid);
+        clubDao.joinClub(work, cid, uid);
         System.out.println("添加成功");
     }
 
@@ -181,7 +181,7 @@ public class ClubService extends BaseService {
 
     //踢出社团
     public void dropMember(int uid) throws SQLException {
-        clubDao.exitclub(cid, uid);
+        clubDao.exitClub(cid, uid);
         System.out.println("删除完毕");
     }
 
@@ -198,13 +198,13 @@ public class ClubService extends BaseService {
         }
     }
 
-    public void checkItemClub() throws SQLException{
+    public void checkItemClub() throws SQLException {
         long total = itemDao.checkItemClubNum(cid);
         if (queryNotValid(total)) return;
         int page = 1;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
-            List<Item> ul = itemDao.checkItemClub(cid,page);
+            List<Item> ul = itemDao.checkItemClub(cid, page);
             page = PrintPage(page, totalPage, "", ul);
             if (page == 0) return;
         }
@@ -223,13 +223,13 @@ public class ClubService extends BaseService {
 
     //某人来还东西
     public void returnItem(int usid, int iid) throws SQLException {
-        itemDao.huanItem(usid, iid);
+        itemDao.returnItem(usid, iid);
         System.out.println("归还完毕");
     }
 
     //重载还东西
     public void returnItem(int usid, String name) throws SQLException {
-        itemDao.huanItem(usid, name, cid);
+        itemDao.returnItem(usid, name, cid);
         System.out.println("归还完毕");
     }
 
