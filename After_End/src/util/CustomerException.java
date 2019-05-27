@@ -1,8 +1,7 @@
 package util;
 
 public class CustomerException extends Exception {
-    public CustomerException(String s)
-    {
+    public CustomerException(String s) {
         super(s);
     }
 }

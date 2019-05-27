@@ -7,17 +7,16 @@ import java.util.Date;
 public class Activity {
     private int Activity_ID; //活动ID
     private String Activity_Name; //活动名称
-    private String Activity_Contain; //活动名称
+    private String Activity_Content; //活动内容
     private Date Start_Time; //开始日期
     private Date End_Time; //结束日期
     private int Response_ID; //负责人ID
     private boolean Range; //活动公开性
     private boolean state; //活动是否过期
 
-    public Activity(String Activity_Name,String Activity_Contain,Date Start_Time,Date End_Time,int response_ID, boolean Range, boolean state)
-    {
+    public Activity(String Activity_Name, String Activity_Content, Date Start_Time, Date End_Time, int response_ID, boolean Range, boolean state) {
         this.Activity_Name = Activity_Name;
-        this.Activity_Contain = Activity_Contain;
+        this.Activity_Content = Activity_Content;
         this.Start_Time = Start_Time;
         this.End_Time = End_Time;
         this.Response_ID = response_ID;
@@ -25,13 +24,14 @@ public class Activity {
         this.state = state;
     }
 
-    public Activity(){}
+    public Activity() {
+    }
 
     @Override
     public String toString() {
         StringAlign formatter = new StringAlign(8, StringAlign.JUST_LEFT);
         String id = formatter.format(Integer.toString(Activity_ID));
-        String name = Activity_Name ;
+        String name = Activity_Name;
         String start = Start_Time.toString();
         String end = End_Time.toString();
         String respon = Integer.toString(Response_ID);
@@ -46,10 +46,10 @@ public class Activity {
         return result;
     }
 
-       public void Print(){
-            System.out.println("名称： "+Activity_Name );
-            System.out.println("内容:  " + Activity_Contain);
-       }
+    public void Print() {
+        System.out.println("名称： " + Activity_Name);
+        System.out.println("内容:  " + Activity_Content);
+    }
 
 
     //getter and setter

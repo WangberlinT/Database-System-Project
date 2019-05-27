@@ -104,7 +104,7 @@ public class UserService extends BaseService {
 
     //--------------管理员查询User--------------------------------------------------
     //查询所有
-    private String userdisplaySet(User temp) {
+    private String userDisplaySet(User temp) {
         formatter.setMaxChars(12);
         String info = formatter.format(Integer.toString(temp.getUser_ID()));
         formatter.setMaxChars(20);
@@ -129,7 +129,7 @@ public class UserService extends BaseService {
             //将User 所有信息显示出来,用String list存
             List<String> stringList = new ArrayList<>();
             for (User temp : list) {
-                String info = userdisplaySet(temp);
+                String info = userDisplaySet(temp);
                 stringList.add(info);
             }
             page = PrintPage(page, totalPage, adminTitle, stringList);
@@ -142,7 +142,7 @@ public class UserService extends BaseService {
         User temp = userDao.queryUserByID(uid);
         if (temp != null) {
             System.out.println(adminTitle);
-            System.out.println(userdisplaySet(temp));
+            System.out.println(userDisplaySet(temp));
         } else {
             System.out.println("没有查询到结果");
         }
@@ -157,9 +157,8 @@ public class UserService extends BaseService {
         while (page <= totalPage) {
             List<User> list = userDao.queryUserByName(name, page, pageSize);
             List<String> stringList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                User temp = list.get(i);
-                String info = userdisplaySet(temp);
+            for (User temp : list) {
+                String info = userDisplaySet(temp);
                 stringList.add(info);
             }
             page = PrintPage(page, totalPage, adminTitle, stringList);
@@ -323,13 +322,4 @@ public class UserService extends BaseService {
             }
         }
     }
-//    //test
-//    public static void main(String[] args) {
-//        UserService userService = new UserService(null);
-//        try {
-//            userService.searchUser();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

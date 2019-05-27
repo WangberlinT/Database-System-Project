@@ -1,7 +1,6 @@
 package bean;
 
-public class User_Club {
-    private int User_ID;
+public class User_Club extends User {
     private int Club_ID;
     private String Work_Name;
     private String Club_Name;
@@ -9,12 +8,8 @@ public class User_Club {
     public User_Club() {
     }
 
-    public int getUser_ID() {
-        return User_ID;
-    }
-
-    public void setUser_ID(int user_ID) {
-        User_ID = user_ID;
+    public String toString() {
+        return getUser_ID() + "  " + getName() + "  " + Club_ID + " :" + Club_Name + " " + Work_Name;
     }
 
     public int getClub_ID() {
@@ -31,10 +26,6 @@ public class User_Club {
 
     public void Work_Name(String work_Name) {
         Work_Name = work_Name;
-    }
-    
-    public String toString() {
-    	return +Club_ID+" :"+Club_Name+" "+Work_Name;
     }
 
     public void setWork_Name(String work_Name) {

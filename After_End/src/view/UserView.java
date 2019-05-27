@@ -14,12 +14,14 @@ public class UserView extends View {
     private long News;
     private long NewActivities;
     private ClubView clubView;
+    private ActivityView activityView;
 
     UserView(User user) {
         this.user = user;
         userService = new UserService(user);
         announcementService = new AnnouncementService();
-        //clubView = new ClubView();
+        clubView = new ClubView(user.getUser_ID());
+        activityView = new ActivityView(user);
         News = 0;
         NewActivities = 0;
     }
@@ -53,7 +55,7 @@ public class UserView extends View {
             display();
             System.out.print('>');
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
                 if (instruction == EXIT)
                     break;
                 switch (instruction) {
@@ -66,11 +68,10 @@ public class UserView extends View {
                         break;
                     case 3:
                         //todo 社团浏览
-                       // clubView.clubBrowse();
+                        //clubView.clubBrowse();
                         break;
-                    case 4:
-//                        activityBrowse();
-                        //todo 活动墙浏览
+                    case 4://活动墙浏览
+                        activityView.displayMenu();
                         break;
                     case 5:
                         announcementService.checkAnnoToMe(user.getUser_ID()); //查看公告并标为已读
@@ -80,6 +81,7 @@ public class UserView extends View {
                         throw new CustomerException("Wrong input");
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("无效输入！");
             }
         }
@@ -96,7 +98,7 @@ public class UserView extends View {
                     + formatter.format("3.修改密码*") + formatter.format("4.返回") + "\n");
             System.out.print('>');
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
                 if (instruction == EXIT)
                     return;
                 switch (instruction) {
@@ -130,7 +132,7 @@ public class UserView extends View {
                     + "1.继续修改\n"
                     + "2.退回上一栏\n>", user.getUser_ID());
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
                 if (instruction == 1) {
                     System.out.print("输入原密码\n>");
                     inpassword = in.nextLine();
@@ -166,7 +168,7 @@ public class UserView extends View {
                     user.isAddress_Access(),
                     user.isPhone_Access());
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
                 if (instruction == EXIT) {
                     System.out.println("正在同步...");
                     userService.updateInfo();
@@ -174,7 +176,7 @@ public class UserView extends View {
                     return;
                 }
                 System.out.println("设置可见性为:\n<1> 可见\n<2> 隐藏");
-                modify = Integer.parseInt(in.nextLine());
+                modify = InputInt(in);
                 switch (instruction) {
                     case 1:
                         if (modify == 1)

@@ -1,4 +1,5 @@
 package view;
+
 import bean.*;
 import dao.AdminDao;
 import service.*;
@@ -11,34 +12,32 @@ public class AdminView extends View {
     private AdminUserManager aum;
     private AdminManager am;
 
-    public AdminView(int ID,String password)
-    {
-        admin = new Admin(ID,password);
+    public AdminView(int ID, String password) {
+        admin = new Admin(ID, password);
         adminDao = new AdminDao();
         aum = new AdminUserManager();
-       // am = new AdminManager(in);
+        // am = new AdminManager(in);
     }
 
     //Admin 主菜单
-    public void displayMenu()
-    {
+    public void displayMenu() {
         int instruction;
         final int EXIT = 6;
 
         while (true) {
             System.out.printf(
-                            "Welcome Admin: %d\n"
-                            +"-----------------\n"
-                            +"1.修改密码\n"
-                            +"2.管理社团\n"
-                            +"3.管理用户\n"
-                            +"4.管理活动\n"
-                            +"5.管理员账号管理\n"
-                            +"6.退出登陆\n>"
+                    "Welcome Admin: %d\n"
+                            + "-----------------\n"
+                            + "1.修改密码\n"
+                            + "2.管理社团\n"
+                            + "3.管理用户\n"
+                            + "4.管理活动\n"
+                            + "5.管理员账号管理\n"
+                            + "6.退出登陆\n>"
                     , admin.getAdmin_Id());
 
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
 
                 if (instruction == EXIT)
                     break;
@@ -71,54 +70,40 @@ public class AdminView extends View {
                 System.out.println("无效输入！");
             }
         }
-
     }
-// todo change password
-    public void changePasswordMenu()
-    {
+
+    // todo change password
+    public void changePasswordMenu() {
         //输入原密码如果相同则可以修改
         int instruction = -1;
         String inpassword;
         final int EXIT = 2;
-        while(true)
-        {
+        while (true) {
             System.out.printf("---更改用户: %d 的密码---\n"
-                             +"确保以下操作为本人操作\n"
-                             +"1.继续修改\n"
-                             +"2.退回上一栏\n>", admin.getAdmin_Id());
-
+                    + "确保以下操作为本人操作\n"
+                    + "1.继续修改\n"
+                    + "2.退回上一栏\n>", admin.getAdmin_Id());
             try {
-                instruction = Integer.parseInt(in.nextLine());
-
-                if(instruction == 1)
-                {
+                instruction = InputInt(in);
+                if (instruction == 1) {
                     System.out.print("输入原密码\n>");
                     inpassword = in.nextLine();
-                    if(inpassword.equals(admin.getPassword()))
-                    {
+                    if (inpassword.equals(admin.getPassword())) {
                         System.out.print("输入新密码\n>");
                         inpassword = in.nextLine();
                         admin.setPassword(inpassword);
                         System.out.println("正在同步...");
                         adminDao.updateAdmin(admin);
                         System.out.println("更改成功!");
-                    }
-                    else
+                    } else
                         System.out.println("原密码错误!");
-                }
-                else if(instruction == 2)
+                } else if (instruction == EXIT)
                     break;
                 else
                     throw new CustomerException("输入超出范围");
-
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 //todo 异常处理
             }
         }
     }
-
-
-
 }

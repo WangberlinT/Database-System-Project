@@ -1,5 +1,6 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import bean.User;
@@ -29,5 +30,19 @@ public abstract class View {
                 + formatter.format(Major) + "\n"
                 + formatter.format(Addess) + "\n"
                 + formatter.format(Phone) + "\n");
+    }
+
+    int InputInt(Scanner in) {
+        int num;
+        while (true) {
+            try {
+                num = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("请输入一个整数：");
+                in.nextLine();
+            }
+        }
+        return num;
     }
 }
