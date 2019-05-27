@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import bean.*;
-import dao.ClubDao;
+import dao.*;
 import service.*;
 import util.CustomerException;
 
@@ -71,10 +71,10 @@ public class ClubView extends View {
         	cls.getcid(club);
         	shezhang=cls.checksz(club);
         	while(true) {
-            System.out.println("1.查看社员名单\n2.申请举办活动\n3.查看活动");
+            System.out.println("1.查看社员名单\n2.申请举办活动\n3.查看活动\n4.查看公告");
             
             if(shezhang) {
-            	System.out.println("4.社内人员管理\n5.社团财产管理\n6.社团申请处理");
+            	System.out.println("5.社内人员管理\n6.社团财产管理\n7.社团申请处理\n8.发布公告");
             	System.out.println("(您有"+cls.checkApplyNum()+"条申请未处理)");
             }
             System.out.println("输入-1退出");
@@ -89,15 +89,20 @@ public class ClubView extends View {
             	cls.applyToActivity(content);
             }else if(zs==3) {
             	activitypart(club);
-            }else if(shezhang) {
-            
-            	if(zs==4) {
+            }else if(zs==4){
+				cls.showannounce(club);
+			}
+            else if(shezhang) {
+            	if(zs==5) {
             		humanmanage();
-            	}else if(zs==5) {
-            		itemmanage();
             	}else if(zs==6) {
+            		itemmanage();
+            	}else if(zs==7) {
             		applymanage();
-            	}
+            	}else if(zs==8){
+					addan(club);
+				}
+            }
             }
         	}
                 
@@ -269,6 +274,15 @@ public class ClubView extends View {
 			}
 		}
     }
+
+    private void addan(int club)throws SQLException{
+		System.out.println("请输入想要发布的公告标题:");
+		String bt=in.nextLine();
+    	System.out.println("请输入想要发布的公告内容:");
+    	String nr=in.nextLine();
+    	AnnouncementDao a= new AnnouncementDao();
+    	a.addAnnouncement(club,uid,nr,bt);
+	}
 
     public static void main(String[] args) throws SQLException, ParseException {
     	ClubView clv=new ClubView(11711613);

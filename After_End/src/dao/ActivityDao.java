@@ -3,6 +3,7 @@ package dao;
 import bean.Activity;
 import bean.User;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -71,7 +72,7 @@ public class ActivityDao {
             String sql = "select *\n" +
                     "from Activity\n" +
                     "where Activity_ID = ?;";
-            return queryRunner.query(sql, new ScalarHandler<>(),id);
+            return queryRunner.query(sql, new BeanHandler<>(Activity.class),id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
