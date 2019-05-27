@@ -1,13 +1,14 @@
 package view;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import bean.*;
-import dao.AnnouncementDao;
+import dao.*;
 import service.*;
 import util.CustomerException;
 
@@ -80,7 +81,9 @@ public class ClubView extends View {
             int zs=in.nextInt();
             if(zs==1) {
             	cls.showMemberList();;
-            }else if(zs==2) {
+            }else if(zs==-1) {
+				break;
+			}else if(zs==2) {
             	System.out.println("请输入对活动的描述");
             	String content=in.next();
             	cls.applyToActivity(content);
@@ -99,13 +102,12 @@ public class ClubView extends View {
             	}else if(zs==8){
 					addan(club);
 				}
-            }else if(zs==-1) {
-            	break;
+            }
             }
         	}
                 
         }
-    }
+
 
     public void createclub() throws SQLException {
     	System.out.println("请依次输入你要创建的社团名称、类型与社团简介。");
@@ -143,13 +145,13 @@ public class ClubView extends View {
 
     public void itemmanage() throws SQLException {
     	while(true) {
-    		System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.退出");
+    		System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.增加道具\n6.删除道具\n7.退出");
     		int ins=in.nextInt();
     		if(ins==1) {
     			cls.checkItemList();
     		}else if(ins==2) {
     			cls.checkLoan();
-    		}else if(ins==5) {
+    		}else if(ins==7) {
     			break;
     		}else if(ins==3) {
     			System.out.println("请输入借用者id：");
@@ -163,7 +165,18 @@ public class ClubView extends View {
     			System.out.println("请输入归还物品名称：");
     			String iid=in.next();
     			cls.returnItem(usid, iid);
-    		}
+    		}else if(ins==5){
+    			System.out.println("请输入物品名称：");
+    			String iname=in.next();
+    			System.out.println("请输入物品价格：");
+    			int value=in.nextInt();
+    			cls.addItem(value,iname);
+			}else if(ins==6){
+    			cls.checkItemClub();
+    			System.out.println("请输入要删除的道具id,-1退出");
+    			int iid=in.nextInt();
+    			cls.removeItem(iid);
+			}
     	}
     		
     }
@@ -235,12 +248,32 @@ public class ClubView extends View {
 					act.setActivity_Name(in.next());
 					act.setState(true);
 					act.setResponse_ID(uid);
-					System.out.println("请输入活动开始时间(yyyy-mm-ss hh:mm:ss)：");
-					String sd = in.next();
-					act.setStart_Time(sdf.parse(sd));
-					System.out.println("请输入活动结束时间(yyyy-mm-ss hh:mm:ss)：");
-					sd = in.next();
-					act.setEnd_Time(sdf.parse(sd));
+
+					System.out.println("请输入活动开始时间\n"+"年：");
+					int year = in.nextInt();
+					System.out.println("月：");
+					int month = in.nextInt();
+					System.out.println("日：");
+					int day = in.nextInt();
+					System.out.println("时：");
+					int hour = in.nextInt();
+					System.out.println("分：");
+					int min = in.nextInt();
+					int second = 0;
+					Timestamp start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
+					act.setStart_Time(start);
+					System.out.println("请输入活动结束时间\n"+"年：");
+					year = in.nextInt();
+					System.out.println("月：");
+					 month = in.nextInt();
+					System.out.println("日：");
+					day = in.nextInt();
+					System.out.println("时：");
+					hour = in.nextInt();
+					System.out.println("分：");
+					min = in.nextInt();
+					start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
+					act.setEnd_Time(start);
 					System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
 					int a = in.nextInt();
 					act.setRange(a == 1 ? false : true);

@@ -44,8 +44,7 @@ public class ClubDao {
 
         public void addClub(String name,String type,String intro,int uid) throws SQLException {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
-            String sql = "insert into Club( Club_Name, Club_Type, Club_Intro, Club_Leader,Club_State)" +
-                    "VALUES ( ?, ?, ?, ?,1);";
+            String sql = "call addclub(?,?,?,?);";
             Object[] param = {name,type,intro,uid};
             queryRunner.update(sql, param);
         }
@@ -93,7 +92,7 @@ public class ClubDao {
         public long queryClubFuzzyNum(String name) throws SQLException {
         	 String tmp = "%" + name + "%";
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
-            String sql = "select * from Club where Club_Name like ?;";
+            String sql = "select count(*) from Club where Club_Name like ?;";
             return queryRunner.query(sql, new ScalarHandler<>(), tmp);
         }
         

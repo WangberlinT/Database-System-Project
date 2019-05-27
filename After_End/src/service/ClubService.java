@@ -10,7 +10,7 @@ public class ClubService extends BaseService {
     private int uid;
     private Club clb;
     private String myClubHead = "No  社团ID  社团名     我的职位";
-    private String clubHead = "社团ID  社团名    社团类型        社团人数     社团活动";
+    private String clubHead = "No   社团ID社团名    社团类型  社团简介 ";
 
     public ClubService(int cid, int uid) {
         this.cid = cid;
@@ -90,7 +90,8 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Club> cll = clubDao.queryClubFuzzy(name, page, pageSize);
-            page = PrintPage(page, totalPage, null, cll);
+
+            page = PrintPage(page, totalPage,clubHead , cll);
             if (page == 0) return;
         }
     }
@@ -146,7 +147,7 @@ public class ClubService extends BaseService {
     public void getActApply() throws SQLException {
         List<Apply> apl = applyDao.getActadd(uid);
         for (int i = 0; i < apl.size(); i++) {
-            System.out.println(apl.toString());
+            System.out.println(apl.get(i).toString());
             
         }
     }
@@ -199,7 +200,19 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<ItemLoan> ul = itemDao.checkItemBclubPages(cid, page);
-            page = PrintPage(page, totalPage, clubHead, ul);
+            page = PrintPage(page, totalPage, "", ul);
+            if (page == 0) return;
+        }
+    }
+
+    public void checkItemClub() throws SQLException{
+        long total = itemDao.checkItemClubNum(cid);
+        if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
+        while (page <= totalPage) {
+            List<Item> ul = itemDao.checkItemClub(cid,page);
+            page = PrintPage(page, totalPage, "", ul);
             if (page == 0) return;
         }
     }
