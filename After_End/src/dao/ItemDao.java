@@ -109,17 +109,17 @@ public class ItemDao {
 
 	
 	/**查看用户借了什么*/
-	public List<Item> checkBorrow(int uid,String name) throws SQLException {
+	public List<Item> checkBorrow(int uid,String name,int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Item_ID itemId,Item_Name itemName,Item_Value value,Loan_State itemState,Club_ID clubs"
 				+ " from Item natural join Item_Belong "
-				+ "where Item_Name=? and User_ID=? and Return_Time is null;";
-		return queryRunner.query(sql, new BeanListHandler<>(Item.class),name,uid);
+				+ "where Item_Name=? and User_ID=? and Return_Time is null and Club_ID=?;";
+		return queryRunner.query(sql, new BeanListHandler<>(Item.class),name,uid,cid);
 		
 	}
 	/**还道具*/
-	public void huanItem(int uid,String name) throws SQLException {
-		List<Item> rs=checkBorrow(uid,name);
+	public void huanItem(int uid,String name,int cid) throws SQLException {
+		List<Item> rs=checkBorrow(uid,name,cid);
 		if(rs.size()!=0) {
 			huanItem(uid,rs.get(0).getItemId());
 		}else {
