@@ -12,7 +12,7 @@ public class ClubService extends BaseService {
     private String myClubHead = "No  社团ID  社团名     我的职位";
     private String clubHead = "社团ID  社团名    社团类型        社团人数     社团活动";
 
-    ClubService(int cid, int uid) {
+    public ClubService(int cid, int uid) {
         this.cid = cid;
         this.uid = uid;
     }
@@ -83,7 +83,7 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Club> cll = clubDao.queryClubFuzzy(name, page, pageSize);
-            page = PrintPage(page, totalPage, clubHead, cll);
+            page = PrintPage(page, totalPage, null, cll);
             if (page == 0) return;
         }
     }

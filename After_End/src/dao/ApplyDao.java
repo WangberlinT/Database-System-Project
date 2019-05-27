@@ -14,8 +14,8 @@ public class ApplyDao {
 
 	//申请建社
 	public void inserClubBuild(String cname,String ctype,String reason,int uid,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('建社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('建社申请',?,?,?,0);";
 		String content=ctype+" "+cname+":"+reason;
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -23,8 +23,7 @@ public class ApplyDao {
 	}
 	//申请举办活动
 	public void insertActAdd(String content,int uid,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('活动申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) VALUES ('活动申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -32,8 +31,8 @@ public class ApplyDao {
 	}
 	//申请加入社团
 	public void insertJoinClub(int uid,String content,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('入社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('入社申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -47,8 +46,8 @@ public class ApplyDao {
 	}
 	//申请入社（社团id重写）
 	public void insertJoinClub(int uid,int cid,String content) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('入社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('入社申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,getszID(cid),content};

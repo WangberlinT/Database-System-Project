@@ -258,9 +258,6 @@ public class ClubView extends View {
 
     public static void main(String[] args) throws SQLException, ParseException {
     	ClubView clv=new ClubView(11711613);
-		ClubDao cld=new ClubDao();
-		List<User_Club> ucl= cld.queryone(11711613);
-		System.out.println(((List) ucl).size());
-    	clv.start();
+			clv.start();
     }
 }
