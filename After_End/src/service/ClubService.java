@@ -8,6 +8,7 @@ import bean.*;
 public class ClubService extends BaseService {
     private int cid;
     private int uid;
+    private Club clb;
     private String myClubHead = "No  社团ID  社团名     我的职位";
     private String clubHead = "社团ID  社团名    社团类型        社团人数     社团活动";
 
@@ -15,7 +16,12 @@ public class ClubService extends BaseService {
         this.cid = cid;
         this.uid = uid;
     }
+    ClubService() {    }
 
+    public ClubService(int uid) {  this.uid = uid;  }
+    public void getcid(int cid) throws SQLException {this.cid = cid;
+    this.clb= clubDao.queryClubPrecise(cid);
+    }
     //游客
     //展示所属社团
     public void showMyClub() throws SQLException {
@@ -31,9 +37,9 @@ public class ClubService extends BaseService {
     }
 
     //详细信息
-    public void showClubInfo() throws SQLException {
-        Club clb = clubDao.queryClubID(cid);
-        long pnum = clubDao.queryClubPeopleNum(cid);
+    public void showClubInfo(int clid) throws SQLException {
+        Club clb = clubDao.queryClubID(clid);
+        long pnum = clubDao.queryClubPeopleNum(clid);
         System.out.println(clb.toString() + " 共" + pnum + "人");
 
     }
@@ -44,10 +50,12 @@ public class ClubService extends BaseService {
         System.out.println("申请已发送，请耐心等耐");
     }
 
-    //建社申请
-    public void applyTobuildClub(String cname, String ctype, String reason, int tid) throws SQLException {
-        applyDao.inserClubBuild(cname, ctype, reason, uid, tid);
-        System.out.println("申请已发送，请耐心等耐");
+    //建社
+    public void applyTobuildClub(String cname, String ctype, String cintro) throws SQLException {
+        
+    	clubDao.addClub(cname,ctype,cintro,uid);
+        
+        System.out.println("建社完毕");
     }
 
     //展示所有社团
@@ -76,6 +84,11 @@ public class ClubService extends BaseService {
         }
     }
 
+    public boolean checksz(int clid) throws SQLException {
+    	Club clb=clubDao.queryClubPrecise(clid);
+    	return uid==clb.getClub_Leader();
+    }
+    
     //社员部分
     //得到社员列表
     public void showMemberList() throws SQLException {
@@ -95,23 +108,35 @@ public class ClubService extends BaseService {
         System.out.println("申请已发送，请耐心等耐");
     }
 
+    public void showAllAct() {
+    	
+    }
+    
     //社长部分
+    
+    public void evaMember(String usid,String content,int level) throws SQLException {
+    	evaluationDao.addEvaluationOfMember(usid, clb.getClub_Name(), content, level);
+    }
     //
     //查看入社申请
-    public void getJoinApply() throws SQLException {
+     public void getJoinApply() throws SQLException {
         List<Apply> apl = applyDao.getJoinClub(uid);
         for (int i = 0; i < apl.size(); i++) {
             System.out.println(apl.toString());
-            applyDao.markread(apl.get(i).getApply_ID());
+            
         }
     }
 
+    public void markreadApply(int aid) throws SQLException {
+    	applyDao.markread(aid);
+    }
+    
     //查看活动申请
     public void getActApply() throws SQLException {
         List<Apply> apl = applyDao.getActadd(uid);
         for (int i = 0; i < apl.size(); i++) {
             System.out.println(apl.toString());
-            applyDao.markread(apl.get(i).getApply_ID());
+            
         }
     }
 
@@ -144,6 +169,11 @@ public class ClubService extends BaseService {
         System.out.println("添加成功");
     }
 
+    public Apply getApply(int iid) throws SQLException {
+    	return applyDao.getApply(iid);
+    	
+    }
+    
     //踢出社团
     public void dropMember(int uid) throws SQLException {
         clubDao.exitclub(cid, uid);
@@ -163,8 +193,30 @@ public class ClubService extends BaseService {
         }
     }
 
-    public void checkApplyNum() throws SQLException {
-        System.out.println("您共有" + applyDao.getApplyNum(uid) + "未读");
+    //查看申请数量
+    public long checkApplyNum() throws SQLException {
+       return applyDao.getApplyNum(uid);
     }
 
+    //借东西给某人
+    public void borrowItem(int usid,String name) throws SQLException {
+    	itemDao.borrowItem(usid, name, cid);
+    	System.out.println("借用完毕");
+    }
+    //某人来还东西
+    public void returnItem(int usid,int iid) throws SQLException {
+    	itemDao.huanItem(usid, iid);
+    	System.out.println("归还完毕");
+    }
+   
+
+    public void returnItem(int usid,String name) throws SQLException {
+    	itemDao.huanItem(usid, name, cid);
+    	System.out.println("归还完毕");
+    }
+    public static void main(String[] args) throws SQLException {
+    	UserService cls=new UserService(null);
+    	cls.searchUser();
+    }
+    
 }
