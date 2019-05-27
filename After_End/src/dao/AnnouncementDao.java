@@ -128,7 +128,7 @@ public class AnnouncementDao {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select Club_Name,Title,Content,Time from Announcement natural join Club "
-                + "where Club_ID=? order by Time desc;";
+                + "where Club_ID=? order by Time desc LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Announcement.class), cid, start, pageSize);
     }
 
