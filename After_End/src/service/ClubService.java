@@ -229,5 +229,16 @@ public class ClubService extends BaseService {
     	UserService cls=new UserService(null);
     	cls.searchUser();
     }
+    public void showannounce(int club) throws SQLException{
+        long total = announcementDao.numberofcluban(club);
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
+        while (page <= totalPage) {
+            List<Announcement> ul = announcementDao.checkAnnoClub(club,page, pageSize);
+            page = PrintPage(page, totalPage, "", ul);
+            if (page == 0) return;
+        }
+
+    }
     
 }
