@@ -178,9 +178,10 @@ public class ClubView extends View {
     		}else if(ins==3) {
     			break;
     		}else if(ins==2) {
-    			System.out.println("选择要评价的社员姓名：");
     			cls.showMemberList();
-    			String name=in.next();
+    			System.out.println("选择要评价的社员id：");
+
+    			int name=in.nextInt();
     			System.out.println("输入对该社员的评价：");
     			String content=in.next();
     			System.out.println("输入该社员的评分级别：");

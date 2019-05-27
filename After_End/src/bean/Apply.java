@@ -8,31 +8,31 @@ public class Apply {
     private String Apply_Description;
     private int Apply_To;
     private int Apply_From;
-    private String name;
-    private int phone;
+    private String Name;
+    private long Phone_Number;
 
-    Apply() {
+    public Apply() {
     }
 
     public String toString() {
-        return Apply_ID + "： 来自" + name + "的" + Apply_Type + ": " + Apply_Description + "\n";
+        return Apply_ID + "： 来自" + Name + "的" + Apply_Type + ": " + Apply_Description + "\n";
     }
 
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
-    public int getPhone() {
-        return phone;
+    public long getPhone_Number() {
+        return Phone_Number;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setPhone_Number(long Phone_Name) {
+        this.Phone_Number = Phone_Name;
     }
 
     public int getApply_ID() {

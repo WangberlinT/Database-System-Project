@@ -87,7 +87,7 @@ public class ApplyDao {
 	}
 	//查看入社申请
 	public List<Apply> getJoinClub(int tid) throws SQLException{
-		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
+		String sql="select Apply_ID,Apply_State,Apply_Description,Apply_Type,Apply_To,Apply_From,Name,Phone_Number\n" +
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
 				"where Apply_Type='入社申请' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -95,7 +95,7 @@ public class ApplyDao {
 	}
 	//查看所有申请
 	public List<Apply> getAllApply(int tid) throws SQLException{
-		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
+		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number\n" +
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
 				"where Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();

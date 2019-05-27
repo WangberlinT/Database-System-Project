@@ -101,7 +101,7 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> ul = clubDao.queryClubPeople(cid, page, pageSize);
-            page = PrintPage(page, totalPage, null, ul);
+            page = PrintPage(page, totalPage, "", ul);
             if (page == 0) return;
         }
     }
@@ -118,7 +118,7 @@ public class ClubService extends BaseService {
     
     //社长部分
     
-    public void evaMember(String usid,String content,int level) throws SQLException {
+    public void evaMember(int usid,String content,int level) throws SQLException {
     	evaluationDao.addEvaluationOfMember(usid, clb.getClub_Name(), content, level);
     }
     //
