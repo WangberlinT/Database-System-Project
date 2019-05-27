@@ -11,7 +11,7 @@ import java.util.List;
 public class UserService extends BaseService {
     private User user;
     private String head;
-    private String admintitle;
+    private String adminTitle;
 
     //构造函数
     public UserService(User userO) {
@@ -19,7 +19,7 @@ public class UserService extends BaseService {
         user = userO;
     }
 
-    public UserService(){
+    public UserService() {
         formatter.setMaxChars(5);
         head = formatter.format("No");
         formatter.setMaxChars(12);
@@ -29,23 +29,23 @@ public class UserService extends BaseService {
         formatter.setMaxChars(5);
         head += formatter.format("性别");
         formatter.setMaxChars(20);
-        head += formatter.format("专业")+
+        head += formatter.format("专业") +
                 formatter.format("生日");
         formatter.setMaxChars(30);
-        head += formatter.format("住址")+formatter.format("联系方式");
+        head += formatter.format("住址") + formatter.format("联系方式");
         formatter.setMaxChars(5);
-        admintitle = formatter.format("No");
+        adminTitle = formatter.format("No");
         formatter.setMaxChars(12);
-        admintitle += formatter.format("用户ID");
+        adminTitle += formatter.format("用户ID");
         formatter.setMaxChars(20);
-        admintitle += formatter.format("密码")+formatter.format("用户名");
+        adminTitle += formatter.format("密码") + formatter.format("用户名");
         formatter.setMaxChars(5);
-        admintitle += formatter.format("性别");
+        adminTitle += formatter.format("性别");
         formatter.setMaxChars(20);
-        admintitle += formatter.format("专业")+
+        adminTitle += formatter.format("专业") +
                 formatter.format("生日");
         formatter.setMaxChars(30);
-        admintitle += formatter.format("住址")+formatter.format("联系方式");
+        adminTitle += formatter.format("住址") + formatter.format("联系方式");
     }
 
     //设置user
@@ -104,19 +104,18 @@ public class UserService extends BaseService {
 
     //--------------管理员查询User--------------------------------------------------
     //查询所有
-    private String userdisplaySet(User temp)
-    {
+    private String userdisplaySet(User temp) {
         formatter.setMaxChars(12);
         String info = formatter.format(Integer.toString(temp.getUser_ID()));
         formatter.setMaxChars(20);
-        info+=formatter.format(temp.getPassword())+
+        info += formatter.format(temp.getPassword()) +
                 formatter.format(temp.getName());
         formatter.setMaxChars(5);
-        info+= formatter.format(temp.getSex());
+        info += formatter.format(temp.getSex());
         formatter.setMaxChars(20);
-        info+= formatter.format(temp.getMajor()!=null?temp.getMajor():"null")+formatter.format(temp.getBorn()!=null?temp.getBorn().toString():"null");
+        info += formatter.format(temp.getMajor() != null ? temp.getMajor() : "null") + formatter.format(temp.getBorn() != null ? temp.getBorn().toString() : "null");
         formatter.setMaxChars(30);
-        info+=formatter.format(temp.getAddress()!=null?temp.getAddress():"null")+formatter.format(temp.getPhone_Number()!=null?temp.getPhone_Number():"null");
+        info += formatter.format(temp.getAddress() != null ? temp.getAddress() : "null") + formatter.format(temp.getPhone_Number() != null ? temp.getPhone_Number() : "null");
         return info;
     }
 
@@ -129,12 +128,11 @@ public class UserService extends BaseService {
             List<User> list = userDao.queryAllUser(page, pageSize);
             //将User 所有信息显示出来,用String list存
             List<String> stringList = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                User temp = list.get(i);
+            for (User temp : list) {
                 String info = userdisplaySet(temp);
                 stringList.add(info);
             }
-            page = PrintPage(page, totalPage, admintitle, stringList);
+            page = PrintPage(page, totalPage, adminTitle, stringList);
             if (page == 0) return;
         }
     }
@@ -143,7 +141,7 @@ public class UserService extends BaseService {
     public void searchUserAdmin(int uid) throws SQLException {
         User temp = userDao.queryUserByID(uid);
         if (temp != null) {
-            System.out.println(admintitle);
+            System.out.println(adminTitle);
             System.out.println(userdisplaySet(temp));
         } else {
             System.out.println("没有查询到结果");
@@ -164,7 +162,7 @@ public class UserService extends BaseService {
                 String info = userdisplaySet(temp);
                 stringList.add(info);
             }
-            page = PrintPage(page, totalPage, admintitle, stringList);
+            page = PrintPage(page, totalPage, adminTitle, stringList);
             if (page == 0) return;
         }
     }
