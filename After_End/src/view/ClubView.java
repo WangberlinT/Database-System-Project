@@ -107,7 +107,7 @@ public class ClubView extends View {
         	}
                 
         }
-    }
+
 
     public void createclub() throws SQLException {
     	System.out.println("请依次输入你要创建的社团名称、类型与社团简介。");
