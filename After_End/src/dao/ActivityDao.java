@@ -23,14 +23,24 @@ public class ActivityDao {
         }
         return 0;
     }
-
+    //查看某个社团活动总数
+    public long totalActivityByClubID(int cid) {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "select count(*) from Activity_Club where Club_ID=?";
+            return queryRunner.query(sql, new ScalarHandler<>(), cid);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
     //查看我参加的活动总页数
 //    public long totalActivityPageByID(int uid) {
 //        return (totalActivityByID(uid) - 1) / pageSize + 1;
 //    }
 
     //查看我参加的活动
-    public List<User> queryActivityByID(int uid, int currentPage, int pageSize) throws SQLException {
+    public List<Activity> queryActivityByID(int uid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select a.Activity_ID,Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State\n" +
@@ -38,7 +48,7 @@ public class ActivityDao {
                 "on a.Activity_ID = b.Activity_ID\n" +
                 "where User_ID = ?\n" +
                 "ORDER BY Start_Time DESC LIMIT ?,?;";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class), uid, start, pageSize);
+        return queryRunner.query(sql, new BeanListHandler<>(Activity.class), uid, start, pageSize);
     }
 
     //查看最近1个月所有社团活动总数
