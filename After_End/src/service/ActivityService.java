@@ -32,9 +32,14 @@ public class ActivityService extends BaseService{
     }
 
 
+    //查看最近一个月所有社团活动数量
+    public long numActivityMonth() throws SQLException{
+        long total = activityDao.totalActivityForAllInMoth();
+        return total;
+    }
 
     //查看最近1个月所有社团活动历史
-    public void showActivityMonth(int uid)throws SQLException{
+    public void showActivityMonth()throws SQLException{
         long total = activityDao.totalActivityForAllInMoth();
         int page = 1;
         long totalPage = (total - 1) / pageSize + 1;
