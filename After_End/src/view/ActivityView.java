@@ -1,9 +1,7 @@
 package view;
 
-import java.sql.Date;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.*;
 
 import bean.*;
 import service.*;
@@ -19,17 +17,15 @@ public class ActivityView extends View {
     }
 
     private void display() {
-        System.out.printf(
-
-                         "\n-----------------\n"
+        System.out.print(
+                "\n-----------------\n"
                         + "1.我的参加的活动\n"
                         + "2.最近一个月的活动\n"
                         + "3.创建一个活动\n"
                         + "4.查看社团一年的活动\n"
                         + "5.删除活动\n"
                         + "6.退出\n"
-                );
-
+        );
     }
 
     public void displayMenu() {
@@ -40,7 +36,7 @@ public class ActivityView extends View {
             display();
             System.out.print('>');
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
                 if (instruction == EXIT)
                     break;
                 switch (instruction) {
@@ -54,12 +50,12 @@ public class ActivityView extends View {
                         break;
                     case 3:
                         //todo 创建一个活动
-                        createactivity();
+                        createActivity();
                         break;
                     case 4:
-//                      //todo 查看社团一年的活动
+                        //todo 查看社团一年的活动
                         System.out.println("请输入社团ID");
-                        int id = Integer.parseInt(in.nextLine());
+                        int id = InputInt(in);
                         activityYearByClub(id);
                         break;
                     case 5:
@@ -70,11 +66,11 @@ public class ActivityView extends View {
                         throw new CustomerException("Wrong input");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 System.out.println("无效输入！");
             }
         }
     }
+
     private void activityMonthBrowse() throws SQLException {
         //todo activityBrowse 最近一个个月的活动
         activityService.showActivityMonth();
@@ -94,7 +90,7 @@ public class ActivityView extends View {
             System.out.print(content);
 
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
 
                 if (instruction == EXIT)
                     break;
@@ -103,7 +99,7 @@ public class ActivityView extends View {
                     case 1:
                         //todo 选择查看活动的详细信息
                         System.out.println("请输入活动ID");
-                        int ID = Integer.parseInt(in.nextLine());
+                        int ID = InputInt(in);
                         activityService.showActivityByID(ID);
                         break;
                     default:
@@ -119,44 +115,40 @@ public class ActivityView extends View {
         activityService.showActivityList(user.getUser_ID());
     }
 
-    private void createactivity() throws SQLException {
+    private void createActivity() throws SQLException {
         System.out.println("请输入活动名称");
         String name = in.nextLine();
         System.out.println("请输入活动内容");
-        String contain = in.nextLine();
-        System.out.println("请输入活动开始时间\n"+"年：");
-        int year = in.nextInt();
-        System.out.println("请输入活动开始时间\n"+"月：");
-        int month = in.nextInt();
-        System.out.println("请输入活动开始时间\n"+"日：");
-        int day = in.nextInt();
-        System.out.println("请输入活动开始时间\n"+"时：");
-        int hour = in.nextInt();
-        System.out.println("请输入活动开始时间\n"+"分：");
-        int min = in.nextInt();
+        String content = in.nextLine();
+        System.out.println("请输入活动开始时间\n" + "年：");
+        int year = InputInt(in);
+        System.out.println("请输入活动开始时间\n" + "月：");
+        int month = InputInt(in);
+        System.out.println("请输入活动开始时间\n" + "日：");
+        int day = InputInt(in);
+        System.out.println("请输入活动开始时间\n" + "时：");
+        int hour = InputInt(in);
+        System.out.println("请输入活动开始时间\n" + "分：");
+        int min = InputInt(in);
         int second = 0;
         Timestamp start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
-        System.out.println("请输入活动结束时间\n"+"年：");
-        year = in.nextInt();
-        System.out.println("请输入活动结束时间\n"+"月：");
-        month = in.nextInt();
-        System.out.println("请输入活动结束时间\n"+"日：");
-        day = in.nextInt();
-        System.out.println("请输入活动结束时间\n"+"时：");
-        hour = in.nextInt();
-        System.out.println("请输入活动结束时间\n"+"分：");
-        min = in.nextInt();
+        System.out.println("请输入活动结束时间\n" + "年：");
+        year = InputInt(in);
+        System.out.println("请输入活动结束时间\n" + "月：");
+        month = InputInt(in);
+        System.out.println("请输入活动结束时间\n" + "日：");
+        day = InputInt(in);
+        System.out.println("请输入活动结束时间\n" + "时：");
+        hour = InputInt(in);
+        System.out.println("请输入活动结束时间\n" + "分：");
+        min = InputInt(in);
         Timestamp end = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
         int Response_ID = user.getUser_ID();
         System.out.println("请输入活动是否可见\n" + "输入1为可见，其他为不可见");
-        int r = Integer.parseInt(in.nextLine());
+        int r = InputInt(in);
         boolean range;
-        if(r == 0){
-            range = true;
-        }else{
-            range = false;
-        }
-        Activity a = new Activity(name,contain,start,end,Response_ID,range,true);
+        range = (r == 0);
+        Activity a = new Activity(name, content, start, end, Response_ID, range, true);
         activityService.createActivity(a);
     }
 
@@ -179,7 +171,7 @@ public class ActivityView extends View {
             System.out.print(content);
 
             try {
-                instruction = Integer.parseInt(in.nextLine());
+                instruction = InputInt(in);
 
                 if (instruction == EXIT)
                     break;
@@ -188,7 +180,7 @@ public class ActivityView extends View {
                     case 1:
                         //todo 选择查看活动的详细信息
                         System.out.println("请输入活动ID");
-                        int ID = Integer.parseInt(in.nextLine());
+                        int ID = InputInt(in);
                         activityService.showActivityByID(ID);
                         break;
                     default:
@@ -200,11 +192,9 @@ public class ActivityView extends View {
         }
     }
 
-    private void deleteMyActivity() throws SQLException{
+    private void deleteMyActivity() throws SQLException {
         System.out.println("请输入要删除的活动id");
-        int aid  = Integer.parseInt(in.nextLine());
-        activityService.deleteActivityByClub(aid,user.getUser_ID());
+        int aid = InputInt(in);
+        activityService.deleteActivityByClub(aid, user.getUser_ID());
     }
-
-
 }

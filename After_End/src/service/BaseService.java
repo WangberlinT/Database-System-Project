@@ -10,7 +10,7 @@ import java.util.Scanner;
 abstract class BaseService {
     //Util
     static final int MAXCHAR = 20;
-    static Scanner in=new Scanner(System.in);
+    static Scanner in = new Scanner(System.in);
     static FormatUtil fu = new FormatUtil();
     static StringAlign formatter = new StringAlign(MAXCHAR, StringAlign.JUST_LEFT);
 
@@ -34,24 +34,24 @@ abstract class BaseService {
         int No = (page - 1) * pageSize + 1;
         for (Object u : list) {
             formatter.setMaxChars(5);
-            String content = formatter.format(Integer.toString(No))+u.toString();
+            String content = formatter.format(Integer.toString(No)) + u.toString();
             System.out.println(content);
             No++;
         }
         System.out.printf("当前页数/总页数:  %s/%s\n", page, totalPage);
         System.out.println("\n请输入指令：1. 上一页   2. 下一页   其他返回");
-        int input = in.nextInt();
+        String input = in.nextLine();
         switch (input) {
-            case 1:
+            case "1":
                 page--;
                 break;
-            case 2:
+            case "2":
                 page++;
                 break;
             default:
                 page = 0;
         }
-        if(page==0) System.out.println("----查询结束----");
+        if (page == 0) System.out.println("----查询结束----");
         return page;
     }
 

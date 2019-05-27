@@ -3,7 +3,6 @@ package bean;
 import util.StringAlign;
 
 import java.util.Date;
-import java.util.List;
 
 public class User {
     private int User_ID; //用户ID

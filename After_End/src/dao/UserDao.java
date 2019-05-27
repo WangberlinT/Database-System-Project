@@ -2,6 +2,7 @@ package dao;
 
 import bean.User;
 import bean.Club;
+import bean.User_Club;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -29,12 +30,12 @@ public class UserDao {
     public List<User> queryclubUser(Club club) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner(); //换了新的QR获取
         String sql = "select * from User_Club where Club_ID=? LIMIT ?,?";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class),club.getClub_ID());
+        return queryRunner.query(sql, new BeanListHandler<>(User.class), club.getClub_ID());
     }
 
 
     //查询所有用户(每页10条)
-    public List<User> queryAllUser(int currentPage,int pageSize) throws SQLException {
+    public List<User> queryAllUser(int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User LIMIT ?,?";
@@ -49,7 +50,7 @@ public class UserDao {
     }
 
     //通过名字查询用户
-    public List<User> queryUserByName(String Name, int currentPage,int pageSize) throws SQLException {
+    public List<User> queryUserByName(String Name, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select * from User where Name=? LIMIT ?,?";
@@ -69,20 +70,27 @@ public class UserDao {
     }
 
     //通过社团id查询用户
-    public List<User> queryUserByClub(int cid, int currentPage,int pageSize) throws SQLException {
+    public List<User_Club> queryUserByClub(int cid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select u.* from User u join User_Club UC on u.User_ID = UC.User_ID " +
-                "where Club_ID=? limit ?,?;";
-        return queryRunner.query(sql, new BeanListHandler<>(User.class), cid, start, pageSize);
+        String sql = "select u.User_ID, u.Name, C.Club_ID, Club_Name, Work_Name\n" +
+                "from User u\n" +
+                "         join User_Club UC on u.User_ID = UC.User_ID\n" +
+                "         join Club C on UC.Club_ID = C.Club_ID\n" +
+                "where C.Club_ID = ?\n" +
+                "limit ?,?";
+        return queryRunner.query(sql, new BeanListHandler<>(User_Club.class), cid, start, pageSize);
     }
 
     //获取上述查询的总条目
     public long getTotalUserByClub(int cid) {
         try {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
-            String sql = "select count(*) from User u join User_Club UC " +
-                    "on u.User_ID = UC.User_ID where Club_ID=?";
+            String sql = "select count(*)\n" +
+                    "from User u\n" +
+                    "         join User_Club UC on u.User_ID = UC.User_ID\n" +
+                    "         join Club C on UC.Club_ID = C.Club_ID\n" +
+                    "where C.Club_ID = ?";
             return queryRunner.query(sql, new ScalarHandler<>(), cid);
         } catch (SQLException e) {
             e.printStackTrace();

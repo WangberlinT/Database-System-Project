@@ -12,9 +12,9 @@ public class AdminManager extends BaseService {
 
     static private String title = "No  管理员ID  密码";
 
-    public AdminManager(Scanner in)
+    public AdminManager()
     {
-        this.in = in;
+
     }
 
     private void showMenu()

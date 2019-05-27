@@ -94,12 +94,13 @@ public class ApplyDao {
 		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
 	}
 	//查看所有申请
-	public List<Apply> getAllApply(int tid) throws SQLException{
+    public List<Apply> getAllApply(int tid, int currentPage, int pageSize) throws SQLException {
+        int start = (currentPage - 1) * pageSize;
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number\n" +
-				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_To =? and Apply_State=0;";
-		QueryRunner queryRunner = C3P0Util.getQueryRunner();
-		return queryRunner.query(sql, new BeanListHandler<>(Apply.class),tid);
+				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" +
+                "where Apply_To =? and Apply_State=0 LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Apply.class), tid, start, pageSize);
 	}
 	//查看所有申请数量
 	public long getApplyNum(int tid) throws SQLException{
