@@ -1,6 +1,7 @@
 package view;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,14 +81,15 @@ public class ClubView extends View {
             int zs=in.nextInt();
             if(zs==1) {
             	cls.showMemberList();;
-            }else if(zs==2) {
+            }else if(zs==-1) {
+				break;
+			}else if(zs==2) {
             	System.out.println("请输入对活动的描述");
             	String content=in.next();
             	cls.applyToActivity(content);
             }else if(zs==3) {
             	activitypart(club);
-            }else
-            	if(shezhang) {
+            }else if(shezhang) {
             
             	if(zs==4) {
             		humanmanage();
@@ -96,8 +98,6 @@ public class ClubView extends View {
             	}else if(zs==6) {
             		applymanage();
             	}
-            }else if(zs==-1) {
-            	break;
             }
         	}
                 
@@ -232,12 +232,32 @@ public class ClubView extends View {
 					act.setActivity_Name(in.next());
 					act.setState(true);
 					act.setResponse_ID(uid);
-					System.out.println("请输入活动开始时间(yyyy-mm-ss hh:mm:ss)：");
-					String sd = in.next();
-					act.setStart_Time(sdf.parse(sd));
-					System.out.println("请输入活动结束时间(yyyy-mm-ss hh:mm:ss)：");
-					sd = in.next();
-					act.setEnd_Time(sdf.parse(sd));
+
+					System.out.println("请输入活动开始时间\n"+"年：");
+					int year = in.nextInt();
+					System.out.println("月：");
+					int month = in.nextInt();
+					System.out.println("日：");
+					int day = in.nextInt();
+					System.out.println("时：");
+					int hour = in.nextInt();
+					System.out.println("分：");
+					int min = in.nextInt();
+					int second = 0;
+					Timestamp start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
+					act.setStart_Time(start);
+					System.out.println("请输入活动结束时间\n"+"年：");
+					year = in.nextInt();
+					System.out.println("月：");
+					 month = in.nextInt();
+					System.out.println("日：");
+					day = in.nextInt();
+					System.out.println("时：");
+					hour = in.nextInt();
+					System.out.println("分：");
+					min = in.nextInt();
+					start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
+					act.setEnd_Time(start);
 					System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
 					int a = in.nextInt();
 					act.setRange(a == 1 ? false : true);

@@ -69,6 +69,6 @@ public class Club {
     }
     public String toString() {
     	String state=Club_State==0?"【已闲置】":"";
-    	return state+Club_ID+"."+Club_Name+": "+Club_Intro;
+    	return state+Club_ID+" "+Club_Name+"        "+Club_Type+"   "+Club_Intro;
     }
 }

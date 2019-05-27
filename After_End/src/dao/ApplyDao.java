@@ -105,7 +105,7 @@ public class ApplyDao {
 	public long getApplyNum(int tid) throws SQLException{
 		String sql="select COUNT(*) \n" + 
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
-				"where Apply_Type='入社申请' and Apply_To =? and Apply_State=0;";
+				"where  Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		return queryRunner.query(sql, new ScalarHandler<>(),tid);
 	}
