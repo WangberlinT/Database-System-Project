@@ -11,8 +11,22 @@ public class ClubService extends BaseService {
     private String myClubHead = "No  社团ID  社团名     我的职位";
     private String clubHead = "社团ID  社团名    社团类型        社团人数     社团活动";
 
+    //构造方法
+    ClubService(){}
+
     ClubService(int cid, int uid) {
         this.cid = cid;
+        this.uid = uid;
+    }
+
+    //set cid,uid
+    public void setCID(int cid)
+    {
+        this.cid = cid;
+    }
+
+    public void setUID(int uid)
+    {
         this.uid = uid;
     }
 

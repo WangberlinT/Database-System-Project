@@ -10,6 +10,7 @@ public class AdminView extends View {
     private AdminDao adminDao;
     private AdminUserManager aum;
     private AdminManager am;
+    private AdminClubManager acm;
 
     public AdminView(int ID,String password)
     {
@@ -17,6 +18,7 @@ public class AdminView extends View {
         adminDao = new AdminDao();
         aum = new AdminUserManager();
         am = new AdminManager(in);
+        acm = new AdminClubManager();
     }
 
     //Admin 主菜单
@@ -50,7 +52,7 @@ public class AdminView extends View {
                         break;
                     case 2:
                         //todo 管理社团
-
+                        acm.run();
                         break;
                     case 3:
                         //管理用户
