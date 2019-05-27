@@ -31,6 +31,15 @@ public class ActivityService extends BaseService{
         }
     }
 
+    //查看某个活动 todo
+    public void showActivityByID(int id) throws SQLException{
+        Activity a = activityDao.ActivityByID(id);
+        if(a == null){
+            System.out.println("无效的ID");
+        }else{
+            System.out.println(a.toString());
+        }
+    }
 
     //查看最近一个月所有社团活动数量
     public long numActivityMonth() throws SQLException{
@@ -38,6 +47,11 @@ public class ActivityService extends BaseService{
         return total;
     }
 
+    //查看某个社团一年的活动数量
+    public long numActivityByClub(int id) throws SQLException{
+        long total = activityDao.totalActivityByClubID(id);
+        return total;
+    }
     //查看最近1个月所有社团活动历史
     public void showActivityMonth()throws SQLException{
         long total = activityDao.totalActivityForAllInMoth();
@@ -76,6 +90,11 @@ public class ActivityService extends BaseService{
         activityDao.deleteActivity(id);
         System.out.println("活动已经成功删除");
     }
-
+    //删除一个活动，用户使用
+    public void deleteActivityByClub(int aid,int uid)throws SQLException{
+        System.out.println("正在删除活动");
+        activityDao.deleteActivity(aid,uid);
+        System.out.println("活动已经成功删除");
+    }
     //查看最近一周的活动数量
 }

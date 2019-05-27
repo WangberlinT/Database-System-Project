@@ -11,7 +11,14 @@ public class Activity {
     private boolean Range; //活动公开性
     private boolean state; //活动是否过期
 
-    public Activity() {
+    public Activity(String Activity_Name,Date Start_Time,Date End_Time,int response_ID, boolean Range, boolean state)
+    {
+        this.Activity_Name = Activity_Name;
+        this.Start_Time = Start_Time;
+        this.End_Time = End_Time;
+        this.Response_ID = response_ID;
+        this.Range = Range;
+        this.state = state;
     }
 
     //getter and setter

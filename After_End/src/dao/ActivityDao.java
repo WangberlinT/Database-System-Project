@@ -65,6 +65,18 @@ public class ActivityDao {
         return 0;
     }
 
+    public Activity ActivityByID(int id) {
+        try {
+            QueryRunner queryRunner = C3P0Util.getQueryRunner();
+            String sql = "select *\n" +
+                    "from Activity\n" +
+                    "where Activity_ID = ?;";
+            return queryRunner.query(sql, new ScalarHandler<>(),id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     //查看最近1个月所有社团活动总页数
 //    public long totalActivityPageForAllInMoth() {
 //        return (totalActivityForAllInMoth() - 1) / pageSize + 1;
@@ -110,11 +122,17 @@ public class ActivityDao {
     }
 
     //删除一个活动
-    public void deleteActivity(int id) throws SQLException {
+    public void deleteActivity(int aid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from Activity\n" +
                 "where Activity_ID = ?;";
-        queryRunner.update(sql, id);
+        queryRunner.update(sql, aid);
+    }
+    public void deleteActivity(int aid, int uid) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "delete from Activity\n" +
+                "where Activity_ID = ? and Response_ID = ?;";
+        queryRunner.update(sql, aid,uid);
     }
 
     //查看最近一周的活动数量
