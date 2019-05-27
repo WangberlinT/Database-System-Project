@@ -24,6 +24,11 @@ public class ActivityDao {
         return 0;
     }
 
+    //查看我参加的活动总页数
+//    public long totalActivityPageByID(int uid) {
+//        return (totalActivityByID(uid) - 1) / pageSize + 1;
+//    }
+
     //查看我参加的活动
     public List<User> queryActivityByID(int uid, int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
@@ -50,6 +55,12 @@ public class ActivityDao {
         return 0;
     }
 
+    //查看最近1个月所有社团活动总页数
+//    public long totalActivityPageForAllInMoth() {
+//        return (totalActivityForAllInMoth() - 1) / pageSize + 1;
+//    }
+
+
     //查看最近1个月所有社团活动历史
     public List<Activity> queryActivityForAllInMoth(int currentPage, int pageSize) throws SQLException {
         int start = (currentPage - 1) * pageSize;
@@ -61,6 +72,7 @@ public class ActivityDao {
         return queryRunner.query(sql, new BeanListHandler<>(Activity.class), start, pageSize);
     }
 
+
     //创建一个活动
     public void insertActivity(Activity a) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -71,6 +83,7 @@ public class ActivityDao {
                 a.getResponse_ID(), a.isRange(), a.isState()};
         queryRunner.update(sql, param);
     }
+
 
     //查看某个社一年的活动
     public List<Activity> queryActivityByClubID(int club_id, int currentPage, int pageSize) throws SQLException {
