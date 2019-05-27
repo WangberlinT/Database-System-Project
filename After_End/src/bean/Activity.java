@@ -21,6 +21,8 @@ public class Activity {
         this.state = state;
     }
 
+    public Activity(){}
+
     //getter and setter
     public int getActivity_ID() {
         return Activity_ID;

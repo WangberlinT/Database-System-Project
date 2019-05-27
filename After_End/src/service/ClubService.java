@@ -18,6 +18,10 @@ public class ClubService extends BaseService {
     }
     ClubService() {    }
 
+    public void setUid(int uid){
+        this.uid=uid;
+    }
+
     public ClubService(int uid) {  this.uid = uid;  }
     public void getcid(int cid) throws SQLException {this.cid = cid;
     this.clb= clubDao.queryClubPrecise(cid);
@@ -27,12 +31,12 @@ public class ClubService extends BaseService {
     public void showMyClub() throws SQLException {
         List<User_Club> uc = clubDao.queryone(uid);
         if (uc.size() == 0) {
-            System.out.println("你还没有加入任何社团，请加入后再来");
-        }
+            System.out.println("你还没有加入任何社团，请加入后再来"+uc.size());
 
-        System.out.println(myClubHead);
-        for (int i = 0; i < uc.size(); i++) {
-            System.out.println(i + "  " + uc.get(i).toString());
+        }else {
+            for (int i = 0; i < uc.size(); i++) {
+                System.out.println(uc.get(i).toString());
+            }
         }
     }
 
@@ -97,7 +101,7 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> ul = clubDao.queryClubPeople(cid, page, pageSize);
-            page = PrintPage(page, totalPage, clubHead, ul);
+            page = PrintPage(page, totalPage, null, ul);
             if (page == 0) return;
         }
     }

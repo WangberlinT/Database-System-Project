@@ -19,7 +19,7 @@ public class UserView extends View {
         this.user = user;
         userService = new UserService(user);
         announcementService = new AnnouncementService();
-        clubView = new ClubView();
+        //clubView = new ClubView();
         News = 0;
         NewActivities = 0;
     }
@@ -66,7 +66,7 @@ public class UserView extends View {
                         break;
                     case 3:
                         //todo 社团浏览
-                        clubView.clubBrowse();
+                       // clubView.clubBrowse();
                         break;
                     case 4:
 //                        activityBrowse();

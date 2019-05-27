@@ -16,7 +16,7 @@ public class AdminView extends View {
         admin = new Admin(ID,password);
         adminDao = new AdminDao();
         aum = new AdminUserManager();
-        am = new AdminManager(in);
+       // am = new AdminManager(in);
     }
 
     //Admin 主菜单
@@ -61,7 +61,7 @@ public class AdminView extends View {
                         break;
                     case 5:
                         //管理admin
-                        am.run();
+                        //am.run();
                         break;
 
                     default:

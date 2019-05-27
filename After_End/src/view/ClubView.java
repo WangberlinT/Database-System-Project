@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import bean.*;
+import dao.ClubDao;
 import service.*;
 import util.CustomerException;
 
@@ -23,6 +25,7 @@ public class ClubView extends View {
     private ClubService cls=new ClubService(uid);
     
     public void start() throws SQLException, ParseException {
+    	cls.setUid(uid);
     	while(true) {
     		System.out.println("请选择要做的事:");
     		System.out.println("1.搜索并加入社团\n2.创建社团\n3.查看我加入的社团\n4.退出");
@@ -73,7 +76,7 @@ public class ClubView extends View {
             
             if(shezhang) {
             	System.out.println("4.社内人员管理\n5.社团财产管理\n6.社团申请处理");
-            	System.out.printf("(您有%ld条申请未处理)\n",cls.checkApplyNum());
+            	System.out.println("(您有"+cls.checkApplyNum()+"条申请未处理)");
             }
             System.out.println("-1：退出");
             int zs=in.nextInt();
@@ -254,7 +257,10 @@ public class ClubView extends View {
     }
 
     public static void main(String[] args) throws SQLException, ParseException {
-    	ClubView clv=new ClubView(11410101);
+    	ClubView clv=new ClubView(11711613);
+		ClubDao cld=new ClubDao();
+		List<User_Club> ucl= cld.queryone(11711613);
+		System.out.println(((List) ucl).size());
     	clv.start();
     }
 }
