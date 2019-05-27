@@ -31,7 +31,7 @@ public class ItemDao {
 	public void borrowItem(int uid,int iid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="call borrowItem(?,?);";
-		Object[] param = {sql, uid,iid};
+		Object[] param = {uid,iid};
 		queryRunner.update(sql, param);
 		System.out.println("借用成功");
 	}
@@ -39,7 +39,7 @@ public class ItemDao {
 	public void borrowItem(int uid,String iid,int cid) throws SQLException {
 		List<Item> rs=checkItem(cid,iid);
 		if(rs.size()!=0) {
-			borrowItem(uid,rs.get(0).getItemId());
+			borrowItem(uid,rs.get(0).getItem_ID());
 			
 		}else {
 			System.out.println("现在没有所需物品，请下次再来");
@@ -80,7 +80,24 @@ public class ItemDao {
 		
 		
 	}
-	
+
+	public List<Item> checkItemClub(int cid,int currentPage) throws SQLException{
+		QueryRunner queryRunner = C3P0Util.getQueryRunner();
+		int start = (currentPage - 1) * 10;
+		String sql="select Item_ID,Item_Name,Item_Value\n" +
+				"					 from Item natural join Item_Belong \n" +
+				"					where Club_ID=? LIMIT ?,?;";
+		return queryRunner.query(sql,new BeanListHandler<>(Item.class),cid,start,10);
+	}
+
+	public long checkItemClubNum(int cid) throws SQLException{
+		QueryRunner queryRunner = C3P0Util.getQueryRunner();
+		String sql="select COUNT(*)\n" +
+				"					 from Item natural join Item_Belong \n" +
+				"					where Club_ID=? ;";
+		return queryRunner.query(sql,new ScalarHandler<>(),cid);
+	}
+
 	public List<ItemLoan> checkItemBclubPages(int cid,int page) throws SQLException{
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		int start = (page - 1) * 10;
@@ -112,7 +129,7 @@ public class ItemDao {
 	public List<Item> checkBorrow(int uid,String name,int cid) throws SQLException {
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		String sql="select Item_ID itemId,Item_Name itemName,Item_Value value,Loan_State itemState,Club_ID clubs"
-				+ " from Item natural join Item_Belong "
+				+ " from Item natural join Item_Belong natural join Item_Loan "
 				+ "where Item_Name=? and User_ID=? and Return_Time is null and Club_ID=?;";
 		return queryRunner.query(sql, new BeanListHandler<>(Item.class),name,uid,cid);
 		
@@ -121,7 +138,7 @@ public class ItemDao {
 	public void huanItem(int uid,String name,int cid) throws SQLException {
 		List<Item> rs=checkBorrow(uid,name,cid);
 		if(rs.size()!=0) {
-			huanItem(uid,rs.get(0).getItemId());
+			huanItem(uid,rs.get(0).getItem_ID());
 		}else {
 			System.out.println("you have no such thing to return");
 		}

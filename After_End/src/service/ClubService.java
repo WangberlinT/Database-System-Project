@@ -193,7 +193,19 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<ItemLoan> ul = itemDao.checkItemBclubPages(cid, page);
-            page = PrintPage(page, totalPage, clubHead, ul);
+            page = PrintPage(page, totalPage, "", ul);
+            if (page == 0) return;
+        }
+    }
+
+    public void checkItemClub() throws SQLException{
+        long total = itemDao.checkItemClubNum(cid);
+        if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
+        while (page <= totalPage) {
+            List<Item> ul = itemDao.checkItemClub(cid,page);
+            page = PrintPage(page, totalPage, "", ul);
             if (page == 0) return;
         }
     }

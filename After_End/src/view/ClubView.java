@@ -137,13 +137,13 @@ public class ClubView extends View {
 
     public void itemmanage() throws SQLException {
         while (true) {
-            System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.退出");
+            System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.增加道具\n6.删除道具\n7.退出");
             int ins = InputInt(in);
             if (ins == 1) {
                 cls.checkItemList();
             } else if (ins == 2) {
                 cls.checkLoan();
-            } else if (ins == 5) {
+            } else if (ins == 7) {
                 break;
             } else if (ins == 3) {
                 System.out.println("请输入借用者id：");
@@ -157,6 +157,17 @@ public class ClubView extends View {
                 System.out.println("请输入归还物品名称：");
                 String iid = in.nextLine();
                 cls.returnItem(usid, iid);
+            }else if(ins==5){
+                System.out.println("请输入物品名称：");
+                String iname=in.nextLine();
+                System.out.println("请输入物品价格：");
+                int value=InputInt(in);
+                cls.addItem(value,iname);
+            }else if(ins==6){
+                cls.checkItemClub();
+                System.out.println("请输入要删除的道具id,-1退出");
+                int iid=in.nextInt();
+                cls.removeItem(iid);
             }
         }
 
