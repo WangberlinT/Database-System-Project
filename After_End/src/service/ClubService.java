@@ -12,13 +12,11 @@ public class ClubService extends BaseService {
     private String myClubHead = "No  社团ID  社团名     我的职位";
     private String clubHead = "社团ID  社团名    社团类型        社团人数     社团活动";
 
-    //构造方法
-    ClubService(){}
-
-    ClubService(int cid, int uid) {
+    public ClubService(int cid, int uid) {
         this.cid = cid;
         this.uid = uid;
     }
+    ClubService() {    }
 
     //set cid,uid
     public void setCID(int cid)
@@ -92,7 +90,7 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Club> cll = clubDao.queryClubFuzzy(name, page, pageSize);
-            page = PrintPage(page, totalPage, clubHead, cll);
+            page = PrintPage(page, totalPage, null, cll);
             if (page == 0) return;
         }
     }
@@ -110,7 +108,7 @@ public class ClubService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> ul = clubDao.queryClubPeople(cid, page, pageSize);
-            page = PrintPage(page, totalPage, null, ul);
+            page = PrintPage(page, totalPage, "", ul);
             if (page == 0) return;
         }
     }
@@ -126,8 +124,8 @@ public class ClubService extends BaseService {
     }
 
     //社长部分
-
-    public void evaMember(String usid,String content,int level) throws SQLException {
+    
+    public void evaMember(int usid,String content,int level) throws SQLException {
     	evaluationDao.addEvaluationOfMember(usid, clb.getClub_Name(), content, level);
     }
     //
@@ -136,20 +134,20 @@ public class ClubService extends BaseService {
         List<Apply> apl = applyDao.getJoinClub(uid);
         for (int i = 0; i < apl.size(); i++) {
             System.out.println(apl.toString());
-
+            
         }
     }
 
     public void markreadApply(int aid) throws SQLException {
     	applyDao.markread(aid);
     }
-
+    
     //查看活动申请
     public void getActApply() throws SQLException {
         List<Apply> apl = applyDao.getActadd(uid);
         for (int i = 0; i < apl.size(); i++) {
             System.out.println(apl.toString());
-
+            
         }
     }
 
@@ -184,9 +182,9 @@ public class ClubService extends BaseService {
 
     public Apply getApply(int iid) throws SQLException {
     	return applyDao.getApply(iid);
-
+    	
     }
-
+    
     //踢出社团
     public void dropMember(int uid) throws SQLException {
         clubDao.exitclub(cid, uid);
@@ -221,7 +219,7 @@ public class ClubService extends BaseService {
     	itemDao.huanItem(usid, iid);
     	System.out.println("归还完毕");
     }
-
+   
 
     public void returnItem(int usid,String name) throws SQLException {
     	itemDao.huanItem(usid, name, cid);
@@ -231,5 +229,5 @@ public class ClubService extends BaseService {
     	UserService cls=new UserService(null);
     	cls.searchUser();
     }
-
+    
 }

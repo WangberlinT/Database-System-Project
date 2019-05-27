@@ -28,7 +28,7 @@ public class ClubView extends View {
     	cls.setUid(uid);
     	while(true) {
     		System.out.println("请选择要做的事:");
-    		System.out.println("1.搜索并加入社团\n2.创建社团\n3.查看我加入的社团\n4.退出");
+    		System.out.println("1.搜索社团\n2.创建社团\n3.查看我加入的社团\n4.退出");
     		int ins=in.nextInt();
     		if(ins==4) {
     			break;
@@ -37,7 +37,7 @@ public class ClubView extends View {
     			String name=in.next();
     			while(true) {
     			searchClub(name);
-    			System.out.println("请选择一个社团id查看(输入-1退出)：");
+    			System.out.println("请选择一个社团id查看：\n输入-1退出");
     			int clid=in.nextInt();
     			if(clid==-1) {
     				break;
@@ -60,11 +60,9 @@ public class ClubView extends View {
     
 
     public void myClub() throws SQLException, ParseException {
-        
         while (true) {
-        	
         	cls.showMyClub();
-        	System.out.println("请选择你要查看的社团,-1退出:");
+        	System.out.println("请选择你要查看的社团\n输入-1退出");
         	int club=in.nextInt();
         	if(club==-1) {
         		break;
@@ -72,13 +70,13 @@ public class ClubView extends View {
         	cls.getcid(club);
         	shezhang=cls.checksz(club);
         	while(true) {
-            System.out.println("输入对应数字进入相应功能：1.查看社员名单\n2.申请举办活动\n3.查看活动");
+            System.out.println("1.查看社员名单\n2.申请举办活动\n3.查看活动");
             
             if(shezhang) {
             	System.out.println("4.社内人员管理\n5.社团财产管理\n6.社团申请处理");
             	System.out.println("(您有"+cls.checkApplyNum()+"条申请未处理)");
             }
-            System.out.println("-1：退出");
+            System.out.println("输入-1退出");
             int zs=in.nextInt();
             if(zs==1) {
             	cls.showMemberList();;
@@ -107,7 +105,7 @@ public class ClubView extends View {
     }
 
     public void createclub() throws SQLException {
-    	System.out.println("请依次输入你要创建的社团名称、类型与社团简介并单击回车。");
+    	System.out.println("请依次输入你要创建的社团名称、类型与社团简介。");
     	System.out.println("名称：");
     	String name=in.next();
     	System.out.println("类型：");
@@ -129,7 +127,7 @@ public class ClubView extends View {
     public void activitypart(int club) throws SQLException {
     	while(true) {
             	acs.showActivityYearByClub(club);
-            	System.out.println("选择一个你感兴趣的活动并加入(-1退出):");
+            	System.out.println("选择一个你感兴趣的活动并加入:\n输入-1退出");
             	int acid=in.nextInt();
             	if(acid==-1) {
             		break;
@@ -180,9 +178,10 @@ public class ClubView extends View {
     		}else if(ins==3) {
     			break;
     		}else if(ins==2) {
-    			System.out.println("选择要评价的社员姓名：");
     			cls.showMemberList();
-    			String name=in.next();
+    			System.out.println("选择要评价的社员id：");
+
+    			int name=in.nextInt();
     			System.out.println("输入对该社员的评价：");
     			String content=in.next();
     			System.out.println("输入该社员的评分级别：");
@@ -200,10 +199,9 @@ public class ClubView extends View {
     	System.out.println("1.入社申请\n2.活动申请\n3.退出");
     	int ins=in.nextInt();
     	if(ins==1) {
-    		
     		while(true) {
     		cls.getJoinApply();
-    		System.out.println("选择您要处理的申请或输入-1退出:");
+    		System.out.println("选择您要处理的申请或输入:\n输入-1退出");
     		int app=in.nextInt();
     		if(app==-1) {
     			break;
@@ -219,48 +217,41 @@ public class ClubView extends View {
     		
     		}
     	}else if(ins==2) {
-    		while(true) {
-    			cls.getActApply();
-    			System.out.println("选择您要处理的申请或输入-1退出:");
-        		int app=in.nextInt();
-        		if(app==-1) {
-        			break;
-        		}
-        		System.out.println("是否举办该活动？\n如果是请输入是，如果不是请输入不。");
-        		String work=in.next();
-        		if(!work.equals("不")) {
-        			Activity act=new Activity();
-        			
-        			System.out.println("请输入活动名称：");
-        			act.setActivity_Name(in.next());
-        			act.setState(true);
-        			act.setResponse_ID(uid);	
-        			System.out.println("请输入活动开始时间(yyyy-mm-ss hh:mm:ss)：");
-        			String sd=in.next();
-        			act.setStart_Time(sdf.parse(sd));
-        			System.out.println("请输入活动结束时间(yyyy-mm-ss hh:mm:ss)：");
-        			sd=in.next();
-        			act.setEnd_Time(sdf.parse(sd));
-        			System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
-        			int a=in.nextInt();
-        			act.setRange(a==1?false:true);
-        			
-        			acs.createActivity(act);
-        			System.out.println("添加完成");
-        		}
-        		cls.markreadApply(app);    		
-        		
-        		}   		
-    		
-    	}
-    	
+			while (true) {
+				cls.getActApply();
+				System.out.println("选择您要处理的申请或输入-1退出:");
+				int app = in.nextInt();
+				if (app == -1) {
+					break;
+				}
+				System.out.println("是否举办该活动？\n如果是请输入是，如果不是请输入不。");
+				String work = in.next();
+				if (!work.equals("不")) {
+					Activity act = new Activity();
+					System.out.println("请输入活动名称：");
+					act.setActivity_Name(in.next());
+					act.setState(true);
+					act.setResponse_ID(uid);
+					System.out.println("请输入活动开始时间(yyyy-mm-ss hh:mm:ss)：");
+					String sd = in.next();
+					act.setStart_Time(sdf.parse(sd));
+					System.out.println("请输入活动结束时间(yyyy-mm-ss hh:mm:ss)：");
+					sd = in.next();
+					act.setEnd_Time(sdf.parse(sd));
+					System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
+					int a = in.nextInt();
+					act.setRange(a == 1 ? false : true);
+
+					acs.createActivity(act);
+					System.out.println("添加完成");
+				}
+				cls.markreadApply(app);
+			}
+		}
     }
 
     public static void main(String[] args) throws SQLException, ParseException {
     	ClubView clv=new ClubView(11711613);
-		ClubDao cld=new ClubDao();
-		List<User_Club> ucl= cld.queryone(11711613);
-		System.out.println(((List) ucl).size());
-    	clv.start();
+			clv.start();
     }
 }

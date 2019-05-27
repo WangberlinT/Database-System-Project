@@ -162,7 +162,7 @@ public class AnnouncementDao {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Announcement natural join Notification "
                 + "where User_ID=? and State=0;";
-        return queryRunner.query(sql, new ScalarHandler<>());
+        return queryRunner.query(sql, new ScalarHandler<>(),uid);
     }
 
     //标记公告已读

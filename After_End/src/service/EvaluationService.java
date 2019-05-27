@@ -14,7 +14,7 @@ public class EvaluationService extends BaseService {
     }
 
     //添加社团人员评价(根据用户id和社团名字)
-    public void addEvalutionOfMember(String mid, String clubName, String cont, int level) throws SQLException {
+    public void addEvalutionOfMember(int mid, String clubName, String cont, int level) throws SQLException {
         evaluationDao.addEvaluationOfMember(mid, clubName, cont, level);
     }
 

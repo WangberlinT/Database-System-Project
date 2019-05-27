@@ -14,8 +14,8 @@ public class ApplyDao {
 
 	//申请建社
 	public void inserClubBuild(String cname,String ctype,String reason,int uid,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('建社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('建社申请',?,?,?,0);";
 		String content=ctype+" "+cname+":"+reason;
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -23,8 +23,7 @@ public class ApplyDao {
 	}
 	//申请举办活动
 	public void insertActAdd(String content,int uid,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('活动申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) VALUES ('活动申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -32,8 +31,8 @@ public class ApplyDao {
 	}
 	//申请加入社团
 	public void insertJoinClub(int uid,String content,int tid) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('入社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('入社申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,tid,content};
@@ -47,8 +46,8 @@ public class ApplyDao {
 	}
 	//申请入社（社团id重写）
 	public void insertJoinClub(int uid,int cid,String content) throws SQLException {
-		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,) "
-				+ "VALUES ('入社申请',?,?,?);";
+		String sql="insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+				+ "VALUES ('入社申请',?,?,?,0);";
 		
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
 		Object[] param = {uid,getszID(cid),content};
@@ -88,7 +87,7 @@ public class ApplyDao {
 	}
 	//查看入社申请
 	public List<Apply> getJoinClub(int tid) throws SQLException{
-		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
+		String sql="select Apply_ID,Apply_State,Apply_Description,Apply_Type,Apply_To,Apply_From,Name,Phone_Number\n" +
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
 				"where Apply_Type='入社申请' and Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -96,7 +95,7 @@ public class ApplyDao {
 	}
 	//查看所有申请
 	public List<Apply> getAllApply(int tid) throws SQLException{
-		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number phone\n" + 
+		String sql="select Apply_ID,Apply_From,Apply_To,Apply_State,Apply_Description,Apply_Type,Name name,Phone_Number\n" +
 				"from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" + 
 				"where Apply_To =? and Apply_State=0;";
 		QueryRunner queryRunner = C3P0Util.getQueryRunner();
