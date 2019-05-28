@@ -58,7 +58,7 @@ public class ActivityDao {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "select count(*)\n" +
                     "from Activity\n" +
-                    "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and `range` = 1;";
+                    "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and CURDATE() >= date(Start_Time) and`range` = 1;";
             return queryRunner.query(sql, new ScalarHandler<>());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class ActivityDao {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select *\n" +
                 "from Activity\n" +
-                "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and `range` = 1\n" +
+                "where date_sub(CURDATE(), INTERVAL 30 DAY) <= date(Start_Time) and CURDATE() >= date(Start_Time) and `range` = 1\n" +
                 "ORDER BY Start_Time DESC LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Activity.class), start, pageSize);
     }
@@ -116,7 +116,7 @@ public class ActivityDao {
                 "from Activity a join Activity_Club b\n" +
                 "on a.Activity_ID = b.Activity_ID\n" +
                 "where Club_ID = ?\n" +
-                "  and date_sub(CURDATE(), INTERVAL 365 DAY) <= date(Start_Time)\n" +
+                "  and date_sub(CURDATE(), INTERVAL 1 Year) <= date(Start_Time) and CURDATE() >= date(Start_Time) \n" +
                 "  and `range` = 1\n" +
                 "ORDER BY Start_Time DESC LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Activity.class), club_id, start, pageSize);
@@ -142,11 +142,27 @@ public class ActivityDao {
             QueryRunner queryRunner = C3P0Util.getQueryRunner();
             String sql = "select count(*)\n" +
                     "from Activity\n" +
-                    "where date_sub(CURDATE(), INTERVAL 7 DAY) <= date(Start_Time) and `range` = 1;";
+                    "where date_sub(CURDATE(), INTERVAL 7 DAY) <= date(Start_Time) and CURDATE() >= date(Start_Time) and`range` = 1;";
             return queryRunner.query(sql, new ScalarHandler<>());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    //通过活动名字查询（模糊搜索包含该名字的）
+    public List<Activity> queryActivityFuzzy(String name, int currentPage, int pageSize) throws SQLException {
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String tmp = "%" + name + "%";
+        int start = (currentPage - 1) * pageSize;
+        String sql = "select * from Activity where Activity_Name like ? and CURDATE() >= date(Start_Time) ORDER BY Start_Time DESC LIMIT ?,?;";
+        return queryRunner.query(sql, new BeanListHandler<>(Activity.class), tmp, start, pageSize);
+    }
+
+    public long queryActivityFuzzyNum(String name) throws SQLException {
+        String tmp = "%" + name + "%";
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        String sql = "select count(*) from Activity where Activity_Name like ?;";
+        return queryRunner.query(sql, new ScalarHandler<>(), tmp);
     }
 }

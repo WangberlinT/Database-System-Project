@@ -27,7 +27,12 @@ public class ActivityService extends BaseService {
             if (page == 0) return;
         }
     }
-
+    //返回活动的负责人
+    public int activityResponse(int id) throws SQLException{
+        Activity a = activityDao.ActivityByID(id);
+        int respon = a.getResponse_ID();
+        return respon;
+    }
     //查看某个活动 todo
     public void showActivityByID(int id) throws SQLException {
         Activity a = activityDao.ActivityByID(id);
@@ -49,6 +54,22 @@ public class ActivityService extends BaseService {
         return total;
     }
 
+    //模糊查询
+    public long numActivityByword(String word) throws SQLException {
+        long total = activityDao.queryActivityFuzzyNum(word);
+        return total;
+    }
+    public void showActivityword(String word) throws SQLException {
+        long total = activityDao.queryActivityFuzzyNum(word);
+        if (queryNotValid(total)) return;
+        int page = 1;
+        long totalPage = (total - 1) / pageSize + 1;
+        while (page <= totalPage) {
+            List<Activity> ul = activityDao.queryActivityFuzzy(word,page, pageSize);
+            page = PrintPage(page, totalPage, ActivityHead, ul);
+            if (page == 0) return;
+        }
+    }
     //查看最近1个月所有社团活动历史
     public void showActivityMonth() throws SQLException {
         long total = activityDao.totalActivityForAllInMoth();
