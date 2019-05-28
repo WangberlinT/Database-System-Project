@@ -162,7 +162,7 @@ public class ActivityDao {
     public long queryActivityFuzzyNum(String name) throws SQLException {
         String tmp = "%" + name + "%";
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select count(*) from Activity where Activity_Name like ?;";
+        String sql = "select count(*) from Activity where Activity_Name like ? and CURDATE() >= date(Start_Time);";
         return queryRunner.query(sql, new ScalarHandler<>(), tmp);
     }
 }
