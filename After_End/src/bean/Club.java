@@ -1,5 +1,7 @@
 package bean;
 
+import util.StringAlign;
+
 public class Club {
     private int Club_ID; //社团ID
     private String Club_Name; //社团名
@@ -68,7 +70,12 @@ public class Club {
         Club_State = club_State;
     }
     public String toString() {
-    	String state=Club_State==0?"【已闲置】":"";
-    	return state+Club_ID+" "+Club_Name+"        "+Club_Type+"   "+Club_Intro;
+        StringAlign formatter = new StringAlign();
+    	String state=Club_State==0?"[闲置]":"[活跃]";
+    	formatter.setMaxChars(5);
+    	String result = formatter.format(Integer.toString(Club_ID))+formatter.format(state);
+    	formatter.setMaxChars(12);
+    	result += formatter.format(Club_Name)+formatter.format(Club_Type)+Club_Intro;
+    	return result;
     }
 }

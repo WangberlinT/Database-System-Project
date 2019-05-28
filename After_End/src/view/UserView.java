@@ -87,7 +87,7 @@ public class UserView extends View {
             //display
             PrintUser(user);
             System.out.print(formatter.format("1.修改信息") + formatter.format("2.隐私设置") + "\n"
-                    + formatter.format("3.修改密码*") + formatter.format("4.返回") + "\n");
+                    + formatter.format("3.修改密码") + formatter.format("4.返回") + "\n");
             System.out.print('>');
             try {
                 instruction = InputInt(in, EXIT);

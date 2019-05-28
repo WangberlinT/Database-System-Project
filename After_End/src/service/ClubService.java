@@ -10,16 +10,26 @@ public class ClubService extends BaseService {
     private int uid;
     private Club clb;
     private String myClubHead = "No  社团ID  社团名     我的职位";
-    public static String clubHead = "No   社团ID社团名    社团类型  社团简介 ";
+
+    public static String clubHead;
     private String memberHead = "No   用户ID    用户名    社团ID    社团名    职位";
 
 
     public ClubService(int cid, int uid) {
+        this();
         this.cid = cid;
         this.uid = uid;
     }
 
     ClubService() {
+        formatter.setMaxChars(5);
+        clubHead = formatter.format("No");
+        formatter.setMaxChars(5);
+        clubHead+= formatter.format("社团ID");
+        formatter.setMaxChars(5);
+        clubHead += formatter.format("状态");
+        formatter.setMaxChars(15);
+        clubHead+= formatter.format("社团名")+formatter.format("社团类型")+"社团简介";
     }
 
     public int setCID()
@@ -32,6 +42,7 @@ public class ClubService extends BaseService {
     }
 
     public ClubService(int uid) {
+        this();
         this.uid = uid;
     }
 
