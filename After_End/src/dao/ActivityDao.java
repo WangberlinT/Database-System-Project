@@ -24,6 +24,7 @@ public class ActivityDao {
         }
         return 0;
     }
+
     //查看某个社团活动总数
     public long totalActivityByClubID(int cid) {
         try {
@@ -72,7 +73,7 @@ public class ActivityDao {
             String sql = "select *\n" +
                     "from Activity\n" +
                     "where Activity_ID = ?;";
-            return queryRunner.query(sql, new BeanHandler<>(Activity.class),id);
+            return queryRunner.query(sql, new BeanHandler<>(Activity.class), id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,11 +129,12 @@ public class ActivityDao {
                 "where Activity_ID = ?;";
         queryRunner.update(sql, aid);
     }
+
     public void deleteActivity(int aid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "delete from Activity\n" +
                 "where Activity_ID = ? and Response_ID = ?;";
-        queryRunner.update(sql, aid,uid);
+        queryRunner.update(sql, aid, uid);
     }
 
     //查看最近一周的活动数量

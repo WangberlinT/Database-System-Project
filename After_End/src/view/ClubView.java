@@ -28,10 +28,11 @@ public class ClubView extends View {
 
     public void start() throws SQLException {
         cls.setUid(uid);
+        final int EXIT = 4;
         while (true) {
             System.out.println("请选择要做的事:");
             System.out.println("1.搜索社团\n2.创建社团\n3.查看我加入的社团\n4.退出");
-            int ins = InputInt(in);
+            int ins = InputInt(in, EXIT);
             if (ins == 4) {
                 break;
             } else if (ins == 1) {
@@ -46,7 +47,7 @@ public class ClubView extends View {
                     }
                     cls.showClubInfo(cid);
                     System.out.println("是否要加入社团？\n1.是\n2.否");
-                    int pd = InputInt(in);
+                    int pd = InputInt(in, 2);
                     if (pd == 1) {
                         System.out.println("请输入入社理由");
                         cls.applyTojoin(cid, in.nextLine());
@@ -72,18 +73,18 @@ public class ClubView extends View {
             }
             cls.getcid(club);
             isLeader = cls.checkLeader(club);
+            final int EXIT = 9;
             while (true) {
                 System.out.println("1.查看社员名单\n2.申请举办活动\n3.查看活动\n4.查看公告");
-
                 if (isLeader) {
                     System.out.println("5.社内人员管理\n6.社团财产管理\n7.社团申请处理\n8.发布公告");
                     System.out.println("(您有" + cls.checkApplyNum() + "条申请未处理)");
                 }
-                System.out.println("输入-1退出");
-                int zs = InputInt(in);
+                System.out.println("输入9退出");
+                int zs = InputInt(in, EXIT);
                 if (zs == 1) {
                     cls.showMemberList();
-                } else if (zs == -1) {
+                } else if (zs == 9) {
                     break;
                 } else if (zs == 2) {
                     System.out.println("请输入对活动的描述");
@@ -141,9 +142,10 @@ public class ClubView extends View {
 
 
     public void itemManage() throws SQLException {
+        final int EXIT = 7;
         while (true) {
             System.out.println("1.查询道具列表\n2.查询借用状况\n3.道具借出\n4.道具归还\n5.增加道具\n6.删除道具\n7.退出");
-            int ins = InputInt(in);
+            int ins = InputInt(in, EXIT);
             if (ins == 1) {
                 cls.checkItemList();
             } else if (ins == 2) {
@@ -171,16 +173,17 @@ public class ClubView extends View {
             } else if (ins == 6) {
                 cls.checkItemClub();
                 System.out.println("请输入要删除的道具id,-1退出");
-                int iid = in.nextInt();
+                int iid = InputInt(in);
                 cls.removeItem(iid);
             }
         }
     }
 
     public void humanManage() throws SQLException {
+        final int EXIT = 3;
         while (true) {
             System.out.println("选择要进行的操作：\n1.删除社员\n2.评价社员\n3.退出");
-            int ins = InputInt(in);
+            int ins = InputInt(in, EXIT);
             if (ins == 1) {
                 System.out.println("选择要删除的社员ID：");
                 cls.showMemberList();
@@ -194,8 +197,8 @@ public class ClubView extends View {
                 int name = InputInt(in);
                 System.out.println("输入对该社员的评价：");
                 String content = in.nextLine();
-                System.out.println("输入该社员的评分级别：");
-                int level = InputInt(in);
+                System.out.println("输入该社员的评分级别：  (0-10)");
+                int level = InputInt(in, 10);
                 cls.evaMember(name, content, level);
                 System.out.println("评价成功");
             }
@@ -203,9 +206,10 @@ public class ClubView extends View {
     }
 
     public void applyManage() throws SQLException {
+        final int EXIT = 3;
         System.out.println("请选择要处理的申请:");
         System.out.println("1.入社申请\n2.活动申请\n3.退出");
-        int ins = InputInt(in);
+        int ins = InputInt(in, EXIT);
         if (ins == 1) {
             while (true) {
                 cls.getJoinApply();

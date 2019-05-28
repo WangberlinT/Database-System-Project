@@ -89,7 +89,7 @@ public class AdminView extends View {
                     + "1.继续修改\n"
                     + "2.退回上一栏\n>", admin.getAdmin_Id());
             try {
-                instruction = InputInt(in);
+                instruction = InputInt(in, EXIT);
                 if (instruction == 1) {
                     System.out.print("输入原密码\n>");
                     inpassword = in.nextLine();

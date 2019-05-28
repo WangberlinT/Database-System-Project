@@ -51,7 +51,7 @@ public class UserView extends View {
             display();
             System.out.print('>');
             try {
-                instruction = InputInt(in);
+                instruction = InputInt(in, EXIT);
                 if (instruction == EXIT)
                     break;
                 switch (instruction) {
@@ -90,7 +90,7 @@ public class UserView extends View {
                     + formatter.format("3.修改密码*") + formatter.format("4.返回") + "\n");
             System.out.print('>');
             try {
-                instruction = InputInt(in);
+                instruction = InputInt(in, EXIT);
                 if (instruction == EXIT)
                     return;
                 switch (instruction) {
@@ -124,7 +124,7 @@ public class UserView extends View {
                     + "1.继续修改\n"
                     + "2.退回上一栏\n>", user.getUser_ID());
             try {
-                instruction = InputInt(in);
+                instruction = InputInt(in, EXIT);
                 if (instruction == 1) {
                     System.out.print("输入原密码\n>");
                     inpassword = in.nextLine();
@@ -150,9 +150,9 @@ public class UserView extends View {
     //修改用户隐私可见性
     private void modifyPrivacy() {
         int instruction, modify;
-        final int EXIT = 0;
+        final int EXIT = 4;
         while (true) {
-            System.out.print("要修改哪一项的可见性?(输入0返回上页)\n");
+            System.out.print("要修改哪一项的可见性?(输入4返回上页)\n");
             System.out.printf("<1>生日: %s\n" +
                             "<2>地址: %s\n" +
                             "<3>电话号码: %s\n>",
@@ -160,7 +160,7 @@ public class UserView extends View {
                     user.isAddress_Access(),
                     user.isPhone_Access());
             try {
-                instruction = InputInt(in);
+                instruction = InputInt(in, EXIT);
                 if (instruction == EXIT) {
                     System.out.println("正在同步...");
                     userService.updateInfo();

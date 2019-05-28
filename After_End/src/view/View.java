@@ -41,10 +41,25 @@ public abstract class View {
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("请输入一个整数：");
-
+            } finally {
+                in.nextLine();//吸收回车
             }
-            finally {
-                in.nextLine();
+        }
+        return num;
+    }
+
+    //输入整数,有范围
+    int InputInt(Scanner in, int max) {
+        int num;
+        while (true) {
+            try {
+                num = in.nextInt();
+                if (num > 0 && num <= max) break;
+                else System.out.println("请输入合适的整数: ");
+            } catch (InputMismatchException e) {
+                System.out.println("请输入一个整数: ");
+            } finally {
+                in.nextLine();//吸收回车
             }
         }
         return num;

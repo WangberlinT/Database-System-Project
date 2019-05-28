@@ -11,9 +11,10 @@ public class ActivityView extends View {
     private User user;
     private static ActivityService activityService;
     private static ClubService cls;
+
     ActivityView(User user) {
         this.user = user;
-        cls=new ClubService(user.getUser_ID());
+        cls = new ClubService(user.getUser_ID());
         activityService = new ActivityService();
     }
 
@@ -85,20 +86,22 @@ public class ActivityView extends View {
         long num = activityService.numActivityMonth();
         detail(num);
     }
-    private void activitySearch(String word) throws SQLException{
+
+    private void activitySearch(String word) throws SQLException {
         activityService.showActivityword(word);
         long num = activityService.numActivityByword(word);
         detail(num);
     }
+
     private void activityJoin() throws SQLException {
         activityService.showActivityList(user.getUser_ID());
     }
 
     private void createActivity() throws SQLException {
         System.out.println("请输入活动名称");
-        String name = in.next();
+        String name = in.nextLine();
         System.out.println("请输入活动内容");
-        String content = in.next();
+        String content = in.nextLine();
         System.out.println("请输入活动开始时间\n" + "年：");
         int year = InputInt(in);
         System.out.println("请输入活动开始时间\n" + "月：");
@@ -130,7 +133,7 @@ public class ActivityView extends View {
         System.out.println("请输入负责此活动的社团ID");
         int cid = InputInt(in);
         Activity a = new Activity(name, content, start, end, Response_ID, range, true);
-        activityService.createActivity(a,cid);
+        activityService.createActivity(a, cid);
     }
 
     private void activityYearByClub(int id) throws SQLException {
@@ -139,15 +142,16 @@ public class ActivityView extends View {
         long num = activityService.numActivityByClub(id);
         detail(num);
     }
+
     // 详细查询
-    private void detail(long num){
+    private void detail(long num) {
         String prompt = "----------\n" +
                 "此社团没有活动\n" +
                 "----------\n";
         String content = "1.选择查看详细信息\n" +
-                "2.加入一个活动\n"+
+                "2.加入一个活动\n" +
                 "3.返回\n>";
-        int instruction = -1;
+        int instruction;
         final int EXIT = 3;
         while (true) {
             //todo 获取所有活动
@@ -156,11 +160,9 @@ public class ActivityView extends View {
             System.out.print(content);
 
             try {
-                instruction = InputInt(in);
-
+                instruction = InputInt(in, EXIT);
                 if (instruction == EXIT)
                     break;
-
                 switch (instruction) {
                     case 1:
                         //todo 选择查看活动的详细信息
@@ -174,10 +176,8 @@ public class ActivityView extends View {
                         cls.joinAct(id);
                         System.out.println("加入成功！");
                         break;
-                    default:
-                        throw new CustomerException("输入超出范围");
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 //todo 异常处理
             }
         }
@@ -187,9 +187,9 @@ public class ActivityView extends View {
         System.out.println("请输入要删除的活动id");
         int aid = InputInt(in);
         int respon = activityService.activityResponse(aid);
-        if(user.getUser_ID() == respon)
+        if (user.getUser_ID() == respon)
             activityService.deleteActivityByClub(aid, user.getUser_ID());
-        else{
+        else {
             System.out.println("您无权删除此活动");
         }
     }
