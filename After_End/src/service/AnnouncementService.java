@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AnnouncementService extends BaseService {
-    private String head = "来自社团   标题   内容   时间";
+    //    private String head = "来自社团     标题        内容                           时间";
+    private String head = "";
 
     //添加公告，并发送通知
     public void addAnnouncement(int cid, int uid, String content, String title) throws SQLException {
@@ -83,8 +84,8 @@ public class AnnouncementService extends BaseService {
             long totalPage = (total - 1) / pageSize + 1;
             while (page <= totalPage) {
                 List<Announcement> list = announcementDao.checkAnnoToMe(uid, page, pageSize);
-                for (int i = 0; i < pageSize; i++) {
-                    announcementDao.markRead(list.get(i).getAnnouncement_ID(), uid);
+                for (Announcement anno : list) {
+                    announcementDao.markRead(anno.getAnnouncement_ID(), uid);
                 }
                 page = PrintPage(page, totalPage, head, list);
                 if (page == 0) return;

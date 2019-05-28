@@ -58,10 +58,10 @@ abstract class BaseService {
     //判断查询是否有结果
     boolean queryNotValid(long total) {
         if (total == 0) {
-            System.out.println("没有查询到结果");
+            System.out.println("没有查询到结果,返回");
             return true;
         } else {
-            System.out.printf("总共查询到%s条结果\n", total);
+            System.out.printf("\n总共查询到%s条结果\n", total);
             return false;
         }
     }

@@ -162,13 +162,13 @@ public class AnnouncementDao {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Announcement natural join Notification "
                 + "where User_ID=? and State=0;";
-        return queryRunner.query(sql, new ScalarHandler<>(),uid);
+        return queryRunner.query(sql, new ScalarHandler<>(), uid);
     }
 
     //标记公告已读
     public void markRead(int aid, int uid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "update Notification set Read_Time=now() and State=1"
+        String sql = "update Notification set Read_Time=now(),State=1"
                 + " where User_ID=? and Announcement_ID=?;";
         queryRunner.update(sql, uid, aid);
     }
@@ -178,7 +178,7 @@ public class AnnouncementDao {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         String sql = "select COUNT(*) from Announcement  "
                 + "where Club_ID=? ";
-        return queryRunner.query(sql, new ScalarHandler<>(),uid);
+        return queryRunner.query(sql, new ScalarHandler<>(), uid);
     }
 
 }

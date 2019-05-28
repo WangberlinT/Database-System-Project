@@ -126,13 +126,7 @@ public class UserService extends BaseService {
         if (queryNotValid(total)) return;
         while (page <= totalPage) {
             List<User> list = userDao.queryAllUser(page, pageSize);
-            //将User 所有信息显示出来,用String list存
-            List<String> stringList = new ArrayList<>();
-            for (User temp : list) {
-                String info = userDisplaySet(temp);
-                stringList.add(info);
-            }
-            page = PrintPage(page, totalPage, adminTitle, stringList);
+            page = PrintPage(page, totalPage, adminTitle, userInfoList(list));
             if (page == 0) return;
         }
     }
@@ -156,14 +150,19 @@ public class UserService extends BaseService {
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User> list = userDao.queryUserByName(name, page, pageSize);
-            List<String> stringList = new ArrayList<>();
-            for (User temp : list) {
-                String info = userDisplaySet(temp);
-                stringList.add(info);
-            }
-            page = PrintPage(page, totalPage, adminTitle, stringList);
+            page = PrintPage(page, totalPage, adminTitle, userInfoList(list));
             if (page == 0) return;
         }
+    }
+
+    //将User 所有信息显示出来,用String list存
+    private List<String> userInfoList(List<User> list) {
+        List<String> stringList = new ArrayList<>();
+        for (User temp : list) {
+            String info = userDisplaySet(temp);
+            stringList.add(info);
+        }
+        return stringList;
     }
 
     //-----------------------------------------------------------------------------
