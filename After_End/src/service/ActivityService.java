@@ -50,8 +50,7 @@ public class ActivityService extends BaseService {
 
     //查看某个社团一年的活动数量
     public long numActivityByClub(int id) throws SQLException {
-        long total = activityDao.totalActivityByClubID(id);
-        return total;
+        return activityDao.totalActivityByClubID(id);
     }
 
     //模糊查询
@@ -84,9 +83,9 @@ public class ActivityService extends BaseService {
     }
 
     //创建一个活动
-    public void createActivity(Activity a) throws SQLException {
+    public void createActivity(Activity a, int cid) throws SQLException {
         System.out.println("正在创建活动");
-        activityDao.insertActivity(a);
+        activityDao.insertActivity(a,cid);
         System.out.println("活动已经成功创建");
     }
 

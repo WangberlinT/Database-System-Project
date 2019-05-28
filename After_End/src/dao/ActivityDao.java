@@ -97,16 +97,15 @@ public class ActivityDao {
 
 
     //创建一个活动
-    public void insertActivity(Activity a) throws SQLException {
+    public void insertActivity(Activity a,int cid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "insert into Activity(Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State)\n" +
-                "values(?,?,?,?,?,?);";
-
+        //String sql = "insert into Activity(Activity_Name,Start_Time,End_Time,Response_ID,`Range`,State)\n" +
+                //"values(?,?,?,?,?,?);";
+        String sql ="call addActclub(?,?,?,?,?,?,?)";
         Object[] param = {a.getActivity_Name(), a.getStart_Time(), a.getEnd_Time(),
-                a.getResponse_ID(), a.isRange(), a.isState()};
-        queryRunner.update(sql, param);
+                a.getActivity_contain(),a.getResponse_ID(),cid, a.isRange()};
+        queryRunner.execute(sql, param);
     }
-
 
     //查看某个社一年的活动
     public List<Activity> queryActivityByClubID(int club_id, int currentPage, int pageSize) throws SQLException {

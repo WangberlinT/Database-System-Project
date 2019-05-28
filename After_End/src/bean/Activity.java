@@ -118,4 +118,8 @@ public class Activity {
     public void setState(boolean state) {
         this.state = state;
     }
+
+    public void setActivity_contain(String activity_contain) {
+        Activity_contain = activity_contain;
+    }
 }

@@ -126,9 +126,10 @@ public class ActivityView extends View {
         int r = InputInt(in);
         boolean range;
         range = (r == 0);
-
+        System.out.println("请输入负责此活动的社团ID");
+        int cid = InputInt(in);
         Activity a = new Activity(name, content, start, end, Response_ID, range, true);
-        activityService.createActivity(a);
+        activityService.createActivity(a,cid);
     }
 
     private void activityYearByClub(int id) throws SQLException {

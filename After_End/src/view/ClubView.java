@@ -259,7 +259,7 @@ public class ClubView extends View {
                     System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
                     int a = InputInt(in);
                     act.setRange(a != 1);
-                    acs.createActivity(act);
+                    acs.createActivity(act,cls.setCID());
                     System.out.println("添加完成");
                 }
                 cls.markReadApply(app);
