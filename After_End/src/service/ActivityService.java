@@ -7,7 +7,7 @@ import java.util.List;
 import bean.*;
 
 public class ActivityService extends BaseService {
-    private String ActivityHead = "     活动ID     名称         开始时间                    结束时间                    负责人";
+    private String ActivityHead = "     活动ID     名称         开始时间                    结束时间                    负责人         是否过期";
 
     //查看我参加的活动总数
     public void activityNumberTotal(int uid) throws SQLException {

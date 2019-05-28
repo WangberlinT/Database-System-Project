@@ -29,20 +29,25 @@ public class Activity {
 
     @Override
     public String toString() {
-        StringAlign formatter = new StringAlign(8, StringAlign.JUST_LEFT);
+        StringAlign formatter = new StringAlign(10, StringAlign.JUST_LEFT);
         String id = formatter.format(Integer.toString(Activity_ID));
         String name = Activity_Name;
         String start = Start_Time.toString();
         String end = End_Time.toString();
         String respon = Integer.toString(Response_ID);
+        String sta;
         String result = formatter.format(id);
+
+        if(state) sta = "未过期";
+        else sta = "已过期";
         formatter.setMaxChars(15);
         result += formatter.format(name);
         formatter.setMaxChars(25);
         result += formatter.format(start);
         result += formatter.format(end);
-        formatter.setMaxChars(20);
+        formatter.setMaxChars(15);
         result += formatter.format(respon);
+        result += formatter.format(sta);
         return result;
     }
 
