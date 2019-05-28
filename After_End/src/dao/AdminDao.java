@@ -54,17 +54,4 @@ public class AdminDao {
         }
         return 0;
     }
-
-//    public static void main(String[] args) {
-//        AdminDao adminDao = new AdminDao();
-//        try {
-//            adminDao.queryAdminByID(110);
-//            Admin admin = new Admin(110,"admin123");
-//            adminDao.updateAdmin(admin);
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
 }

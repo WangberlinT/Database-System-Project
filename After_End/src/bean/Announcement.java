@@ -15,7 +15,7 @@ public class Announcement {
     }
 
     public String toString() {
-        return "From " + club + " " + Title + ": " + Content + " (" + Time.toString() + ")";
+        return "来自社团:  " + club + "  " + "标题: " + Title + "   内容:  " + Content + " 时间(" + Time.toString() + ")";
     }
 
 

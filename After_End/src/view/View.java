@@ -20,7 +20,7 @@ public abstract class View {
         String gender = "<2>性别: " + user.getSex();
         String born = "<3>生日: " + fu.formatDate(user.getBorn());
         String Major = "<4>专业: " + user.getMajor();
-        String Addess = "<5>地址: " + user.getAddress();
+        String Address = "<5>地址: " + user.getAddress();
         String Phone = "<6>电话号码: " + user.getPhone_Number();
 
         formatter = new StringAlign(20, StringAlign.JUST_LEFT);
@@ -28,10 +28,11 @@ public abstract class View {
                 + formatter.format(gender) + "\n"
                 + formatter.format(born) + "\n"
                 + formatter.format(Major) + "\n"
-                + formatter.format(Addess) + "\n"
+                + formatter.format(Address) + "\n"
                 + formatter.format(Phone) + "\n");
     }
 
+    //输入整数
     int InputInt(Scanner in) {
         int num;
         while (true) {
