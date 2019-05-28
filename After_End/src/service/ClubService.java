@@ -114,6 +114,7 @@ public class ClubService extends BaseService {
     public void showMemberList() throws SQLException {
         long total = userDao.getTotalUserByClub(cid);
         int page = 1;
+        if (queryNotValid(total)) return;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<User_Club> ul = userDao.queryUserByClub(cid, page, pageSize);
@@ -261,6 +262,7 @@ public class ClubService extends BaseService {
     public void getAct ()throws SQLException {
         long total = clubDao.queryActivityByClubIDNUM(cid);
         int page = 1;
+        if (queryNotValid(total)) return;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Activity> ul = clubDao.queryActivityByClubID(cid, page);
@@ -275,6 +277,7 @@ public class ClubService extends BaseService {
         }
         public void showAnnounce ( int club) throws SQLException {
             long total = announcementDao.numberofcluban(club);
+            if (queryNotValid(total)) return;
             int page = 1;
             long totalPage = (total - 1) / pageSize + 1;
             while (page <= totalPage) {

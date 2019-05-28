@@ -36,6 +36,7 @@ public class ClubView extends View {
             if (ins == 4) {
                 break;
             } else if (ins == 1) {
+
                 System.out.println("请输入要搜索的社团名称(直接输入回车来浏览全部社团)：");
                 String name = in.nextLine();
                 while (true) {
