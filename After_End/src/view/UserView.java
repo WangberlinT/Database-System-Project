@@ -64,7 +64,7 @@ public class UserView extends View {
                         break;
                     case 2:
                         //todo 我的社团
-                        clubView.myClub();
+                        clubView.start();
                         break;
                     case 3:
                         //todo 社团浏览
