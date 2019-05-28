@@ -22,9 +22,9 @@ public class ClubService extends BaseService {
     ClubService() {
     }
 
-    public void setCID(int cid)
+    public int setCID()
     {
-        this.cid = cid;
+       return this.cid;
     }
 
     public void setUid(int uid) {

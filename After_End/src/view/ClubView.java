@@ -14,7 +14,7 @@ import util.CustomerException;
 
 public class ClubView extends View {
 
-    
+
 	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private int uid;
     private EvaluationService evs = new EvaluationService();
@@ -71,7 +71,7 @@ public class ClubView extends View {
                 break;
             }
             cls.getcid(club);
-            isLeader = cls.checksz(club);
+            isLeader = cls.checkLeader(club);
             while (true) {
                 System.out.println("1.查看社员名单\n2.申请举办活动\n3.查看活动\n4.查看公告");
 
@@ -90,9 +90,9 @@ public class ClubView extends View {
                     String content = in.nextLine();
                     cls.applyToActivity(content);
                 } else if (zs == 3) {
-                    activitypart(club);
+                    activityPart(club);
                 } else if (zs == 4) {
-                    cls.showannounce(club);
+                    cls.showAnnounce(club);
                 } else if (isLeader) {
                     if (zs == 5) {
                         humanManage();
@@ -105,9 +105,8 @@ public class ClubView extends View {
                     }
                 }
             }
-        	}
-                
         }
+    }
 
     public void createClub() throws SQLException {
         System.out.println("请依次输入你要创建的社团名称、类型与社团简介。");
@@ -117,16 +116,13 @@ public class ClubView extends View {
         String type = in.nextLine();
         System.out.println("简介：");
         String intro = in.nextLine();
-        cls.applyTobuildClub(name, type, intro);
+        cls.applyToBuildClub(name, type, intro);
     }
 
     public void searchClub(String name) throws SQLException {
         cls.showSearchClub(name);
     }
 
-    
-    
-    
     //加入活动todo
     public void activitypart(int club) throws SQLException {
     	while(true) {
@@ -223,7 +219,7 @@ public class ClubView extends View {
                 if (!work.equals("不")) {
                     cls.addMember(apply.getApply_From(), work);
                 }
-                cls.markreadApply(app);
+                cls.markReadApply(app);
             }
         } else if (ins == 2) {
             while (true) {
@@ -265,17 +261,15 @@ public class ClubView extends View {
                     hour = InputInt(in);
                     System.out.println("分：");
                     min = InputInt(in);
-                    Timestamp end = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
+                    start = Timestamp.valueOf(LocalDateTime.of(year, month, day, hour, min, second));
                     act.setEnd_Time(start);
-                    System.out.println("请输入活动简介：");
-                    String intro=in.nextLine();
                     System.out.println("请输入活动是否仅限社内参加（1代表仅限社内参加，0代表全校参加）：");
                     int a = InputInt(in);
-
-                    cls.insertAct(act.getActivity_Name(),start,end,intro,a==1?0:1);
+                    act.setRange(a != 1);
+                    acs.createActivity(act,cls.setCID());
                     System.out.println("添加完成");
                 }
-                cls.markreadApply(app);
+                cls.markReadApply(app);
             }
         }
     }
