@@ -163,13 +163,13 @@ public class ClubDao {
     public List<Activity> queryActivityByClubID(int cid, int currentPage) throws SQLException {
         int start = (currentPage - 1) * 10;
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select * from Activity natural join Activity_Club where Club_ID=？  ORDER BY Start_Time DESC LIMIT ?,?;";
+        String sql = "select * from Activity natural join Activity_Club where Club_ID=?  ORDER BY Start_Time DESC LIMIT ?,?;";
         return queryRunner.query(sql, new BeanListHandler<>(Activity.class), cid, start, 10);
     }
 
     public long queryActivityByClubIDNUM(int cid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
-        String sql = "select COUNT(*) from Activity natural join Activity_Club where Club_ID=？;";
+        String sql = "select COUNT(*) from Activity natural join Activity_Club where Club_ID=?;";
         return queryRunner.query(sql, new ScalarHandler<>(), cid);
     }
 

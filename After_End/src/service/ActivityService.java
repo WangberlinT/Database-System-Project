@@ -20,6 +20,7 @@ public class ActivityService extends BaseService {
     public void showActivityList(int uid) throws SQLException {
         long total = activityDao.totalActivityByID(uid);
         int page = 1;
+        if (queryNotValid(total)) return;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Activity> l = activityDao.queryActivityByID(uid, page, pageSize);
@@ -97,6 +98,7 @@ public class ActivityService extends BaseService {
     public void showActivityYearByClub(int id) throws SQLException {
         long total = activityDao.totalActivityByClubID(id);
         int page = 1;
+        if (queryNotValid(total)) return;
         long totalPage = (total - 1) / pageSize + 1;
         while (page <= totalPage) {
             List<Activity> ul = activityDao.queryActivityByClubID(id, page, pageSize);
