@@ -65,7 +65,7 @@ public class ClubView extends View {
         boolean isLeader;
         while (true) {
             cls.showMyClub();
-            System.out.println("请选择你要查看的社团\n输入-1退出");
+            System.out.println("输入-1退出");
             int club = InputInt(in);
             if (club == -1) {
                 break;

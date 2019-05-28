@@ -45,12 +45,13 @@ public class ClubService extends BaseService {
     public void showMyClub() throws SQLException {
         List<User_Club> uc = clubDao.queryone(uid);
         if (uc.size() == 0) {
-            System.out.println("你还没有加入任何社团，请加入后再来" + uc.size());
+            System.out.println("你还没有加入任何社团，请加入后再来" );
 
         } else {
             for (int i = 0; i < uc.size(); i++) {
                 System.out.println(uc.get(i).toString());
             }
+            System.out.println("请输入你想查看的社团id");
         }
     }
 
