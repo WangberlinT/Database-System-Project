@@ -10,9 +10,10 @@ import util.*;
 public class ActivityView extends View {
     private User user;
     private static ActivityService activityService;
-
+    private static ClubService cls;
     ActivityView(User user) {
         this.user = user;
+        cls=new ClubService(user.getUser_ID());
         activityService = new ActivityService();
     }
 
@@ -144,9 +145,10 @@ public class ActivityView extends View {
                 "此社团没有活动\n" +
                 "----------\n";
         String content = "1.选择查看详细信息\n" +
-                "2.返回\n>";
+                "2.加入一个活动\n"+
+                "3.返回\n>";
         int instruction = -1;
-        final int EXIT = 2;
+        final int EXIT = 3;
         while (true) {
             //todo 获取所有活动
             if (num == 0)//如果没有活动
@@ -165,6 +167,12 @@ public class ActivityView extends View {
                         System.out.println("请输入活动ID");
                         int ID = InputInt(in);
                         activityService.showActivityByID(ID);
+                        break;
+                    case 2:
+                        System.out.println("请输入活动ID");
+                        int id = InputInt(in);
+                        cls.joinAct(id);
+                        System.out.println("加入成功！");
                         break;
                     default:
                         throw new CustomerException("输入超出范围");
