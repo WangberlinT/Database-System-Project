@@ -219,7 +219,7 @@ public class AdminClubManager extends BaseService {
                 return;
             int id = Integer.parseInt(in.nextLine());
             clubService.setUid(id);
-            clubService.applyTobuildClub(name, type, intro);
+            clubService.applyToBuildClub(name, type, intro);
         }
         catch (Exception e)
         {

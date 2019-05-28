@@ -69,7 +69,7 @@ public class ClubService extends BaseService {
     }
 
     //建社
-    public void applyTobuildClub(String cname, String ctype, String cintro) throws SQLException {
+    public void applyToBuildClub(String cname, String ctype, String cintro) throws SQLException {
 
         clubDao.addClub(cname, ctype, cintro, uid);
 
@@ -103,7 +103,7 @@ public class ClubService extends BaseService {
         }
     }
 
-    public boolean checksz(int clid) throws SQLException {
+    public boolean checkLeader(int clid) throws SQLException {
         Club clb = clubDao.queryClubPrecise(clid);
         return uid == clb.getClub_Leader();
     }
@@ -148,7 +148,7 @@ public class ClubService extends BaseService {
         }
     }
 
-    public void markreadApply(int aid) throws SQLException {
+    public void markReadApply(int aid) throws SQLException {
         applyDao.markread(aid);
     }
 
@@ -160,6 +160,8 @@ public class ClubService extends BaseService {
 
         }
     }
+
+
 
     //增加物品
     public void addItem(int value, String name) throws SQLException {
@@ -270,7 +272,7 @@ public class ClubService extends BaseService {
             UserService cls = new UserService(null);
             cls.searchUser();
         }
-        public void showannounce ( int club) throws SQLException {
+        public void showAnnounce ( int club) throws SQLException {
             long total = announcementDao.numberofcluban(club);
             int page = 1;
             long totalPage = (total - 1) / pageSize + 1;

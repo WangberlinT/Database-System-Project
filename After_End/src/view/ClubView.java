@@ -124,7 +124,7 @@ public class ClubView extends View {
     }
 
     //加入活动todo
-    public void activitypart(int club) throws SQLException {
+    public void activityPart(int club) throws SQLException {
     	while(true) {
             	cls.getAct();
             	System.out.println("选择一个你感兴趣的活动并加入:\n输入-1退出");
@@ -136,6 +136,8 @@ public class ClubView extends View {
             	}
             	}
     }
+
+
 
 
     public void itemManage() throws SQLException {
