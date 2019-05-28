@@ -12,6 +12,7 @@ public class AdminView extends View {
     private AdminUserManager aum;
     private AdminManager am;
     private AdminClubManager acm;
+    private AdminActivityManager aam;
 
     public AdminView(int ID, String password) {
         admin = new Admin(ID, password);
@@ -19,6 +20,7 @@ public class AdminView extends View {
         aum = new AdminUserManager();
         am = new AdminManager();
         acm = new AdminClubManager();
+        aam = new AdminActivityManager();
     }
 
     //Admin 主菜单
@@ -59,6 +61,7 @@ public class AdminView extends View {
                         break;
                     case 4:
                         //管理活动
+                        aam.run();
                         break;
                     case 5:
                         //管理admin

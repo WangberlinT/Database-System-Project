@@ -52,7 +52,7 @@ public class AdminClubManager extends BaseService {
                         break;
                     case 4:
                         //修改社团信息
-                        modifyClub();
+                        modifyClub(null);
                         break;
                     default:
                         throw new CustomerException("输入超限");
@@ -65,13 +65,15 @@ public class AdminClubManager extends BaseService {
         }
     }
 
-    private void modifyClub()
+    private void modifyClub(User user)
     {
-        int instruction;
+        int instruction = -1;
         final int EXIT = 0;
-        System.out.println("输入社团ID(输入0返回)\n>");
         try {
+            System.out.println("输入社团ID(输入0返回)\n>");
             instruction = Integer.parseInt(in.nextLine());
+
+
             if(instruction == EXIT)
                 return;
 

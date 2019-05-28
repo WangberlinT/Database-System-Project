@@ -23,7 +23,6 @@ public class UserView extends View {
         clubView = new ClubView(user.getUser_ID());
         activityView = new ActivityView(user);
         News = 0;
-        NewActivities = 0;
     }
 
     //输出用户菜单
@@ -35,21 +34,18 @@ public class UserView extends View {
                         + "\n-----------------\n"
                         + "1.我的信息\n"
                         + "2.我的社团\n"
-                        + "3.社团浏览\n"
-                        + "4.活动墙\n"
-                        + "5.消息盒子\n"
-                        + "6.退出登陆\n"
+                        + "3.活动墙\n"
+                        + "4.消息盒子\n"
+                        + "5.退出登陆\n"
                 , user.getUser_ID(), user.getName());
         if (News > 0)
             System.out.printf("---你有%d条未读消息---\n", News);
-        if (NewActivities > 0)
-            System.out.println("---活动墙有新活动---");
     }
 
     //菜单
     public void displayMenu() {
         int instruction;
-        final int EXIT = 6;
+        final int EXIT = 5;
 
         while (true) {
             display();
@@ -66,14 +62,10 @@ public class UserView extends View {
                         //todo 我的社团
                         clubView.start();
                         break;
-                    case 3:
-                        //todo 社团浏览
-                        //clubView.clubBrowse();
-                        break;
-                    case 4://活动墙浏览
+                    case 3://活动墙浏览
                         activityView.displayMenu();
                         break;
-                    case 5:
+                    case 4:
                         announcementService.checkAnnoToMe(user.getUser_ID()); //查看公告并标为已读
                         News = 0; //新消息已读
                         break;

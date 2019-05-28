@@ -24,7 +24,7 @@ public class UserService extends BaseService {
         head = formatter.format("No");
         formatter.setMaxChars(12);
         head += formatter.format("用户ID");
-        formatter.setMaxChars(20);
+        formatter.setMaxChars(15);
         head += formatter.format("用户名");
         formatter.setMaxChars(5);
         head += formatter.format("性别");
@@ -38,7 +38,9 @@ public class UserService extends BaseService {
         formatter.setMaxChars(12);
         adminTitle += formatter.format("用户ID");
         formatter.setMaxChars(20);
-        adminTitle += formatter.format("密码") + formatter.format("用户名");
+        adminTitle += formatter.format("密码");
+        formatter.setMaxChars(15);
+        adminTitle+= formatter.format("用户名");
         formatter.setMaxChars(5);
         adminTitle += formatter.format("性别");
         formatter.setMaxChars(20);

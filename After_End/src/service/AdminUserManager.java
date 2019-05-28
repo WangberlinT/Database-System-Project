@@ -23,8 +23,7 @@ public class AdminUserManager extends View {
         System.out.println(formatter.format("---用户管理---"));
         System.out.print("1.查看用户信息\n" +
                          "2.修改用户信息\n" +
-                         "3.添加新用户\n" +
-                         "4.返回\n" +
+                         "3.返回\n" +
                          ">");
 
     }
@@ -32,7 +31,7 @@ public class AdminUserManager extends View {
     public void run()
     {
         int instruction = -1;
-        final int EXIT = 4;
+        final int EXIT = 3;
         while(true)
         {
             showMenu();
@@ -51,9 +50,6 @@ public class AdminUserManager extends View {
                     case 2:
                         //修改用户信息
                         userInfoModify();
-                        break;
-                    case 3:
-                        //todo 添加新用户
                         break;
                     default:
                         throw new CustomerException("输入超限");
@@ -75,6 +71,11 @@ public class AdminUserManager extends View {
             int id = Integer.parseInt(in.nextLine());
             UserDao userDao = new UserDao();
             User user = userDao.queryUserByID(id);
+            if(user == null)
+            {
+                System.out.println("用户不存在");
+                return;
+            }
             userService.setUser(user);
             System.out.print("1.修改个人信息\n" +
                              "2.修改密码\n" +
@@ -89,7 +90,7 @@ public class AdminUserManager extends View {
             else if (instruction == 2)
             {
                 userService.searchUserAdmin(id);
-//                userService.modifyPassword();
+                userService.modifyPassword();
             }
         }
         catch (Exception e)

@@ -41,6 +41,9 @@ public abstract class View {
                 break;
             } catch (InputMismatchException e) {
                 System.out.println("请输入一个整数：");
+
+            }
+            finally {
                 in.nextLine();
             }
         }
