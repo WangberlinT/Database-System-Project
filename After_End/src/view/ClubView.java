@@ -156,9 +156,10 @@ public class ClubView extends View {
             } else if (ins == 3) {
                 System.out.println("请输入借用者id：");
                 int usid = InputInt(in);
-                System.out.println("请输入被借物品名称：");
-                String name = in.nextLine();
-                cls.borrowItem(usid, name);
+                cls.checkItemClub();
+                System.out.println("请输入被借物品ID：");
+                int iid = InputInt(in);
+                cls.borrowItem(usid, iid);
             } else if (ins == 4) {
                 System.out.println("请输入归还者id：");
                 int uid = InputInt(in);
@@ -288,5 +289,9 @@ public class ClubView extends View {
         String nr = in.nextLine();
         AnnouncementDao a = new AnnouncementDao();
         a.addAnnouncement(club, uid, nr, bt);
+    }
+    public static void  main(String[] args) throws SQLException{
+        ClubView clv=new ClubView(11711613);
+        clv.start();
     }
 }

@@ -40,6 +40,14 @@ public class ApplyDao {
         queryRunner.update(sql, param);
     }
 
+    public void insertJoinClubbycid(int uid, String content, int cid) throws SQLException {
+        String sql = "insert into Apply_To_Studert (Apply_Type, Apply_From, Apply_To, Apply_Description,Apply_State) "
+                + "VALUES ('入社申请',?,?,?,0);";
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        Object[] param = {uid, cid, content};
+        queryRunner.update(sql, param);
+    }
+
     //得到社长学号
     public long getszID(int cid) throws SQLException {
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
@@ -97,6 +105,13 @@ public class ApplyDao {
                 "where Apply_Type='入社申请' and Apply_To =? and Apply_State=0;";
         QueryRunner queryRunner = C3P0Util.getQueryRunner();
         return queryRunner.query(sql, new BeanListHandler<>(Apply.class), tid);
+    }
+    public List<Apply> getJoinClubbycid(int cid) throws SQLException {
+        String sql = "select Apply_ID,Apply_State,Apply_Description,Apply_Type,Apply_To,Apply_From,Name,Phone_Number\n" +
+                "from Apply_To_Studert A join User U on A.Apply_From = U.User_ID\n" +
+                "where Apply_Type='入社申请' and Apply_To =? and Apply_State=0;";
+        QueryRunner queryRunner = C3P0Util.getQueryRunner();
+        return queryRunner.query(sql, new BeanListHandler<>(Apply.class), cid);
     }
 
     //查看所有申请

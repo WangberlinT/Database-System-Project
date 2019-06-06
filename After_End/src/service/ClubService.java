@@ -11,7 +11,7 @@ public class ClubService extends BaseService {
     private Club clb;
     private String myClubHead = "No  社团ID  社团名     我的职位";
 
-    public static String clubHead;
+    private static String clubHead;
     private String memberHead = "No   用户ID    用户名    社团ID    社团名    职位";
 
 
@@ -249,6 +249,10 @@ public class ClubService extends BaseService {
     //借东西给某人
     public void borrowItem(int usid, String name) throws SQLException {
         itemDao.borrowItem(usid, name, cid);
+        System.out.println("借用完毕");
+    }
+    public void borrowItem(int usid,int iid) throws  SQLException{
+        itemDao.borrowItem(usid,iid);
         System.out.println("借用完毕");
     }
 
